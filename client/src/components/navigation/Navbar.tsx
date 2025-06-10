@@ -3,7 +3,7 @@ import { useState } from 'react'
 function Navbar() {
 	return (
 		<>
-			<div className='h-12 bg-surface flex text-3xl items-center gap-2'>
+			<div className='h-12 bg-surface flex text-3xl items-center gap-2 border-b border-accent'>
 				{/* Hamburger */}
 				<div className="h-full hover:bg-surface-active transition-colors flex items-center px-3">
 					<i className="fa-solid fa-bars "></i>

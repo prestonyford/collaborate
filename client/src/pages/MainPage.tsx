@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import Button from '../components/base/Button'
 
 interface Props {
 	className?: string
@@ -7,7 +8,8 @@ interface Props {
 function MainPage(props: Props) {
 	return (
 		<>
-			<div className={props.className}>
+			<div className={props.className + " p-4"}>
+				<Button text="Add job" variant="primary" />
 			</div>
 		</>
 	)
