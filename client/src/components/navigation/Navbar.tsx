@@ -1,15 +1,23 @@
 import { useState } from 'react'
+import LightDarkToggle from '../base/LightDarkToggle'
 
 function Navbar() {
 	return (
 		<>
-			<div className='h-12 bg-surface flex text-3xl items-center gap-2 border-b border-accent'>
-				{/* Hamburger */}
-				<div className="h-full hover:bg-surface-active transition-colors flex items-center px-3">
-					<i className="fa-solid fa-bars "></i>
+			<div className='h-12 bg-surface flex text-3xl items-center justify-between border-b border-accent'>
+				{/* Left */}
+				<div className='flex items-center h-full gap-2'>
+					<div className="h-full hover:bg-surface-active transition-colors flex items-center px-3">
+						<i className="fa-solid fa-bars "></i>
+					</div>
+					<div>
+						Taskboard
+					</div>
 				</div>
-				<div>
-					Jobtracker
+
+				{/* Right */}
+				<div className='flex items-center h-full gap-2 mr-4'>
+					<LightDarkToggle />
 				</div>
 			</div>
 		</>
