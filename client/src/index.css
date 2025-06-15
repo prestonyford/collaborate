@@ -6,7 +6,7 @@
 	--color-text: rgb(46, 52, 56);
 	--color-text-alt: white;
 	--color-base: white;
-	--color-base-alt: @apply bg-gray-50;
+	--color-base-alt: #f9fafb;
 	--color-surface: rgb(246, 249, 252);
 	--color-surface-active: #dfe5eb;
 	--color-accent: #DFE6EA;
@@ -28,7 +28,7 @@
 
 :root {
 	box-sizing: border-box;
-	font-family: "Space Grotesk", sans-serif;
+	font-family: "Inter", sans-serif;
 	font-optical-sizing: auto;
 	font-weight: normal;
 	font-style: normal;

@@ -10,7 +10,7 @@ function Navbar() {
 					<div className="h-full hover:bg-surface-active transition-colors flex items-center px-3">
 						<i className="fa-solid fa-bars "></i>
 					</div>
-					<div>
+					<div className='font-[Merriweather] select-none'>
 						Taskboard
 					</div>
 				</div>
