@@ -13,9 +13,10 @@ function MainPage(props: Props) {
 		<>
 			<div className="grow py-4 px-6">
 				<div className="flex justify-between items-center">
-					<h1 className="basis-0 grow">Project Name Here</h1>
+					<h1 className="basis-0 grow truncate pr-2">Project Name Here</h1>
 					<div className='flex gap-3'>
 						<Button text="Add column" variant="primary" />
+						<Button text="Share" variant="secondary" />
 						<Dropdown
 							defaultText='Select a label'
 							selectedId={labelFilter ?? undefined}

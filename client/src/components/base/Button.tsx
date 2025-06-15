@@ -12,8 +12,9 @@ function Button(props: Props) {
 			<div className="flex">
 				<div className={clsx(
 					'border border-gray-300 dark:border-gray-400 cursor-pointer rounded-md px-2',
-					'text-gray-50 transition-colors flex items-center justify-center shadow-sm',
-					{'bg-indigo-600 hover:bg-indigo-500': props.variant === "primary"}
+					'transition-colors flex items-center justify-center shadow-sm',
+					{'text-gray-50 bg-indigo-600 hover:bg-indigo-500': props.variant === "primary"},
+					{'text-text bg-base hover:bg-base-alt': props.variant === "secondary"}
 				)}>
 					{ props.text }
 				</div>

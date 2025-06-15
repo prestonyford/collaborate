@@ -28,7 +28,7 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 			<button
 				onClick={() => setOpen(!open)}
 				className={clsx("inline-flex justify-between items-center w-full px-4 py-1",
-					"bg-base border border-gray-300 dark:border-gray-400 rounded-md", 
+					"bg-base border border-gray-300 dark:border-gray-400 rounded-md transition-colors", 
 					"shadow-sm hover:bg-gray-50 dark:hover:bg-[rgb(40,40,40)] focus:outline-none",
 					"focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-700")}
 			>
