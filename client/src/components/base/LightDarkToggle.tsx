@@ -25,8 +25,9 @@ function LightDarkToggle() {
 		<>
 			<div
 				onClick={handleToggleDark}
-				className='h-[26px] w-[50px] bg-black rounded-3xl p-[2px] 
-				flex items-center justify-between cursor-pointer relative'
+				className={clsx(
+					'h-[26px] w-[50px] rounded-3xl p-[2px] flex items-center justify-between',
+					'cursor-pointer relative bg-[#111]')}
 			>
 				<div
 					className={clsx(
