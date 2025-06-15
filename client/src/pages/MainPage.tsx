@@ -28,17 +28,17 @@ function MainPage(props: Props) {
 								{ id: '2', text: 'Two' },
 								{ id: '3', text: 'Three' },
 							]}
-							triggerClass='min-w-[140px]'
+							triggerClass='min-w-[150px]'
 							onSelect={id => setLabelFilter(id)}
 						/>
 					</div>
 				</div>
 				<div className='grow w-full'>
 					<Board>
-						<BoardColumn />
-						<BoardColumn />
-						<BoardColumn />
-						<BoardColumn />
+						<BoardColumn columnName='Column 1' />
+						<BoardColumn columnName='Column 2' />
+						<BoardColumn columnName='Column 3' />
+						<BoardColumn columnName='Column 4' />
 					</Board>
 				</div>
 			</div>
