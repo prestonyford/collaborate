@@ -1,15 +1,22 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../components/base/Button'
 import Dropdown from '../components/base/Dropdown'
 import Board from './board/Board';
 import BoardColumn from './board/BoardColumn';
+import { useBoardStore } from './board/BoardStore';
 
 interface Props {
 	
 }
 
 function MainPage(props: Props) {
+	const columns = useBoardStore((state) => state.columns)
+	const initialize = useBoardStore((state) => state.initialize)
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
+
+	useEffect(() => {
+		initialize("");
+	}, [initialize]);
 	
 	return (
 		<>
@@ -35,10 +42,7 @@ function MainPage(props: Props) {
 				</div>
 				<div className='grow w-full'>
 					<Board>
-						<BoardColumn columnName='Column 1' />
-						<BoardColumn columnName='Column 2' />
-						<BoardColumn columnName='Column 3' />
-						<BoardColumn columnName='Column 4' />
+						{columns.map(column => <BoardColumn key={column.id} columnName={column.name} columnColor={column.color} />)}
 					</Board>
 				</div>
 			</div>
