@@ -14,6 +14,7 @@ interface ProjectState {
 	columns: ColumnDTO[]
 	cardSummaries: Record<string, CardSummaryDTO[]>
 	initialize: (projectID: string) => Promise<void>
+	setColumns: (newColumns: ColumnDTO[]) => void
 }
 
 const useBoardStore = create<ProjectState>()(set => ({
@@ -37,6 +38,10 @@ const useBoardStore = create<ProjectState>()(set => ({
 			set({ isLoading: false });
 		}
 	},
+
+	setColumns: (newColumns: ColumnDTO[]) => {
+		set({ columns: newColumns });
+	}
 }));
 
 export { useBoardStore };

@@ -7,7 +7,7 @@ interface Props {
 	creationDate: number
 }
 
-function BoardColumn(props: Props) {
+function CardSummary(props: Props) {
 
 	const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
 	
@@ -26,4 +26,4 @@ function BoardColumn(props: Props) {
 	)
 }
 
-export default BoardColumn
+export default CardSummary
