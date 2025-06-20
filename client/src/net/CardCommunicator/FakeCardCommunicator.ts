@@ -3,6 +3,7 @@ import type CardCommunicator from "./CardCommunicator";
 
 export default class FakeCardCommunicator implements CardCommunicator {
 	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
+		await new Promise(resolve => setTimeout(resolve, 200));
 		return [
 			columnID === "1" ? [
 				{

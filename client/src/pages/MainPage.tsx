@@ -4,20 +4,22 @@ import Dropdown from '../components/base/Dropdown'
 import Board from './board/Board';
 import BoardColumn from './board/BoardColumn';
 import { useBoardStore } from './board/BoardStore';
+import LoadingIcon from '../components/base/LoadingIcon';
 
 interface Props {
-	
+
 }
 
 function MainPage(props: Props) {
-	const columns = useBoardStore((state) => state.columns)
-	const initialize = useBoardStore((state) => state.initialize)
+	const columns = useBoardStore((state) => state.columns);
+	const isLoading = useBoardStore((state) => state.isLoading);
+	const initialize = useBoardStore((state) => state.initialize);
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
 
 	useEffect(() => {
 		initialize("");
 	}, [initialize]);
-	
+
 	return (
 		<>
 			<div className="grow flex flex-col min-w-0">
@@ -41,9 +43,12 @@ function MainPage(props: Props) {
 					</div>
 				</div>
 				<div className='grow w-full'>
-					<Board>
-						{columns.map(column => <BoardColumn key={column.id} columnID={column.id} columnName={column.name} columnColor={column.color} />)}
-					</Board>
+					{isLoading
+						? <LoadingIcon />
+						: <Board>
+							{columns.map(column => <BoardColumn key={column.id} columnID={column.id} columnName={column.name} columnColor={column.color} />)}
+						</Board>
+					}
 				</div>
 			</div>
 		</>
