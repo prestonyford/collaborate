@@ -42,7 +42,7 @@ function MainPage(props: Props) {
 				</div>
 				<div className='grow w-full'>
 					<Board>
-						{columns.map(column => <BoardColumn key={column.id} columnName={column.name} columnColor={column.color} />)}
+						{columns.map(column => <BoardColumn key={column.id} columnID={column.id} columnName={column.name} columnColor={column.color} />)}
 					</Board>
 				</div>
 			</div>

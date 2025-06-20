@@ -5,6 +5,7 @@
 @theme {
 	--color-text: rgb(46, 52, 56);
 	--color-text-alt: white;
+	--color-text-muted: oklch(55.1% 0.027 264.364);
 	--color-base: white;
 	--color-base-alt: #f9fafb;
 	--color-surface: rgb(246, 249, 252);
@@ -17,6 +18,7 @@
 .dark {
 	--color-text: white;
 	--color-text-alt: rgb(46, 52, 56);
+	--color-text-muted: oklch(55.1% 0.027 264.364);
 	--color-base: rgb(30,30,30);
 	--color-base-alt: rgb(45,45,45);
 	--color-surface: #313131;
