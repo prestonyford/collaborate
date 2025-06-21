@@ -10,7 +10,7 @@ function Board(props: Props) {
 	const columns = useBoardStore((state) => state.columns);
 	const setColumns = useBoardStore((state) => state.setColumns);
 	const cardSummaries = useBoardStore((state) => state.cardSummaries);
-	const setCardSummary = useBoardStore((state) => state.setCardSummary);
+	const setCardSummary = useBoardStore((state) => state.setColumnCardSummaries);
 
 	function onDragEnd(result: DropResult) {
 		const { source, destination, type } = result;
@@ -44,7 +44,7 @@ function Board(props: Props) {
 	return (
 		<>
 			<DragDropContext onDragEnd={onDragEnd}>
-				<Droppable droppableId='board' direction='horizontal' type='column' isCombineEnabled={false}>
+				<Droppable droppableId='board' direction='horizontal' type='column'>
 					{(provided: DroppableProvided) => (
 						<div
 							className="pl-2 pr-4 pb-4 h-full w-full flex overflow-x-auto"
