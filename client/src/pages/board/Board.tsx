@@ -9,19 +9,42 @@ interface Props {
 function Board(props: Props) {
 	const columns = useBoardStore((state) => state.columns);
 	const setColumns = useBoardStore((state) => state.setColumns);
+	const cardSummaries = useBoardStore((state) => state.cardSummaries);
+	const setCardSummary = useBoardStore((state) => state.setCardSummary);
 
 	function onDragEnd(result: DropResult) {
-		if (!result.destination) return;
-		const newColumns = [...columns];
-		const [moved] = newColumns.splice(result.source.index, 1)
-		newColumns.splice(result.destination.index, 0, moved)
-		setColumns(newColumns);
+		const { source, destination, type } = result;
+		if (!destination) return;
+
+		if (type === 'column') {
+			const newColumns = [...columns];
+			const [moved] = newColumns.splice(result.source.index, 1)
+			newColumns.splice(destination.index, 0, moved)
+			setColumns(newColumns);
+		} else if (type === 'card') {
+			const sourceColumn = source.droppableId;
+			const destinationColumn = destination.droppableId;
+
+			const sourceCards = [...cardSummaries[sourceColumn]];
+			const [moved] = sourceCards.splice(source.index, 1);
+
+			const droppedInSameColumn = sourceColumn === destinationColumn;
+			if (droppedInSameColumn) {
+				sourceCards.splice(destination.index, 0, moved);
+				setCardSummary(sourceColumn, sourceCards);
+			} else {
+				const destCards = [...cardSummaries[destinationColumn]];
+				destCards.splice(destination.index, 0, moved);
+				setCardSummary(sourceColumn, sourceCards);
+				setCardSummary(destinationColumn, destCards);
+			}
+		}
 	}
 
 	return (
 		<>
 			<DragDropContext onDragEnd={onDragEnd}>
-				<Droppable droppableId='columns' direction='horizontal'>
+				<Droppable droppableId='board' direction='horizontal' type='column' isCombineEnabled={false}>
 					{(provided: DroppableProvided) => (
 						<div
 							className="pl-2 pr-4 pb-4 h-full w-full flex overflow-x-auto"

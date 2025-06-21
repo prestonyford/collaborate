@@ -2,7 +2,7 @@ import { useState } from 'react'
 import ClickyIcon from './ClickyIcon'
 import { useBoardStore } from './BoardStore'
 import CardSummary from './CardSummary'
-import { Draggable } from '@hello-pangea/dnd'
+import { Draggable, Droppable } from '@hello-pangea/dnd'
 import clsx from 'clsx'
 
 interface Props {
@@ -17,7 +17,7 @@ function BoardColumn(props: Props) {
 	
 	return (
 		<>
-			<Draggable draggableId={props.columnID} index={props.index}>
+			<Draggable draggableId={`column-${props.columnID}`} index={props.index}>
 				{(provided) => (
 					<div
 						className={clsx(
@@ -38,9 +38,18 @@ function BoardColumn(props: Props) {
 									<ClickyIcon icon="fa-solid fa-ellipsis" />
 								</div>
 							</div>
-							<div className='flex flex-col gap-1 overflow-y-auto [&::-webkit-scrollbar]:hidden basis-0 grow pb-2'>
-								{cardSummaries?.map(card => <CardSummary key={card.id} title={card.title} creationDate={card.creationDate} />)}
-							</div>
+							<Droppable droppableId={props.columnID} type="card">
+								{(provided) => (
+									<div
+										className='flex flex-col overflow-y-auto [&::-webkit-scrollbar]:hidden basis-0 grow pb-1'
+										ref={provided.innerRef}
+										{...provided.droppableProps}
+									>
+										{cardSummaries?.map((card, i) => <CardSummary key={card.id} index={i} cardID={card.id} title={card.title} creationDate={card.creationDate} />)}
+										{provided.placeholder}
+									</div>
+								)}
+							</Droppable>
 						</div>
 					</div>
 				)}
