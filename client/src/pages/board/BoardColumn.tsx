@@ -45,7 +45,9 @@ function BoardColumn(props: Props) {
 										ref={provided.innerRef}
 										{...provided.droppableProps}
 									>
-										{cardSummaries?.map((card, i) => <CardSummary key={card.id} index={i} cardID={card.id} title={card.title} creationDate={card.creationDate} />)}
+										{cardSummaries?.map((card, i) => 
+											<CardSummary key={card.id} index={i} cardID={card.id} title={card.title} creationDate={card.creationDate} labelIDs={card.labels} />
+										)}
 										{provided.placeholder}
 									</div>
 								)}

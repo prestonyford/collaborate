@@ -2,15 +2,21 @@ import { useState } from 'react'
 import ClickyIcon from './ClickyIcon'
 import type CardSummaryDTO from '../../model/dto/CardSummaryDTO'
 import { Draggable } from '@hello-pangea/dnd'
+import type LabelDTO from '../../model/dto/LabelDTO'
+import { useBoardStore } from './BoardStore'
+import Label from '../../components/base/Label'
 
 interface Props {
 	index: number
 	cardID: string
 	title: string
 	creationDate: number
+	labelIDs?: string[]
 }
 
 function CardSummary(props: Props) {
+	const projectLabels = useBoardStore((state) => state.projectLabels);
+	const projectLabelsMap = Object.fromEntries(projectLabels.map(label => [label.id, label]));
 
 	const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
 	
@@ -19,7 +25,7 @@ function CardSummary(props: Props) {
 			<Draggable draggableId={`card-${props.cardID}`} index={props.index}>
 				{(provided) => (
 					<div
-						className="shadow-md dark:shadow-base-alt rounded-lg bg-base border-accent border-1 py-1 px-2 min-h-[100px] mb-1.5"
+						className="shadow-md dark:shadow-base-alt rounded-lg bg-base border-accent border-1 py-1 px-2 min-h-[100px] mb-1.5 !cursor-default flex flex-col justify-between"
 						ref={provided.innerRef}
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
@@ -30,6 +36,9 @@ function CardSummary(props: Props) {
 								<i className="fa-solid fa-calendar-week"></i>
 								<span className='ml-0.5 select-none'>{new Date(props.creationDate).toLocaleDateString("en-US", dateOptions)}</span>
 							</div>
+						</div>
+						<div className='pb-1 flex gap-1 flex-wrap'>
+							{props.labelIDs?.map(labelID => <Label title={projectLabelsMap[labelID]?.title || "???"} color={projectLabelsMap[labelID]?.color} />)}
 						</div>
 					</div>
 				)}
