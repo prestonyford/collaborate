@@ -20,8 +20,8 @@ function MainPage(props: Props) {
 
 	return (
 		<>
-			<div className="grow flex flex-col min-w-0">
-				<div className="py-4 px-6 flex justify-between items-center">
+			<div className="grow min-w-0 h-full">
+				<div className="py-4 px-6 flex justify-between items-center h-[72px]">
 					<h1 className="basis-0 grow truncate pr-2">Project Name Here</h1>
 					<div className='flex gap-3 text-sm'>
 						<Button text="Add column" variant="primary" />
@@ -40,7 +40,7 @@ function MainPage(props: Props) {
 						/>
 					</div>
 				</div>
-				<div className='grow w-full'>
+				<div className='w-full h-[calc(100%-72px)]'>
 					{isLoading
 						? <LoadingIcon />
 						: <Board />

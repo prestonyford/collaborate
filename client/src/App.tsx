@@ -8,7 +8,7 @@ function App() {
 		<>
 			<div className='h-screen bg-base flex flex-col'>
 				<Navbar />
-				<div className="flex h-full">
+				<div className="flex h-[calc(100%-44px)]">
 					<Sidebar />
 					<MainPage />
 				</div>

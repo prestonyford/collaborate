@@ -47,18 +47,20 @@ function Board(props: Props) {
 				<Droppable droppableId='board' direction='horizontal' type='column'>
 					{(provided: DroppableProvided) => (
 						<div
-							className="pl-2 pr-4 pb-4 h-full w-full flex overflow-x-auto"
+							className="pl-2 pr-4 pb-4 h-full w-full flex overflow-x-auto items-start"
 							ref={provided.innerRef}
 							{...provided.droppableProps}
 						>
 							{columns.map((column, i) => (
-								<BoardColumn
-									key={column.id}
-									index={i}
-									columnID={column.id}
-									columnName={column.name}
-									columnColor={column.color}
-								/>
+								<div className="flex flex-col" style={{height: 'calc(100%)'}}>
+									<BoardColumn
+										key={column.id}
+										index={i}
+										columnID={column.id}
+										columnName={column.name}
+										columnColor={column.color}
+									/>
+								</div>
 							))}
 							{provided.placeholder}
 						</div>

@@ -4,7 +4,7 @@ import LightDarkToggle from '../base/LightDarkToggle'
 function Navbar() {
 	return (
 		<>
-			<div className='h-12 bg-surface flex text-3xl items-center justify-between border-b border-accent'>
+			<div className='min-h-[44px] bg-surface flex text-3xl items-center justify-between border-b border-accent'>
 				{/* Left */}
 				<div className='flex items-center h-full gap-2'>
 					<div className="h-full hover:bg-surface-active transition-colors flex items-center px-3">
