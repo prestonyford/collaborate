@@ -1,8 +1,4 @@
-import { useState } from 'react'
-import ClickyIcon from './ClickyIcon'
-import type CardSummaryDTO from '../../model/dto/CardSummaryDTO'
 import { Draggable } from '@hello-pangea/dnd'
-import type LabelDTO from '../../model/dto/LabelDTO'
 import { useBoardStore } from './BoardStore'
 import Label from '../../components/base/Label'
 

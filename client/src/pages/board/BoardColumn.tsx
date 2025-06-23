@@ -1,9 +1,10 @@
-import { useState } from 'react'
 import ClickyIcon from './ClickyIcon'
 import { useBoardStore } from './BoardStore'
 import CardSummary from './CardSummary'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 import clsx from 'clsx'
+import Popup from '../../components/base/Popup'
+import { useState } from 'react'
 
 interface Props {
 	index: number
@@ -12,8 +13,12 @@ interface Props {
 	columnColor?: string
 }
 
+type Popups = 'CreateCard'
+
 function BoardColumn(props: Props) {
 	const cardSummaries = useBoardStore((state) => state.cardSummaries[props.columnID]);
+
+	const [popupOpen, setPopupOpen] = useState<Popups | null>(null);
 
 	return (
 		<>
@@ -35,7 +40,7 @@ function BoardColumn(props: Props) {
 									<strong className='truncate'>{props.columnName}</strong>
 								</div>
 								<div className='flex gap-1'>
-									<ClickyIcon icon="fa-solid fa-plus" />
+									<ClickyIcon icon="fa-solid fa-plus" onClick={() => setPopupOpen('CreateCard')} />
 									<ClickyIcon icon="fa-solid fa-ellipsis" />
 								</div>
 							</div>
@@ -64,6 +69,16 @@ function BoardColumn(props: Props) {
 					</div>
 				)}
 			</Draggable>
+
+			{ popupOpen === 'CreateCard' && <Popup size='medium' title='Create Card' buttons={[{
+				text: 'Cancel',
+				variant: 'secondary',
+				onClick: () => setPopupOpen(null)
+			}, {
+				text: 'Confirm',
+				variant: 'primary',
+				onClick: () => setPopupOpen(null)
+			}]} />}
 		</>
 	)
 }

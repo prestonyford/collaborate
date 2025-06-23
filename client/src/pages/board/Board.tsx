@@ -1,5 +1,4 @@
 import { DragDropContext, Droppable, type DroppableProvided, type DropResult } from '@hello-pangea/dnd'
-import { useState, type ReactNode } from 'react'
 import { useBoardStore } from './BoardStore';
 import BoardColumn from './BoardColumn';
 
