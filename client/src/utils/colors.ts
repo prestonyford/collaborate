@@ -18,6 +18,36 @@ export function shouldUseBlackText(a: number | string, b?: number, c?: number): 
 		return blackContrast > whiteContrast * fudgeFactor;
 }
 
+export function darken(amount: number, hex: string): string;
+export function darken(amount: number, r: number, g: number, b: number): [number, number, number];
+export function darken(amount: number, a: number | string, b?: number, c?: number): string | [number, number, number] {
+	function clamp(val: number) {
+		return Math.max(0, Math.min(255, Math.round(val)));
+	}
+
+	if (typeof a === 'string') {
+		// HEX input
+		const hex = a.replace(/^#/, '');
+		const bigint = parseInt(hex, 16);
+		const r = (hex.length === 3) ? parseInt(hex[0] + hex[0], 16) : (bigint >> 16) & 255;
+		const g = (hex.length === 3) ? parseInt(hex[1] + hex[1], 16) : (bigint >> 8) & 255;
+		const b = (hex.length === 3) ? parseInt(hex[2] + hex[2], 16) : bigint & 255;
+
+		const newR = clamp(r * (1 - amount));
+		const newG = clamp(g * (1 - amount));
+		const newB = clamp(b * (1 - amount));
+
+		const toHex = (n: number) => n.toString(16).padStart(2, '0');
+		return `#${toHex(newR)}${toHex(newG)}${toHex(newB)}`;
+	} else {
+		// RGB input
+		const r = clamp(a * (1 - amount));
+		const g = clamp((b ?? 0) * (1 - amount));
+		const bVal = clamp((c ?? 0) * (1 - amount));
+		return [r, g, bVal];
+	}
+}
+
 function luminance(r: number, g: number, b: number ) {
 	const a = [r, g, b].map(v => {
 		v /= 255

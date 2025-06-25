@@ -1,6 +1,7 @@
 import { Draggable } from '@hello-pangea/dnd'
 import { useBoardStore } from './BoardStore'
 import Label from '../../components/base/Label'
+import { useMemo } from 'react'
 
 interface Props {
 	index: number
@@ -12,7 +13,10 @@ interface Props {
 
 function CardSummary(props: Props) {
 	const projectLabels = useBoardStore((state) => state.projectLabels);
-	const projectLabelsMap = Object.fromEntries(projectLabels.map(label => [label.id, label]));
+	const projectLabelsMap = useMemo(
+		() => Object.fromEntries(projectLabels.map(label => [label.id, label])),
+		[projectLabels]
+	);
 
 	const dateOptions: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
 	
