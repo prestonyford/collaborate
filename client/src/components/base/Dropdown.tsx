@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface Option {
 	id: string
@@ -21,7 +21,8 @@ interface Props {
 }
 
 function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = '', onSelect }: Props) {
-	const [open, setOpen] = useState(false)
+	const [open, setOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
 	const selected = options.find(opt => opt.id === selectedId) || null;
 	const handleSelect = (option: Option) => {
@@ -33,18 +34,31 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 		return 'text' in opt;
 	}
 
+	useEffect(() => {
+		if (!open) return;
+		function handleClickOutside(event: MouseEvent) {
+			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+				setOpen(false);
+			}
+		}
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => {
+			document.removeEventListener('mousedown', handleClickOutside);
+		};
+	}, [open]);
+
 	return (
-		<div className={clsx("relative inline-block text-left text-sm", triggerClass)}>
+		<div ref={dropdownRef} className={clsx("relative inline-block text-left text-sm", triggerClass)}>
 			<button
 				onClick={() => setOpen(!open)}
 				className={clsx("inline-flex justify-between items-center w-full overflow-hidden",
-					"bg-base border border-gray-300 dark:border-gray-400 rounded-md transition-colors", 
+					"bg-base border border-gray-300 dark:border-gray-400 rounded-md transition-colors",
 					"shadow-sm hover:bg-base-alt dark:hover:bg-[rgb(40,40,40)] focus:outline-none",
-					"focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-700",
-					{"px-4 py-1": !selected || isTextOption(selected)}
+					"focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-700 pr-2",
+					{ "pl-4 py-1": !selected || isTextOption(selected) }
 				)}
 			>
-				{ selected ? 
+				{selected ?
 					isTextOption(selected)
 						? selected.text
 						: selected.renderOption(selected.id)
@@ -74,10 +88,10 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 						<li
 							key={option.id}
 							onClick={() => handleSelect(option)}
-							className={clsx("cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-700", {"px-4 py-1": isTextOption(option)})}
+							className={clsx("cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-700", { "px-4 py-1": isTextOption(option) })}
 							tabIndex={0}
 						>
-							{ isTextOption(option) ? option.text : option.renderOption(option.id) }
+							{isTextOption(option) ? option.text : option.renderOption(option.id)}
 						</li>
 					))}
 				</ul>
