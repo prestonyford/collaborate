@@ -2,13 +2,19 @@ import clsx from 'clsx'
 import { useState, useEffect } from 'react'
 
 interface Option {
-	text: string,
 	id: string
+}
+
+interface TextOption extends Option {
+	text: string
+}
+interface SlotOption extends Option {
+	renderOption: (id: string) => React.ReactNode
 }
 
 interface Props {
 	defaultText?: string,
-	options: Array<Option>,
+	options: Array<TextOption | SlotOption>,
 	selectedId?: string,
 	triggerClass?: string,
 	onSelect: (id: string) => void
@@ -23,16 +29,27 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 		setOpen(false)
 	}
 
+	function isTextOption(opt: Option): opt is TextOption {
+		return 'text' in opt;
+	}
+
 	return (
-		<div className={clsx("relative inline-block text-left", triggerClass)}>
+		<div className={clsx("relative inline-block text-left text-sm", triggerClass)}>
 			<button
 				onClick={() => setOpen(!open)}
-				className={clsx("inline-flex justify-between items-center w-full px-4 py-1",
+				className={clsx("inline-flex justify-between items-center w-full overflow-hidden",
 					"bg-base border border-gray-300 dark:border-gray-400 rounded-md transition-colors", 
 					"shadow-sm hover:bg-base-alt dark:hover:bg-[rgb(40,40,40)] focus:outline-none",
-					"focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-700")}
+					"focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-700",
+					{"px-4 py-1": !selected || isTextOption(selected)}
+				)}
 			>
-				{selected?.text || defaultText}
+				{ selected ? 
+					isTextOption(selected)
+						? selected.text
+						: selected.renderOption(selected.id)
+					: defaultText
+				}
 				<svg
 					className={clsx('ml-2 h-4 w-4 transform transition-transform duration-200', {
 						'rotate-180': open,
@@ -53,13 +70,14 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 				<ul
 					className="absolute z-10 mt-1 w-full bg-base border border-gray-300 dark:border-gray-400 rounded-md shadow-lg max-h-60 overflow-auto"
 				>
-					{options.map((option) => (
+					{options.map(option => (
 						<li
 							key={option.id}
 							onClick={() => handleSelect(option)}
-							className="cursor-pointer px-4 py-1 hover:bg-indigo-100 dark:hover:bg-indigo-700"
+							className={clsx("cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-700", {"px-4 py-1": isTextOption(option)})}
+							tabIndex={0}
 						>
-							{option.text}
+							{ isTextOption(option) ? option.text : option.renderOption(option.id) }
 						</li>
 					))}
 				</ul>

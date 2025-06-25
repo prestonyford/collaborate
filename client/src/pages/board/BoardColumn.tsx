@@ -5,6 +5,7 @@ import { Draggable, Droppable } from '@hello-pangea/dnd'
 import clsx from 'clsx'
 import Popup from '../../components/base/Popup'
 import { useState } from 'react'
+import CreateCardPopup from './CreateCardPopup'
 
 interface Props {
 	index: number
@@ -70,15 +71,7 @@ function BoardColumn(props: Props) {
 				)}
 			</Draggable>
 
-			{ popupOpen === 'CreateCard' && <Popup size='medium' title='Create Card' buttons={[{
-				text: 'Cancel',
-				variant: 'secondary',
-				onClick: () => setPopupOpen(null)
-			}, {
-				text: 'Confirm',
-				variant: 'primary',
-				onClick: () => setPopupOpen(null)
-			}]} />}
+			{ popupOpen === 'CreateCard' && <CreateCardPopup onCancel={() => setPopupOpen(null)} />}
 		</>
 	)
 }

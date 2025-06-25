@@ -1,6 +1,6 @@
 import clsx from "clsx"
 import type { ButtonVariant } from "./Button"
-import type { ReactNode } from "react"
+import { useEffect, type ReactNode } from "react"
 import Button from "./Button"
 
 interface ButtonOption {
@@ -14,9 +14,22 @@ interface Props {
 	title?: string
 	buttons?: ButtonOption[],
 	children?: ReactNode
+	onEscape?: () => void
 }
 
 function Popup(props: Props) {
+	if (props.onEscape !== undefined) {
+		useEffect(() => {
+			function handleKeyDown(e: KeyboardEvent) {
+				if (e.key === "Escape") {
+					props.onEscape!();
+				}
+			}
+			window.addEventListener("keydown", handleKeyDown);
+			return () => window.removeEventListener("keydown", handleKeyDown);
+		}, [props.onEscape]);
+	}
+	
 	return (
 		<>
 			<div className="fixed inset-0 w-screen h-screen bg-black/35 z-40 flex">
@@ -28,7 +41,9 @@ function Popup(props: Props) {
 					{props.title !== undefined && <>
 						<strong className="mt-3">{props.title}</strong>
 					</>}
-					{props.children || <div></div>}
+					<div className="grow text-left">
+						{props.children || <div></div>}
+					</div>
 					{props.buttons?.length && <>
 						<div>
 							<hr className="text-accent" />
