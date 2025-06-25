@@ -41,7 +41,7 @@ function Popup(props: Props) {
 					{props.title !== undefined && <>
 						<strong className="mt-3">{props.title}</strong>
 					</>}
-					<div className="grow text-left">
+					<div className="grow text-left overflow-auto">
 						{props.children || <div></div>}
 					</div>
 					{props.buttons?.length && <>
