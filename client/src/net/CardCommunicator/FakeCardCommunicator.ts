@@ -32,7 +32,7 @@ export default class FakeCardCommunicator implements CardCommunicator {
 					columnID: "1",
 					title: "Card 4",
 					creationDate: 1750383235022,
-					labels: ['0', '2', '3', '10']
+					labels: ['0', '2', '3', '10', '1', '4', '5', '6']
 				},
 				{
 					id: "5",
