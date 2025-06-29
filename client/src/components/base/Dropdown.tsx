@@ -24,7 +24,7 @@ interface Props {
 function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = '', onSelect }: Props) {
 	const [open, setOpen] = useState(false);
 	const [pos, setPos] = useState({ top: 0, left: 0 });
-	const dropdownRef = useRef<HTMLDivElement>(null);
+	const triggerRef = useRef<HTMLDivElement>(null);
 	const menuRef = useRef<HTMLUListElement>(null);
 
 	const selected = options.find(opt => opt.id === selectedId) || null;
@@ -38,18 +38,18 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 	}
 
 	useLayoutEffect(() => {
-		if (open && dropdownRef.current) {
-			const rect = dropdownRef.current.getBoundingClientRect();
+		if (open && triggerRef.current) {
+			const rect = triggerRef.current.getBoundingClientRect();
 			setPos({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX });
 		}
-	}, [open, dropdownRef]);
+	}, [open, triggerRef]);
 
 	useEffect(() => {
 		if (!open) return;
 		function handleClickOutside(event: MouseEvent) {
 			const target = event.target as Node;
 			if (
-				(dropdownRef.current && !dropdownRef.current.contains(target)) &&
+				(triggerRef.current && !triggerRef.current.contains(target)) &&
 				(menuRef.current && !menuRef.current.contains(target))
 			) {
 				setOpen(false);
@@ -62,7 +62,7 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 	}, [open]);
 
 	return (
-		<div ref={dropdownRef} className={clsx("relative inline-block text-left text-sm", triggerClass)}>
+		<div ref={triggerRef} className={clsx("relative inline-block text-left text-sm", triggerClass)}>
 			<button
 				onClick={() => setOpen(!open)}
 				className={clsx("inline-flex justify-between items-center w-full overflow-hidden",
@@ -97,10 +97,12 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 			{open && createPortal(
 				<ul
 					ref={menuRef}
-					className="absolute z-40 mt-1 text-sm bg-base border border-gray-300 dark:border-gray-400 rounded-md shadow-lg max-h-60 overflow-auto"
+					className="absolute z-40 mt-1 text-sm bg-base border border-gray-300 dark:border-gray-400 rounded-md shadow-lg overflow-auto"
 					style={{
 						top: `${pos.top}px`,
-						left: `${pos.left}px`
+						left: `${pos.left}px`,
+						maxHeight: `calc(100vh - ${pos.top}px - 4px)`,
+						maxWidth: `calc(100vw - ${pos.left}px)`
 					}}
 				>
 					{options.map(option => (
