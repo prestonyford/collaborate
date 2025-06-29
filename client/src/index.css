@@ -16,14 +16,14 @@
 }
 
 .dark {
-	--color-text: white;
-	--color-text-alt: rgb(46, 52, 56);
-	--color-text-muted: oklch(55.1% 0.027 264.364);
-	--color-base: rgb(30,30,30);
+	--color-text: hsl(0,0%,95%);
+	--color-text-alt: hsl(0,0%,70%);
+	--color-text-muted: hsl(0,0%,70%);
+	--color-base: hsl(0,0%,0%);
 	--color-base-alt: rgb(45,45,45);
-	--color-surface: #313131;
-	--color-surface-active: #3d3d3d;
-	--color-accent: #858585;
+	--color-surface: hsl(0,0%,10%);
+	--color-surface-active: hsl(0,0%,18%);
+	--color-accent: hsl(0,0%,20%);
 	--color-action: #60935D;
 	--spacing-normal: 10px;
 }
