@@ -33,7 +33,7 @@ function Popup(props: Props) {
 	return (
 		<>
 			<div className="fixed inset-0 w-screen h-screen bg-black/35 z-40 flex">
-				<div className={clsx("m-auto text-center bg-surface rounded-xl border-accent border-1 max-w-screen max-h-screen min-h-[200px] flex flex-col justify-between", {
+				<div className={clsx("m-auto text-center bg-base dark:bg-surface rounded-xl border-accent border-1 max-w-screen max-h-screen min-h-[200px] flex flex-col justify-between", {
 					'w-md': props.size === 'small',
 					'w-xl': props.size === 'medium',
 					'w-2xl': props.size === 'large'
@@ -49,7 +49,7 @@ function Popup(props: Props) {
 							<hr className="text-accent" />
 							<div className="p-2 flex justify-end gap-2">
 								{props.buttons.map(buttonOption => (
-									<Button text={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} />
+									<Button key={buttonOption.text} text={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} />
 								))}
 							</div>
 						</div>

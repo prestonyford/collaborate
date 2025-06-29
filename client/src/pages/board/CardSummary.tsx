@@ -38,7 +38,7 @@ function CardSummary(props: Props) {
 							</div>
 						</div>
 						<div className='pb-1 flex gap-1 flex-wrap'>
-							{props.labelIDs?.map(labelID => <Label title={projectLabelsMap[labelID]?.title || "???"} color={projectLabelsMap[labelID]?.color} />)}
+							{props.labelIDs?.map(labelID => <Label key={labelID} title={projectLabelsMap[labelID]?.title || "???"} color={projectLabelsMap[labelID]?.color} />)}
 						</div>
 					</div>
 				)}

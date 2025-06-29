@@ -51,7 +51,7 @@ function Board(props: Props) {
 							{...provided.droppableProps}
 						>
 							{columns.map((column, i) => (
-								<div className="flex flex-col" style={{height: 'calc(100%)'}}>
+								<div key={column.id} className="flex flex-col" style={{height: 'calc(100%)'}}>
 									<BoardColumn
 										key={column.id}
 										index={i}

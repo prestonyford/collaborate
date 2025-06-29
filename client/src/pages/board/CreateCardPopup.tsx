@@ -5,8 +5,10 @@ import type CardSummaryDTO from "../../model/dto/CardSummaryDTO"
 import Dropdown from "../../components/base/Dropdown"
 import { useBoardStore } from "./BoardStore"
 import ColumnDropdown from "./ColumnDropdown"
-import TextArea from "../../components/base/Textarea"
+import TextArea from "../../components/base/TextArea"
 import Label from "../../components/base/Label"
+import ChecklistDropdown from "../../components/base/ChecklistDropdown"
+import LabelChecklistDropdown from "./LabelChecklistDropdown"
 
 interface Props {
 	onCancel: () => void
@@ -15,7 +17,6 @@ interface Props {
 function CreateCardPopup(props: Props) {
 	const [formData, setFormData] = useState<Partial<CardSummaryDTO>>({});
 	const [description, setDescription] = useState<string>("");
-	const [counter, setCounter] = useState<number>(0);
 
 	const columns = useBoardStore((state) => state.columns);
 	const projectLabels = useBoardStore((state) => state.projectLabels);
@@ -24,8 +25,8 @@ function CreateCardPopup(props: Props) {
 		[projectLabels]
 	);
 	
-	function addLabel(id: string) {
-		setFormData({ ...formData, labels: [...(formData.labels || []), id] })
+	function setLabels(labels: string[]) {
+		setFormData({ ...formData, labels })
 	}
 	function removeLabel(id: string) {
 		setFormData({ ...formData, labels: (formData.labels || []).filter(l => l !== id) })
@@ -50,14 +51,15 @@ function CreateCardPopup(props: Props) {
 					<label htmlFor="description">Description:</label>
 					<TextArea value={description} onInput={setDescription} rows={3} />
 					<label htmlFor="labels">Labels:</label>
-					<div className="flex flex-wrap gap-x-2 gap-y-1">
-						{formData.labels?.map(l => 
-							<Label key={l} title={projectLabelsMap[l].title} color={projectLabelsMap[l].color} removable={true} onRemove={() => removeLabel(l)} />
-						)}
-						<span className="cursor-pointer underline text-blue-600" onClick={() => {
-							addLabel(projectLabels[counter].id);
-							setCounter(counter + 1)
-						}}>Add +</span>
+					<div className="flex flex-col gap-1">
+						{!!formData.labels?.length && <div className="flex flex-wrap gap-x-2 gap-y-1">
+							{formData.labels?.map(l =>
+								<Label key={l} title={projectLabelsMap[l].title} color={projectLabelsMap[l].color} removable={true} onRemove={() => removeLabel(l)} />
+							)}
+						</div>}
+						<div className="flex">
+							<LabelChecklistDropdown onInput={setLabels} selectedIds={formData.labels ?? []} />
+						</div>
 					</div>
 				</div>
 			</div>

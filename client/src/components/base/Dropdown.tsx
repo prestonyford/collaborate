@@ -1,14 +1,15 @@
 import clsx from 'clsx'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useLayoutEffect } from 'react'
+import { createPortal } from 'react-dom'
 
-interface Option {
+export interface Option {
 	id: string
 }
 
-interface TextOption extends Option {
+export interface TextOption extends Option {
 	text: string
 }
-interface SlotOption extends Option {
+export interface SlotOption extends Option {
 	renderOption: (id: string) => React.ReactNode
 }
 
@@ -22,7 +23,9 @@ interface Props {
 
 function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = '', onSelect }: Props) {
 	const [open, setOpen] = useState(false);
-    const dropdownRef = useRef<HTMLDivElement>(null);
+	const [pos, setPos] = useState({ top: 0, left: 0 });
+	const dropdownRef = useRef<HTMLDivElement>(null);
+	const menuRef = useRef<HTMLUListElement>(null);
 
 	const selected = options.find(opt => opt.id === selectedId) || null;
 	const handleSelect = (option: Option) => {
@@ -34,10 +37,21 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 		return 'text' in opt;
 	}
 
+	useLayoutEffect(() => {
+		if (open && dropdownRef.current) {
+			const rect = dropdownRef.current.getBoundingClientRect();
+			setPos({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX });
+		}
+	}, [open, dropdownRef]);
+
 	useEffect(() => {
 		if (!open) return;
 		function handleClickOutside(event: MouseEvent) {
-			if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+			const target = event.target as Node;
+			if (
+				(dropdownRef.current && !dropdownRef.current.contains(target)) &&
+				(menuRef.current && !menuRef.current.contains(target))
+			) {
 				setOpen(false);
 			}
 		}
@@ -80,9 +94,14 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 				</svg>
 			</button>
 
-			{open && (
+			{open && createPortal(
 				<ul
-					className="absolute z-10 mt-1 w-full bg-base border border-gray-300 dark:border-gray-400 rounded-md shadow-lg max-h-60 overflow-auto"
+					ref={menuRef}
+					className="absolute z-40 mt-1 text-sm bg-base border border-gray-300 dark:border-gray-400 rounded-md shadow-lg max-h-60 overflow-auto"
+					style={{
+						top: `${pos.top}px`,
+						left: `${pos.left}px`
+					}}
 				>
 					{options.map(option => (
 						<li
@@ -94,7 +113,8 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 							{isTextOption(option) ? option.text : option.renderOption(option.id)}
 						</li>
 					))}
-				</ul>
+				</ul>,
+				document.body
 			)}
 		</div>
 	)
