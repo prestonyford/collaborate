@@ -52,14 +52,14 @@ function CreateCardPopup(props: Props) {
 					<TextArea value={description} onInput={setDescription} rows={3} />
 					<label htmlFor="labels">Labels:</label>
 					<div className="flex flex-col gap-1">
+						<div className="flex">
+							<LabelChecklistDropdown onInput={setLabels} selectedIds={formData.labels ?? []} />
+						</div>
 						{!!formData.labels?.length && <div className="flex flex-wrap gap-x-2 gap-y-1">
 							{formData.labels?.map(l =>
 								<Label key={l} title={projectLabelsMap[l].title} color={projectLabelsMap[l].color} removable={true} onRemove={() => removeLabel(l)} />
 							)}
 						</div>}
-						<div className="flex">
-							<LabelChecklistDropdown onInput={setLabels} selectedIds={formData.labels ?? []} />
-						</div>
 					</div>
 				</div>
 			</div>

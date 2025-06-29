@@ -30,14 +30,14 @@ function CardSummary(props: Props) {
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
 					>
-						<div className='flex justify-between'>
+						<div className='flex justify-between mb-1'>
 							<div className=''>{props.title}</div>
 							<div className='text-text-muted text-sm flex items-center'>
 								<i className="fa-solid fa-calendar-week"></i>
 								<span className='ml-0.5 select-none'>{new Date(props.creationDate).toLocaleDateString("en-US", dateOptions)}</span>
 							</div>
 						</div>
-						<div className="min-h-[66px]">
+						<div className="min-h-[62px]">
 							<div className='pb-1 flex gap-1 flex-wrap'>
 								{props.labelIDs?.map(labelID =>
 									<Label key={labelID} title={projectLabelsMap[labelID]?.title || "???"} color={projectLabelsMap[labelID]?.color} />
