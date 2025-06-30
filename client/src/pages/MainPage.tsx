@@ -4,6 +4,7 @@ import Dropdown from '../components/base/Dropdown'
 import Board from './board/Board';
 import { useBoardStore } from './board/BoardStore';
 import LoadingIcon from '../components/base/LoadingIcon';
+import LabelChecklistDropdown from './board/LabelChecklistDropdown';
 
 interface Props {
 
@@ -26,7 +27,8 @@ function MainPage(props: Props) {
 					<div className='flex gap-3 text-sm'>
 						<Button text="Add column" variant="primary" />
 						<Button text="Share" variant="secondary" />
-						<Dropdown
+						<LabelChecklistDropdown onInput={() => {}} selectedIds={[]} defaultText="Select a Label" />
+						{/* <Dropdown
 							defaultText='Select a label'
 							selectedId={labelFilter ?? undefined}
 							options={[
@@ -37,7 +39,7 @@ function MainPage(props: Props) {
 							]}
 							triggerClass='min-w-[150px]'
 							onSelect={id => setLabelFilter(id)}
-						/>
+						/> */}
 					</div>
 				</div>
 				<div className='w-full h-[calc(100%-72px)]'>

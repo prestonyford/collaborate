@@ -53,7 +53,7 @@ function CreateCardPopup(props: Props) {
 					<label htmlFor="labels">Labels:</label>
 					<div className="flex flex-col gap-1">
 						<div className="flex">
-							<LabelChecklistDropdown onInput={setLabels} selectedIds={formData.labels ?? []} />
+							<LabelChecklistDropdown onInput={setLabels} selectedIds={formData.labels ?? []} defaultText="Add" />
 						</div>
 						{!!formData.labels?.length && <div className="flex flex-wrap gap-x-2 gap-y-1">
 							{formData.labels?.map(l =>

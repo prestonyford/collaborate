@@ -15,7 +15,7 @@ function LabelChecklistDropdown(props: Props) {
 			id: l.id,
 			renderOption: (id: string) => {
 				const label = projectLabels.find(l => l.id === id);
-				return <div className="py-0.5">
+				return <div className="py-0.5 pr-1">
 					<Label title={label?.title ?? ''} color={label?.color ?? ''} />
 				</div>
 			}
@@ -23,7 +23,7 @@ function LabelChecklistDropdown(props: Props) {
 		[projectLabels]
 	)
 	return (
-		<ChecklistDropdown {...props} options={projectLabelDropdownOptions} defaultText="Add" />
+		<ChecklistDropdown {...props} options={projectLabelDropdownOptions} />
 	)
 }
 
