@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Project from './pages/Project'
 import Navbar from './components/navigation/Navbar'
-import Sidebar from './components/navigation/Sidebar'
+import Sidebar from './components/navigation/Sidebar/Sidebar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NotFound from './pages/NotFound'
 import CardPage from './pages/task/CardPage'
