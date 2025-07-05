@@ -1,9 +1,14 @@
+import clsx from 'clsx'
 import { useState } from 'react'
 
-function Sidebar() {
+interface Props {
+	className?: string
+}
+
+function Sidebar({ className = '' }: Props) {
 	return (
 		<>
-			<div className='w-[280px] h-full border-r border-accent p-normal bg-surface shrink-0 hidden lg:block'>
+			<div className={clsx('h-full border-r border-accent p-normal bg-surface shrink-0', className)}>
 				Hello, world!
 			</div>
 		</>

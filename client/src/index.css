@@ -16,14 +16,14 @@
 }
 
 .dark {
-	--color-text: hsl(0,0%,95%);
-	--color-text-alt: hsl(0,0%,70%);
-	--color-text-muted: hsl(0,0%,70%);
-	--color-base: hsl(0,0%,0%);
-	--color-base-alt: rgb(45,45,45);
-	--color-surface: hsl(0,0%,10%);
-	--color-surface-active: hsl(0,0%,18%);
-	--color-accent: hsl(0,0%,20%);
+	--color-text: hsl(0, 0%, 95%);
+	--color-text-alt: hsl(0, 0%, 70%);
+	--color-text-muted: hsl(0, 0%, 70%);
+	--color-base: hsl(0, 0%, 0%);
+	--color-base-alt: rgb(45, 45, 45);
+	--color-surface: hsl(0, 0%, 10%);
+	--color-surface-active: hsl(0, 0%, 18%);
+	--color-accent: hsl(0, 0%, 20%);
 	--color-action: #60935D;
 	--spacing-normal: 10px;
 }
@@ -40,12 +40,19 @@
 h1 {
 	@apply text-4xl font-bold;
 }
+
 h2 {
 	@apply text-3xl font-bold;
 }
+
 h3 {
 	@apply text-2xl font-semibold;
 }
+
 h4 {
 	@apply text-xl font-semibold;
+}
+
+.clicky {
+	@apply text-blue-500 underline cursor-pointer hover:text-blue-400 transition-colors;
 }
