@@ -1,5 +1,5 @@
 import { Draggable } from '@hello-pangea/dnd'
-import { useBoardStore } from './BoardStore'
+import { useBoardStore } from './boardStore'
 import Label from '../../components/base/Label'
 import { useMemo } from 'react'
 

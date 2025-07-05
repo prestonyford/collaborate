@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import ChecklistDropdown from "../../components/base/ChecklistDropdown";
 import type ColumnDTO from "../../model/dto/ColumnDTO";
-import { useBoardStore } from "./BoardStore";
+import { useBoardStore } from "./boardStore";
 import Label from "../../components/base/Label";
 import Checkbox from "../../components/base/Checkbox";
 

@@ -1,5 +1,5 @@
 import ClickyIcon from './ClickyIcon'
-import { useBoardStore } from './BoardStore'
+import { useBoardStore } from './boardStore'
 import CardSummary from './CardSummary'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 import clsx from 'clsx'

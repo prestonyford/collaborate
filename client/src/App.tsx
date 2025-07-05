@@ -4,7 +4,7 @@ import Navbar from './components/navigation/Navbar'
 import Sidebar from './components/navigation/Sidebar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NotFound from './pages/NotFound'
-import CardPage from './pages/CardPage'
+import CardPage from './pages/task/CardPage'
 
 function App() {
 	return (

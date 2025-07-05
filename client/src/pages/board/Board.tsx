@@ -1,5 +1,5 @@
 import { DragDropContext, Droppable, type DroppableProvided, type DropResult } from '@hello-pangea/dnd'
-import { useBoardStore } from './BoardStore';
+import { useBoardStore } from './boardStore';
 import BoardColumn from './BoardColumn';
 
 interface Props {

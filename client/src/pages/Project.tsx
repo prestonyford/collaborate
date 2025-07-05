@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Button from '../components/base/Button'
 import Dropdown from '../components/base/Dropdown'
 import Board from './board/Board';
-import { useBoardStore } from './board/BoardStore';
+import { useBoardStore } from './board/boardStore';
 import LoadingIcon from '../components/base/LoadingIcon';
 import LabelChecklistDropdown from './board/LabelChecklistDropdown';
 import Page from './Page';

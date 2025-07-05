@@ -1,4 +1,5 @@
 import type CardSummaryDTO from "../../model/dto/CardSummaryDTO";
+import type TaskDTO from "../../model/dto/TaskDTO";
 import type CardCommunicator from "./CardCommunicator";
 
 export default class FakeCardCommunicator implements CardCommunicator {
@@ -52,4 +53,17 @@ export default class FakeCardCommunicator implements CardCommunicator {
 		, false];
 	}
 	
+	async getCardInfo(projectID: string, cardID: string): Promise<TaskDTO> {
+		await new Promise(resolve => setTimeout(resolve, 500));
+		return {
+			id: cardID,
+			columnID: '1',
+			title: 'Card Name!!',
+			creationDate: 1751732710021,
+			labels: ['1', '2'],
+			createdBy: 'Preston Ford',
+			description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue consectetur facilisis. Integer egestas ut risus ut ultricies. Quisque feugiat ullamcorper mi eu semper. Proin vel sapien efficitur, semper lacus ac, tempor tellus. Sed ornare velit vitae nisi tristique euismod. Nulla fringilla laoreet mi, eu semper mi posuere ac. Pellentesque eu rhoncus orci, ac rhoncus sapien. Aliquam pulvinar mauris eu leo aliquam, eu dictum leo molestie. Donec volutpat elementum pulvinar. Donec cursus, lacus at facilisis tincidunt, lorem lectus placerat augue, in pretium lectus elit et purus.',
+			activity: []
+		}
+	}
 }
