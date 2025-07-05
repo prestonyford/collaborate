@@ -9,8 +9,10 @@ function Sidebar({ className = '' }: Props) {
 	return (
 		<>
 			<div className={clsx('h-full border-r border-accent bg-surface', className)}>
-				<div className='mx-3 my-1.5 p-1.5 flex items-center justify-center bg-attention hover:bg-attention-hover transition-colors cursor-pointer rounded-2xl'>
-					<strong>Create Project</strong>
+				<div className='flex'>
+					<button className='grow mx-3 mt-2 mb-1 p-1.5 flex items-center justify-center bg-attention hover:bg-attention-hover transition-colors cursor-pointer rounded-2xl'>
+						<strong>Create Project</strong>
+					</button>
 				</div>
 				<h4 className='px-1 mt-2'>Owned</h4>
 				<div className="flex flex-col">
