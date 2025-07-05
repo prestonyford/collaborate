@@ -26,6 +26,12 @@
 	--color-accent: hsl(0, 0%, 20%);
 	--color-action: #60935D;
 	--spacing-normal: 10px;
+
+	scrollbar-color: var(--color-surface-active) var(--color-surface);
+}
+
+.dark .\[\&\:\:-webkit-scrollbar\]\:hidden {
+	scrollbar-color: auto;
 }
 
 :root {

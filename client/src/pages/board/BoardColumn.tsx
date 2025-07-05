@@ -6,6 +6,7 @@ import clsx from 'clsx'
 import Popup from '../../components/base/Popup'
 import { useState } from 'react'
 import CreateCardPopup from './CreateCardPopup'
+import { useNavigate } from 'react-router-dom'
 
 interface Props {
 	index: number
@@ -17,6 +18,7 @@ interface Props {
 type Popups = 'CreateCard'
 
 function BoardColumn(props: Props) {
+	const navigate = useNavigate();
 	const cardSummaries = useBoardStore((state) => state.cardSummaries[props.columnID]);
 
 	const [popupOpen, setPopupOpen] = useState<Popups | null>(null);
@@ -54,7 +56,15 @@ function BoardColumn(props: Props) {
 											{...provided.droppableProps}
 										>
 											{cardSummaries?.map((card, i) =>
-												<CardSummary key={card.id} index={i} cardID={card.id} title={card.title} creationDate={card.creationDate} labelIDs={card.labels} />
+												<CardSummary
+													key={card.id}
+													index={i}
+													cardID={card.id}
+													title={card.title}
+													creationDate={card.creationDate}
+													labelIDs={card.labels}
+													onClick={() => navigate(`/projects/IDK/tasks/${card.id}`)}
+												/>
 											)}
 											{cardSummaries.length === 0 &&
 												<p className={clsx('m-auto w-full select-none text-text-muted text-sm text-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity', snapshot.isDraggingOver ? 'opacity-0' : 'opacity-100')}>
@@ -71,7 +81,7 @@ function BoardColumn(props: Props) {
 				)}
 			</Draggable>
 
-			{ popupOpen === 'CreateCard' && <CreateCardPopup onCancel={() => setPopupOpen(null)} />}
+			{popupOpen === 'CreateCard' && <CreateCardPopup onCancel={() => setPopupOpen(null)} />}
 		</>
 	)
 }

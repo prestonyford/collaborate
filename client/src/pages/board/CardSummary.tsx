@@ -2,7 +2,6 @@ import { Draggable } from '@hello-pangea/dnd'
 import { useBoardStore } from './BoardStore'
 import Label from '../../components/base/Label'
 import { useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
 
 interface Props {
 	index: number
@@ -10,11 +9,10 @@ interface Props {
 	title: string
 	creationDate: number
 	labelIDs?: string[]
+	onClick?: () => void
 }
 
 function CardSummary(props: Props) {
-	const navigate = useNavigate();
-
 	const projectLabels = useBoardStore((state) => state.projectLabels);
 	const projectLabelsMap = useMemo(
 		() => Object.fromEntries(projectLabels.map(label => [label.id, label])),
@@ -32,7 +30,7 @@ function CardSummary(props: Props) {
 						ref={provided.innerRef}
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
-						onClick={() => navigate(`tasks/${props.cardID}`)}
+						onClick={props.onClick}
 					>
 						<div className='flex justify-between mb-1'>
 							<div className=''>{props.title}</div>
