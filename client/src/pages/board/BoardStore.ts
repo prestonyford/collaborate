@@ -19,15 +19,20 @@ interface ProjectState {
 	columns: ColumnDTO[]
 	cardSummaries: Record<string, CardSummaryDTO[]>
 	initialize: (projectID: string) => Promise<void>
+	reset: () => void
 	setColumns: (newColumns: ColumnDTO[]) => void
 	setColumnCardSummaries: (columnID: string, newCardSummaries: CardSummaryDTO[]) => void
 }
 
-const useBoardStore = create<ProjectState>()(set => ({
+const defaultState = {
 	isLoading: false,
 	projectLabels: [],
 	columns: [],
 	cardSummaries: {},
+}
+
+const useBoardStore = create<ProjectState>()(set => ({
+	...defaultState,
 	
 	initialize: async (projectID: string) => {
 		set({ isLoading: true });
@@ -47,6 +52,10 @@ const useBoardStore = create<ProjectState>()(set => ({
 		} finally {
 			set({ isLoading: false });
 		}
+	},
+
+	reset: () => {
+		set(defaultState);
 	},
 
 	setColumns: (newColumns: ColumnDTO[]) => {

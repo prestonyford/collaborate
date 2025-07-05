@@ -10,14 +10,16 @@ interface Props {
 
 }
 
-function CardPage(props: Props) {
+function TaskPage(props: Props) {
 	const params = useParams();
 	const navigate = useNavigate();
 
 	const initialize = useTaskStore(state => state.initialize);
+	const reset = useTaskStore(state => state.reset);
 	const isLoading = useTaskStore(state => state.isLoading);
 	const task = useTaskStore(state => state.task);
 	const projectLabels = useTaskStore(state => state.projectLabels);
+	
 	const projectLabelsMap = useMemo(
 		() => Object.fromEntries(projectLabels.map(label => [label.id, label])),
 		[projectLabels]
@@ -34,6 +36,7 @@ function CardPage(props: Props) {
 
 	useEffect(() => {
 		initialize(projectID, taskID);
+		return reset;
 	}, [initialize]);
 
 	return (
@@ -84,4 +87,4 @@ function CardPage(props: Props) {
 	)
 }
 
-export default CardPage
+export default TaskPage

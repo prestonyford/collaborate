@@ -4,7 +4,7 @@ import Navbar from './components/navigation/Navbar'
 import Sidebar from './components/navigation/Sidebar/Sidebar'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import NotFound from './pages/NotFound'
-import CardPage from './pages/task/CardPage'
+import TaskPage from './pages/task/TaskPage'
 
 function App() {
 	return (
@@ -18,8 +18,8 @@ function App() {
 							<Route index element={<Project />} />
 							<Route path="projects" element={<Project />} />
 							<Route path="projects/:pid" element={<Project />} />
-							<Route path="projects/:pid/tasks" element={<CardPage />} />
-							<Route path="projects/:pid/tasks/:tid" element={<CardPage />} />
+							<Route path="projects/:pid/tasks" element={<TaskPage />} />
+							<Route path="projects/:pid/tasks/:tid" element={<TaskPage />} />
 							<Route path="*" element={<NotFound />} />
 						</Routes>
 					</div>

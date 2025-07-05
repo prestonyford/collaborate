@@ -12,14 +12,19 @@ const labelCommunicator: LabelCommunicator = new FakeLabelCommunicator();
 interface TaskState {
 	isLoading: boolean
 	task: TaskDTO | null
-	projectLabels: LabelDTO[],
+	projectLabels: LabelDTO[]
 	initialize: (projectID: string, taskID: string) => Promise<void>
+	reset: () => void
 }
 
-const useTaskStore = create<TaskState>()(set => ({
+const initialState = {
 	isLoading: false,
 	task: null,
 	projectLabels: [],
+}
+
+const useTaskStore = create<TaskState>()(set => ({
+	...initialState,
 	initialize: async (projectID: string, taskID: string) => {
 		set({ isLoading: true });
 		try {
@@ -31,6 +36,9 @@ const useTaskStore = create<TaskState>()(set => ({
 		} finally {
 			set({ isLoading: false });
 		}
+	},
+	reset: () => {
+		set(initialState);
 	}
 }));
 

@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { useState } from 'react'
 import SidebarProjectItem from './SidebarProjectItem'
 
 interface Props {
@@ -10,6 +9,9 @@ function Sidebar({ className = '' }: Props) {
 	return (
 		<>
 			<div className={clsx('h-full border-r border-accent bg-surface', className)}>
+				<div className='mx-3 my-1.5 p-1.5 flex items-center justify-center bg-attention hover:bg-attention-hover transition-colors cursor-pointer rounded-2xl'>
+					<strong>Create Project</strong>
+				</div>
 				<h4 className='px-1 mt-2'>Owned</h4>
 				<div className="flex flex-col">
 					<SidebarProjectItem projectName={'Project 1'} numColumns={4} numTasks={8} active />
@@ -18,9 +20,9 @@ function Sidebar({ className = '' }: Props) {
 				</div>
 				<h4 className='px-1 mt-3'>Shared with me</h4>
 				<div className="flex flex-col">
-					<SidebarProjectItem projectName={'Project 1'} numColumns={4} numTasks={8} />
+					<SidebarProjectItem projectName={'Project 1'} numColumns={4} numTasks={8} owner="User1" />
 					<SidebarProjectItem projectName={'LONG NAME LONG NAME LONG NAME'} numColumns={0} numTasks={0} owner="User2" />
-					<SidebarProjectItem projectName={'Project 3'} numColumns={4} numTasks={7} last />
+					<SidebarProjectItem projectName={'Project 3'} numColumns={4} numTasks={7} owner="User3" last />
 				</div>
 			</div>
 		</>
