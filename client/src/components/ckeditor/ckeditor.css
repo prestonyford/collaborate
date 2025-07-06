@@ -49,6 +49,22 @@
 
 	/* Inputs */
 	--ck-color-input-background: var(--color-surface);
-	--ck-color-labeled-field-label-background: var(--color-base);
+	--ck-color-labeled-field-label-background: var(--ck-color-dialog-background);
 	--ck-color-input-disabled-text: var(--color-gray-200)
+}
+
+.ckeditor-main-container .ck-content ul {
+	list-style-type: disc;
+	padding-left: 1.5rem;
+	margin-left: 0;
+}
+
+.ckeditor-main-container .ck-content ol {
+	list-style-type: decimal;
+	padding-left: 1.5rem;
+	margin-left: 0;
+}
+
+.ckeditor-main-container .ck-content li {
+	margin-left: 0.5rem;
 }

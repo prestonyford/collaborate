@@ -28,7 +28,8 @@ import {
 	ImageInsert,
 	ImageCaption,
 	ImageStyle,
-	ImageToolbar
+	ImageToolbar,
+	List
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';
@@ -73,6 +74,9 @@ export default function MyCKEditor() {
 						'insertTable',
 						'blockQuote',
 						'|',
+						'bulletedList',
+						'numberedList',
+						'|',
 						'outdent',
 						'indent'
 					],
@@ -100,7 +104,8 @@ export default function MyCKEditor() {
 					ImageInsert,
 					ImageCaption,
 					ImageStyle,
-					ImageToolbar
+					ImageToolbar,
+					List
 				],
 				heading: {
 					options: [

@@ -60,8 +60,8 @@ function TaskPage(props: Props) {
 							</div>
 						</div>
 
-						<h3 className="mt-4">Description</h3>
-						<p className="text-text-muted">
+						<h3 className="mt-4 mb-1">Description</h3>
+						<p className="text-text-muted hidden">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue consectetur facilisis. Integer egestas ut risus ut ultricies. Quisque feugiat ullamcorper mi eu semper. Proin vel sapien efficitur, semper lacus ac, tempor tellus. Sed ornare velit vitae nisi tristique euismod. Nulla fringilla laoreet mi, eu semper mi posuere ac. Pellentesque eu rhoncus orci, ac rhoncus sapien. Aliquam pulvinar mauris eu leo aliquam, eu dictum leo molestie. Donec volutpat elementum pulvinar. Donec cursus, lacus at facilisis tincidunt, lorem lectus placerat augue, in pretium lectus elit et purus.
 						</p>
 						<div>
