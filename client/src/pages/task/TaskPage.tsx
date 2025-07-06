@@ -6,6 +6,7 @@ import LoadingIcon from "../../components/base/LoadingIcon";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import { useTaskStore } from "./taskStore";
 import NotFound from "../NotFound";
+import TipTap from "../../components/tiptap/TipTap";
 
 interface Props {
 
@@ -63,6 +64,10 @@ function TaskPage(props: Props) {
 						<p className="text-text-muted">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue consectetur facilisis. Integer egestas ut risus ut ultricies. Quisque feugiat ullamcorper mi eu semper. Proin vel sapien efficitur, semper lacus ac, tempor tellus. Sed ornare velit vitae nisi tristique euismod. Nulla fringilla laoreet mi, eu semper mi posuere ac. Pellentesque eu rhoncus orci, ac rhoncus sapien. Aliquam pulvinar mauris eu leo aliquam, eu dictum leo molestie. Donec volutpat elementum pulvinar. Donec cursus, lacus at facilisis tincidunt, lorem lectus placerat augue, in pretium lectus elit et purus.
 						</p>
+
+						<div>
+							<TipTap />
+						</div>
 
 						<h3 className="mt-4">Labels</h3>
 						<div className="flex gap-2 pt-1">
