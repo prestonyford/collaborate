@@ -6,7 +6,6 @@ interface Props {
 	numColumns: number,
 	numTasks: number,
 	active?: boolean,
-	last?: boolean
 	onClick?: () => void,
 	owner?: string
 }
@@ -15,7 +14,7 @@ function SidebarProjectItem(props: Props) {
 	return (
 		<>
 			<div
-				className={clsx('py-[1px] border-accent cursor-pointer', props.last ? 'border-y' : 'border-t')}
+				className='py-[1px] border-accent cursor-pointer border-b'
 				title={props.projectName}
 				onClick={props.onClick}
 			>
