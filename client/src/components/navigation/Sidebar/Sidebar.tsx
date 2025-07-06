@@ -69,7 +69,6 @@ function Sidebar({ className = '' }: Props) {
 										numColumns={p.numColumns}
 										numTasks={p.numTasks}
 										owner={p.owner}
-										last={i === ownedProjects.length - 1}
 										active={p.id === activeProjectID}
 										onClick={() => navigate(`/projects/${p.id}`)}
 									/>
