@@ -7,6 +7,7 @@ import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class FakeProjectCommunicator implements ProjectCommunicator {
 	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
+		await new Promise(resolve => setTimeout(resolve, 500));
 		return [
 			{
 				id: '1',
@@ -45,6 +46,55 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			},
 			{
 				id: '6',
+				name: 'Shared Project 3',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: '7',
+				name: 'Shared Project 3',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: '8',
+				name: 'Shared Project 3',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: '9',
+				name: 'Shared Project 3',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: '10',
+				name: 'Shared Project 3',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: '11',
+				name: 'Shared Project 3',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: '12',
+				name: 'Shared Project 3',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: '13',
 				name: 'Shared Project 3',
 				numColumns: 4,
 				numTasks: 8,

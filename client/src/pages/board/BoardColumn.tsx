@@ -66,7 +66,7 @@ function BoardColumn(props: Props) {
 													onClick={() => navigate(`tasks/${card.id}`)}
 												/>
 											)}
-											{cardSummaries.length === 0 &&
+											{cardSummaries?.length === 0 &&
 												<p className={clsx('m-auto w-full select-none text-text-muted text-sm text-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity', snapshot.isDraggingOver ? 'opacity-0' : 'opacity-100')}>
 													Drag a card here or create one with the + button
 												</p>
