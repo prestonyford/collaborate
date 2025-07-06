@@ -1,6 +1,9 @@
 import clsx from 'clsx'
 import SidebarProjectItem from './SidebarProjectItem'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useServiceStore } from '../../../serviceStore';
+import type ProjectDTO from '../../../model/dto/ProjectDTO';
+import { act, useEffect, useMemo, useState } from 'react';
 
 interface Props {
 	className?: string
@@ -10,6 +13,19 @@ function Sidebar({ className = '' }: Props) {
 	const navigate = useNavigate();
 	const params = useParams();
 	const activeProjectID = params.pid;
+
+	const projectCommunicator = useServiceStore((state) => state.projectCommunicator);
+
+	const [allProjects, setAllProjects] = useState<ProjectDTO[]>([]);
+	useEffect(() => {
+		(async () => {
+			const res = await projectCommunicator.getOwnedAndSharedProjects();
+			setAllProjects(res);
+		})();
+	}, [projectCommunicator]);
+
+	const ownedProjects = useMemo(() => allProjects.filter(p => p.owner === 'pyford'), [allProjects]);
+	const sharedProjects = useMemo(() => allProjects.filter(p => p.owner !== 'pyford'), [allProjects]);
 
 	return (
 		<>
@@ -21,15 +37,32 @@ function Sidebar({ className = '' }: Props) {
 				</div>
 				<h4 className='px-1 mt-2'>Owned</h4>
 				<div className="flex flex-col">
-					<SidebarProjectItem projectName={'Project 1'} numColumns={4} numTasks={8} onClick={() => navigate(`projects/IDK`)} active />
-					<SidebarProjectItem projectName={'Project 2'} numColumns={0} numTasks={0} />
-					<SidebarProjectItem projectName={'Project 3'} numColumns={4} numTasks={7} last />
+					{ownedProjects.map((p, i) =>
+						<SidebarProjectItem
+							key={p.id}
+							projectName={p.name}
+							numColumns={p.numColumns}
+							numTasks={p.numTasks}
+							last={i === ownedProjects.length - 1}
+							active={p.id === activeProjectID}
+							onClick={() => navigate(`/projects/${p.id}`)}
+						/>
+					)}
 				</div>
 				<h4 className='px-1 mt-3'>Shared with me</h4>
 				<div className="flex flex-col">
-					<SidebarProjectItem projectName={'Project 1'} numColumns={4} numTasks={8} owner="User1" />
-					<SidebarProjectItem projectName={'LONG NAME LONG NAME LONG NAME'} numColumns={0} numTasks={0} owner="User2" />
-					<SidebarProjectItem projectName={'Project 3'} numColumns={4} numTasks={7} owner="User3" last />
+					{sharedProjects.map((p, i) =>
+						<SidebarProjectItem
+							key={p.id}
+							projectName={p.name}
+							numColumns={p.numColumns}
+							numTasks={p.numTasks}
+							owner={p.owner}
+							last={i === ownedProjects.length - 1}
+							active={p.id === activeProjectID}
+							onClick={() => navigate(`/projects/${p.id}`)}
+						/>
+					)}
 				</div>
 			</div>
 		</>

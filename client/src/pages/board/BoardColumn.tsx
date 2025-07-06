@@ -63,7 +63,7 @@ function BoardColumn(props: Props) {
 													title={card.title}
 													creationDate={card.creationDate}
 													labelIDs={card.labels}
-													onClick={() => navigate(`/projects/IDK/tasks/${card.id}`)}
+													onClick={() => navigate(`tasks/${card.id}`)}
 												/>
 											)}
 											{cardSummaries.length === 0 &&

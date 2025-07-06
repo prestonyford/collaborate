@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import LoadingIcon from "../../components/base/LoadingIcon";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import { useTaskStore } from "./taskStore";
+import NotFound from "../NotFound";
 
 interface Props {
 
@@ -28,8 +29,7 @@ function TaskPage(props: Props) {
 	const projectID = params.pid;
 	const taskID = params.tid;
 	if (projectID === undefined || taskID === undefined) {
-		console.log("Project or task id was not found");
-		return;
+		return <NotFound />;
 	}
 
 	const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -67,7 +67,7 @@ function TaskPage(props: Props) {
 						<h3 className="mt-4">Labels</h3>
 						<div className="flex gap-2 pt-1">
 							{task.labels.map(lid => (
-								<Label title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable />
+								<Label key={lid} title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable />
 							))}
 						</div>
 

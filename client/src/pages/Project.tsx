@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import Button from '../components/base/Button'
-import Dropdown from '../components/base/Dropdown'
 import Board from './board/Board';
 import { useBoardStore } from './board/boardStore';
 import LoadingIcon from '../components/base/LoadingIcon';
@@ -12,7 +11,7 @@ interface Props {
 }
 
 function Project(props: Props) {
-const isLoading = useBoardStore((state) => state.isLoading);
+	const isLoading = useBoardStore((state) => state.isLoading);
 	const initialize = useBoardStore((state) => state.initialize);
 	const reset = useBoardStore((state) => state.reset);
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
@@ -29,7 +28,7 @@ const isLoading = useBoardStore((state) => state.isLoading);
 				<div className='flex gap-3 text-sm'>
 					<Button text="Add column" variant="primary" />
 					<Button text="Share" variant="secondary" />
-					<LabelChecklistDropdown onInput={() => {}} selectedIds={[]} defaultText="Filter labels" />
+					<LabelChecklistDropdown onInput={() => { }} selectedIds={[]} defaultText="Filter labels" />
 				</div>
 			</>}>
 				{isLoading

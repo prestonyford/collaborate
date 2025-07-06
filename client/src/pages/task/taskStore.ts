@@ -1,10 +1,7 @@
 import { create } from 'zustand'
 import type TaskDTO from '../../model/dto/TaskDTO';
 import type LabelDTO from '../../model/dto/LabelDTO';
-import type ProjectCommunicator from '../../net/ProjectCommunicator/ProjectCommunicator';
-import FakeProjectCommunicator from '../../net/ProjectCommunicator/FakeProjectCommunicator';
-
-const projectCommunicator: ProjectCommunicator = new FakeProjectCommunicator();
+import { useServiceStore } from '../../serviceStore';
 
 interface TaskState {
 	isLoading: boolean
@@ -20,23 +17,27 @@ const initialState = {
 	projectLabels: [],
 }
 
-const useTaskStore = create<TaskState>()(set => ({
-	...initialState,
-	initialize: async (projectID: string, taskID: string) => {
-		set({ isLoading: true });
-		try {
-			const [task, projectLabels] = await Promise.all([
-				projectCommunicator.getCardInfo(projectID, taskID),
-				projectCommunicator.getProjectLabels(projectID),
-			]);
-			set({ task, projectLabels });
-		} finally {
-			set({ isLoading: false });
+const useTaskStore = create<TaskState>()(set => {
+	const { projectCommunicator } = useServiceStore.getState();
+
+	return {
+		...initialState,
+		initialize: async (projectID: string, taskID: string) => {
+			set({ isLoading: true });
+			try {
+				const [task, projectLabels] = await Promise.all([
+					projectCommunicator.getCardInfo(projectID, taskID),
+					projectCommunicator.getProjectLabels(projectID),
+				]);
+				set({ task, projectLabels });
+			} finally {
+				set({ isLoading: false });
+			}
+		},
+		reset: () => {
+			set(initialState);
 		}
-	},
-	reset: () => {
-		set(initialState);
 	}
-}));
+});
 
 export { useTaskStore };
