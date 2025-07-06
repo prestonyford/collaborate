@@ -1,11 +1,16 @@
 import clsx from 'clsx'
 import SidebarProjectItem from './SidebarProjectItem'
+import { useNavigate, useParams } from 'react-router-dom'
 
 interface Props {
 	className?: string
 }
 
 function Sidebar({ className = '' }: Props) {
+	const navigate = useNavigate();
+	const params = useParams();
+	const activeProjectID = params.pid;
+
 	return (
 		<>
 			<div className={clsx('h-full border-r border-accent bg-surface', className)}>
@@ -16,7 +21,7 @@ function Sidebar({ className = '' }: Props) {
 				</div>
 				<h4 className='px-1 mt-2'>Owned</h4>
 				<div className="flex flex-col">
-					<SidebarProjectItem projectName={'Project 1'} numColumns={4} numTasks={8} active />
+					<SidebarProjectItem projectName={'Project 1'} numColumns={4} numTasks={8} onClick={() => navigate(`projects/IDK`)} active />
 					<SidebarProjectItem projectName={'Project 2'} numColumns={0} numTasks={0} />
 					<SidebarProjectItem projectName={'Project 3'} numColumns={4} numTasks={7} last />
 				</div>

@@ -1,13 +1,10 @@
 import { create } from 'zustand'
-import type CardCommunicator from '../../net/CardCommunicator/CardCommunicator';
-import FakeCardCommunicator from '../../net/CardCommunicator/FakeCardCommunicator';
-import type LabelCommunicator from '../../net/LabelCommunicator/LabelCommunicator';
-import FakeLabelCommunicator from '../../net/LabelCommunicator/FakeLabelCommunicator';
 import type TaskDTO from '../../model/dto/TaskDTO';
 import type LabelDTO from '../../model/dto/LabelDTO';
+import type ProjectCommunicator from '../../net/ProjectCommunicator/ProjectCommunicator';
+import FakeProjectCommunicator from '../../net/ProjectCommunicator/FakeProjectCommunicator';
 
-const cardCommunicator: CardCommunicator = new FakeCardCommunicator();
-const labelCommunicator: LabelCommunicator = new FakeLabelCommunicator();
+const projectCommunicator: ProjectCommunicator = new FakeProjectCommunicator();
 
 interface TaskState {
 	isLoading: boolean
@@ -29,8 +26,8 @@ const useTaskStore = create<TaskState>()(set => ({
 		set({ isLoading: true });
 		try {
 			const [task, projectLabels] = await Promise.all([
-				cardCommunicator.getCardInfo(projectID, taskID),
-				labelCommunicator.getProjectLabels(projectID),
+				projectCommunicator.getCardInfo(projectID, taskID),
+				projectCommunicator.getProjectLabels(projectID),
 			]);
 			set({ task, projectLabels });
 		} finally {

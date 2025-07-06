@@ -12,7 +12,7 @@ interface Props {
 }
 
 function Project(props: Props) {
-	const isLoading = useBoardStore((state) => state.isLoading);
+const isLoading = useBoardStore((state) => state.isLoading);
 	const initialize = useBoardStore((state) => state.initialize);
 	const reset = useBoardStore((state) => state.reset);
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);

@@ -1,17 +1,11 @@
 import { create } from 'zustand'
 import type ColumnDTO from '../../model/dto/ColumnDTO';
-import type ColumnCommunicator from '../../net/ColumnCommunicator/ColumnCommunicator';
-import FakeColumnCommunicator from '../../net/ColumnCommunicator/FakeColumnCommunicator';
 import type CardSummaryDTO from '../../model/dto/CardSummaryDTO';
-import type CardCommunicator from '../../net/CardCommunicator/CardCommunicator';
-import FakeCardCommunicator from '../../net/CardCommunicator/FakeCardCommunicator';
 import type LabelDTO from '../../model/dto/LabelDTO';
-import type LabelCommunicator from '../../net/LabelCommunicator/LabelCommunicator';
-import FakeLabelCommunicator from '../../net/LabelCommunicator/FakeLabelCommunicator';
+import type ProjectCommunicator from '../../net/ProjectCommunicator/ProjectCommunicator';
+import FakeProjectCommunicator from '../../net/ProjectCommunicator/FakeProjectCommunicator';
 
-const columnCommunicator: ColumnCommunicator = new FakeColumnCommunicator();
-const cardCommunicator: CardCommunicator = new FakeCardCommunicator();
-const labelCommunicator: LabelCommunicator = new FakeLabelCommunicator();
+const projectCommunicator: ProjectCommunicator = new FakeProjectCommunicator();
 
 interface ProjectState {
 	isLoading: boolean
@@ -38,12 +32,12 @@ const useBoardStore = create<ProjectState>()(set => ({
 		set({ isLoading: true });
 		try {
 			const [projectLabels, columns] = await Promise.all([
-				labelCommunicator.getProjectLabels(projectID),
-				columnCommunicator.getColumnsByProject(projectID)
+				projectCommunicator.getProjectLabels(projectID),
+				projectCommunicator.getColumnsByProject(projectID)
 			]);
 			set({ projectLabels, columns });
 			for (let col of columns) {
-				const [cardSummaries, hasMore] = await cardCommunicator.getCardSummaries(projectID, col.id, 10, null);
+				const [cardSummaries, hasMore] = await projectCommunicator.getCardSummaries(projectID, col.id, 10, null);
 				set(state => ({ cardSummaries: {
 					...state.cardSummaries,
 					[col.id]: cardSummaries
