@@ -1,10 +1,10 @@
 import clsx from 'clsx'
-import { useState, type MouseEventHandler } from 'react'
+import { useState, type MouseEventHandler, type ReactNode } from 'react'
 
 export type ButtonVariant = "primary" | "secondary";
 
 interface Props {
-	text: string
+	content: string | ReactNode
 	variant: ButtonVariant
 	onClick?: MouseEventHandler
 }
@@ -19,7 +19,7 @@ function Button(props: Props) {
 					{'text-gray-50 bg-indigo-600 hover:bg-indigo-500': props.variant === "primary"},
 					{'text-text bg-base hover:bg-base-alt': props.variant === "secondary"}
 				)}>
-					{ props.text }
+					{ props.content }
 				</div>
 			</div>
 		</>

@@ -49,7 +49,7 @@ function Popup(props: Props) {
 							<hr className="text-accent" />
 							<div className="p-2 flex justify-end gap-2">
 								{props.buttons.map(buttonOption => (
-									<Button key={buttonOption.text} text={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} />
+									<Button key={buttonOption.text} content={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} />
 								))}
 							</div>
 						</div>

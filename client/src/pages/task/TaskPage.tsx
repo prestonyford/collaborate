@@ -7,6 +7,7 @@ import type TaskDTO from "../../model/dto/TaskDTO";
 import { useTaskStore } from "./taskStore";
 import NotFound from "../NotFound";
 import TipTap from "../../components/tiptap/TipTap";
+import Button from "../../components/base/Button";
 
 interface Props {
 
@@ -21,7 +22,7 @@ function TaskPage(props: Props) {
 	const isLoading = useTaskStore(state => state.isLoading);
 	const task = useTaskStore(state => state.task);
 	const projectLabels = useTaskStore(state => state.projectLabels);
-	
+
 	const projectLabelsMap = useMemo(
 		() => Object.fromEntries(projectLabels.map(label => [label.id, label])),
 		[projectLabels]
@@ -44,23 +45,23 @@ function TaskPage(props: Props) {
 		<>
 			{isLoading || task === null
 				? <LoadingIcon />
-				: <Page title={<h1 className="-mb-2">Card Name Here</h1>}>
+				: <Page title={<div className="w-full -mb-2 flex justify-between items-center">
+					<h1 className="">Card Name Here</h1>
+					<Button content={<>Edit <i className="ml-1.5 text-sm fa-solid fa-pen-to-square"></i></>} variant={"secondary"} />
+				</div>}>
 					<div className="px-6">
 						<div className="text-text-muted text-sm flex gap-6">
-							<div>
-								<i className="fa-solid fa-calendar-week mr-1"></i>
-								{new Date(task.creationDate).toLocaleDateString("en-US", dateOptions)}
-							</div>
 							<div>
 								<i className="fa-solid fa-user mr-1"></i>
 								{task.createdBy}
 							</div>
+							<div>
+								<i className="fa-solid fa-calendar-week mr-1"></i>
+								{new Date(task.creationDate).toLocaleDateString("en-US", dateOptions)}
+							</div>
 						</div>
 
-						<h3 className="mt-4 inline-flex items-center gap-2">
-							Description
-							<i className="text-sm fa-solid fa-pen-to-square cursor-pointer"></i>
-						</h3>
+						<h3 className="mt-4">Description</h3>
 						<p className="text-text-muted">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean congue consectetur facilisis. Integer egestas ut risus ut ultricies. Quisque feugiat ullamcorper mi eu semper. Proin vel sapien efficitur, semper lacus ac, tempor tellus. Sed ornare velit vitae nisi tristique euismod. Nulla fringilla laoreet mi, eu semper mi posuere ac. Pellentesque eu rhoncus orci, ac rhoncus sapien. Aliquam pulvinar mauris eu leo aliquam, eu dictum leo molestie. Donec volutpat elementum pulvinar. Donec cursus, lacus at facilisis tincidunt, lorem lectus placerat augue, in pretium lectus elit et purus.
 						</p>

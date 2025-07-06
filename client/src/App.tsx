@@ -26,6 +26,8 @@ function App() {
 							<Route index element={<Project />} />
 							<Route path="tasks" element={<TaskPage />} />
 							<Route path="tasks/:tid" element={<TaskPage />} />
+							<Route path="tasks/:tid/view" element={<TaskPage />} />
+							<Route path="tasks/:tid/edit" element={<TaskPage />} />
 						</Route>
 
 						<Route path="*" element={<Layout />}>
