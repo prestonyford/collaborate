@@ -11,7 +11,7 @@ function Page(props: Props) {
 				<div className="py-4 px-6 flex justify-between items-center">
 					{props.title}
 				</div>
-				<div className='w-full h-[calc(100%-72px)]'>
+				<div className='w-full h-[calc(100%-72px)] overflow-auto'>
 					{props.children}
 				</div>
 			</div>

@@ -1,0 +1,54 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+@media print {
+	body {
+		margin: 0 !important;
+	}
+}
+
+.ckeditor-main-container .main-container {
+	width: fit-content;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.ckeditor-main-container .ck-content {
+	line-height: 1.6;
+	word-break: break-word;
+}
+
+/* Dark mode CKEditor theming using CSS variables */
+.dark .ckeditor-main-container, .dark .ck-body-wrapper {
+	/* Main stuff */
+	--ck-color-text: var(--color-text);
+	--ck-color-base-background: var(--color-base);
+	--ck-color-toolbar-background: var(--color-surface);
+	--ck-color-button-hover-background: var(--color-attention);
+	--ck-color-focus-border: var(--color-accent);
+	--ck-color-button-on-background: var(--color-attention-hover);
+	--ck-color-panel-background: var(--color-surface);
+	--ck-color-editable-background: var(--color-base);
+	--ck-color-base-border: var(--color-accent);
+	--ck-color-toolbar-border: var(--color-accent);
+	--ck-color-button-default-hover-background: var(--color-attention);
+
+	/* Dropdowns */
+	--ck-color-dropdown-panel-background: var(--color-base);
+	--ck-color-list-background: var(--color-base);
+	--ck-color-dropdown-panel-border: var(--color-accent);
+	--ck-color-list-button-hover-background: var(--color-attention);
+	--ck-color-button-on-hover-background: var(--color-attention-hover);
+	--ck-color-button-default-active-background: var(--color-surface-active);
+	--ck-color-button-on-active-background: oklch(39.1% 0.09 240.876);
+	--ck-color-button-on-color: oklch(62.3% 0.214 259.815);
+	--ck-focus-outer-shadow: initial;
+	--ck-color-split-button-hover-background: var(--color-attention-hover);
+
+	/* Modals */
+	--ck-color-dialog-background: var(--color-base);
+
+	/* Inputs */
+	--ck-color-input-background: var(--color-surface);
+	--ck-color-labeled-field-label-background: var(--color-base);
+	--ck-color-input-disabled-text: var(--color-gray-200)
+}
