@@ -40,7 +40,11 @@ import './ckeditor.css';
  */
 const LICENSE_KEY = 'GPL'; // or <YOUR_LICENSE_KEY>.
 
-export default function MyCKEditor() {
+interface Props {
+	placeholder?: string
+}
+
+export default function MyCKEditor(props: Props) {
 	const editorContainerRef = useRef(null);
 	const editorRef = useRef(null);
 	const [isLayoutReady, setIsLayoutReady] = useState(false);
@@ -168,7 +172,7 @@ export default function MyCKEditor() {
 						}
 					}
 				},
-				placeholder: 'Type or paste your content here!',
+				placeholder: props.placeholder,
 				table: {
 					contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
 				}
