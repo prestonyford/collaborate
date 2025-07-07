@@ -29,7 +29,8 @@ import {
 	ImageCaption,
 	ImageStyle,
 	ImageToolbar,
-	List
+	List,
+	type EditorConfig
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';
@@ -55,11 +56,7 @@ export default function MyCKEditor(props: Props) {
 		return () => setIsLayoutReady(false);
 	}, []);
 
-	const { editorConfig } = useMemo(() => {
-		if (!isLayoutReady) {
-			return {};
-		}
-
+	const { editorConfig } = useMemo<{ editorConfig: EditorConfig }>(() => {
 		return {
 			editorConfig: {
 				toolbar: {
