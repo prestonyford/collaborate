@@ -138,18 +138,6 @@ export default function MyCKEditor(props: Props) {
 							view: 'h4',
 							title: 'Heading 4',
 							class: 'ck-heading_heading4'
-						},
-						{
-							model: 'heading5',
-							view: 'h5',
-							title: 'Heading 5',
-							class: 'ck-heading_heading5'
-						},
-						{
-							model: 'heading6',
-							view: 'h6',
-							title: 'Heading 6',
-							class: 'ck-heading_heading6'
 						}
 					]
 				},
@@ -172,6 +160,12 @@ export default function MyCKEditor(props: Props) {
 				placeholder: props.placeholder,
 				table: {
 					contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
+				},
+				image: {
+					toolbar: [
+						'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', '|',
+						'toggleImageCaption', 'imageTextAlternative'
+					]
 				}
 			}
 		};
