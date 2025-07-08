@@ -8,6 +8,9 @@ export default interface ProjectCommunicator {
 	getOwnedAndSharedProjects(): Promise<ProjectDTO[]>
 	getProjectLabels( projectID: string ): Promise<LabelDTO[]>
 	getColumnsByProject(projectID: string): Promise<ColumnDTO[]>
+
+	// Cards
 	getCardSummaries( projectID: string, columnID: string, pageSize: number, lastCardID: string | null ): Promise<[CardSummaryDTO[], boolean]>
 	getCardInfo( projectID: string, cardID: string ): Promise<TaskDTO>
+	updateCardDescription( projectID: string, cardID: string, description: string ): Promise<void>
 }

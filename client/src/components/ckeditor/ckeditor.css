@@ -17,7 +17,7 @@
 	word-break: break-word;
 }
 
-/* Dark mode CKEditor theming using CSS variables */
+/* Dark mode */
 .dark .ckeditor-main-container, .dark .ck-body-wrapper {
 	/* Main stuff */
 	--ck-color-text: var(--color-text);
@@ -50,5 +50,7 @@
 	/* Inputs */
 	--ck-color-input-background: var(--color-surface);
 	--ck-color-labeled-field-label-background: var(--ck-color-dialog-background);
-	--ck-color-input-disabled-text: var(--color-gray-200)
+	--ck-color-input-disabled-text: var(--color-gray-200);
+
+	/* --ck-powered-by-background: var(--color-base); */
 }

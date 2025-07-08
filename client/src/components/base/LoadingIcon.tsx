@@ -1,12 +1,16 @@
 import clsx from 'clsx'
-import { useState } from 'react'
 
 interface Props {
 	modal?: boolean
+	size?: 'small' | 'medium' | 'large'
 }
 
-function LoadingIcon({ modal = false }: Props) {
-	const spinner = <div><i className="fa-solid fa-spinner animate-spin"></i></div>;
+function LoadingIcon({ modal = false, size = 'medium' }: Props) {
+	const spinner = <div className={clsx({
+		'text-[1.2rem]': size === 'small',
+		'': size === 'medium',
+		'text-lg': size === 'large',
+	})}><i className="fa-solid fa-spinner animate-spin"></i></div>;
 	
 	if (modal) {
 		return (

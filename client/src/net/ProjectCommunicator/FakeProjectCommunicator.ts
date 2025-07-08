@@ -211,4 +211,9 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			activity: []
 		}
 	}
+
+	async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
+		await new Promise(resolve => setTimeout(resolve, 2000));
+		console.log(`Saving card description ${cardID}: ${description}`);
+	}
 }
