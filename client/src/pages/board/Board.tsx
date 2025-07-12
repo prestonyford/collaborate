@@ -1,6 +1,9 @@
 import { DragDropContext, Droppable, type DroppableProvided, type DropResult } from '@hello-pangea/dnd'
 import { useBoardStore } from './boardStore';
 import BoardColumn from './BoardColumn';
+import './board.css'
+import { useState } from 'react';
+import clsx from 'clsx';
 
 interface Props {
 }
@@ -10,6 +13,7 @@ function Board(props: Props) {
 	const setColumns = useBoardStore((state) => state.setColumns);
 	const cardSummaries = useBoardStore((state) => state.cardSummaries);
 	const setCardSummary = useBoardStore((state) => state.setColumnCardSummaries);
+	const [hasAnimated, setHasAnimated] = useState(false);
 
 	function onDragEnd(result: DropResult) {
 		const { source, destination, type } = result;
@@ -40,27 +44,39 @@ function Board(props: Props) {
 		}
 	}
 
+	function onAnimationEnd(index: number) {
+		if (index === columns.length - 1) {
+			setHasAnimated(true);
+		}
+	}
+
 	return (
 		<>
 			<DragDropContext onDragEnd={onDragEnd}>
 				<Droppable droppableId='board' direction='horizontal' type='column'>
 					{(provided: DroppableProvided) => (
 						<div
-							className="pl-2 pr-4 pb-4 h-full w-full flex overflow-x-auto items-start"
+							className='h-full overflow-y-hidden'
 							ref={provided.innerRef}
 							{...provided.droppableProps}
 						>
-							{columns.map((column, i) => (
-								<div key={column.id} className="flex flex-col" style={{height: 'calc(100%)'}}>
-									<BoardColumn
+							<div className="pl-2 pr-4 pb-4 h-full w-full flex overflow-x-auto items-start">
+								{columns.map((column, i) => (
+									<div
 										key={column.id}
-										index={i}
-										columnID={column.id}
-										columnName={column.name}
-										columnColor={column.color}
-									/>
-								</div>
-							))}
+										className={clsx("h-full", {'column-item': !hasAnimated})}
+										style={{ animationDelay: `${i * 100}ms` }}
+										onAnimationEnd={() => onAnimationEnd(i)}
+									>
+										<BoardColumn
+											index={i}
+											columnID={column.id}
+											columnName={column.name}
+											columnColor={column.color}
+										/>
+									</div>
+								))}
+							</div>
 							{provided.placeholder}
 						</div>
 					)}
