@@ -25,7 +25,7 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 	const [open, setOpen] = useState(false);
 	const [pos, setPos] = useState({ top: 0, left: 0 });
 	const triggerRef = useRef<HTMLDivElement>(null);
-	const menuRef = useRef<HTMLUListElement>(null);
+	const menuRef = useRef<HTMLDivElement>(null);
 
 	const selected = options.find(opt => opt.id === selectedId) || null;
 	const handleSelect = (option: Option) => {
