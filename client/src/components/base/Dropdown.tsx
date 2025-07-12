@@ -95,7 +95,7 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 			</button>
 
 			{open && createPortal(
-				<ul
+				<div
 					ref={menuRef}
 					className="absolute z-40 mt-1 text-sm bg-base border border-gray-300 dark:border-gray-400 rounded-md shadow-lg overflow-auto"
 					style={{
@@ -106,16 +106,16 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 					}}
 				>
 					{options.map(option => (
-						<li
+						<div
 							key={option.id}
 							onClick={() => handleSelect(option)}
 							className={clsx("cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-700", { "px-4 py-1": isTextOption(option) })}
 							tabIndex={0}
 						>
 							{isTextOption(option) ? option.text : option.renderOption(option.id)}
-						</li>
+						</div>
 					))}
-				</ul>,
+				</div>,
 				document.body
 			)}
 		</div>

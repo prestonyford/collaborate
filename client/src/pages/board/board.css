@@ -1,20 +1,3 @@
-/* .column-appear {
-	opacity: 0;
-	transform: translateX(-20px);
-}
-
-.column-appear-active {
-	opacity: 1;
-	transform: translateX(0);
-	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
-}
-
-.column-exit-active {
-	opacity: 0;
-	transform: translateX(-20px);
-	transition: opacity 200ms ease-in-out, transform 200ms ease-in-out;
-} */
-
 .column-item {
 	animation: columnAppear 400ms ease-in-out forwards;
 	opacity: 0;
@@ -23,11 +6,9 @@
 @keyframes columnAppear {
 	from {
 		opacity: 0;
-		/* transform: translateX(-10px); */
 	}
 
 	to {
 		opacity: 1;
-		/* transform: translateX(0); */
 	}
 }

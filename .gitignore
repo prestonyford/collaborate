@@ -1,2 +1,14 @@
 .vscode/
 node_modules/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.db
+*.log
+*.pdb
+publish/
+*.Publish.xml
+.vs/
