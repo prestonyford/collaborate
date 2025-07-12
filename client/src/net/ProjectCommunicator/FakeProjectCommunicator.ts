@@ -1,3 +1,4 @@
+import type CardDiscussionItemDTO from "../../model/dto/CardDiscussionItemDTO";
 import type CardSummaryDTO from "../../model/dto/CardSummaryDTO";
 import type ColumnDTO from "../../model/dto/ColumnDTO";
 import type LabelDTO from "../../model/dto/LabelDTO";
@@ -215,5 +216,58 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 	async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
 		await new Promise(resolve => setTimeout(resolve, 2000));
 		console.log(`Saving card description ${cardID}: ${description}`);
+	}
+
+	async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+		return [false, [
+			{
+				id: 'cmt_1',
+				taskID: 'task_123',
+				authorID: 'user_1',
+				content: 'Initial question or comment.',
+				createdAt: Date.now() - 100000,
+				parentID: null
+			},
+			{
+				id: 'cmt_2',
+				taskID: 'task_123',
+				authorID: 'user_2',
+				content: 'Reply to the first comment.',
+				createdAt: Date.now() - 90000,
+				parentID: 'cmt_1'
+			},
+			{
+				id: 'cmt_3',
+				taskID: 'task_123',
+				authorID: 'user_3',
+				content: 'Another top-level comment.',
+				createdAt: Date.now() - 80000,
+				parentID: null
+			},
+			{
+				id: 'cmt_4',
+				taskID: 'task_123',
+				authorID: 'user_2',
+				content: 'Second-level reply.',
+				createdAt: Date.now() - 70000,
+				parentID: 'cmt_2'
+			},
+			{
+				id: 'cmt_5',
+				taskID: 'task_123',
+				authorID: 'user_1',
+				content: 'Reply to second top-level.',
+				createdAt: Date.now() - 60000,
+				parentID: 'cmt_3'
+			},
+			{
+				id: 'cmt_6',
+				taskID: 'task_123',
+				authorID: 'user_4',
+				content: 'Third top-level comment.',
+				createdAt: Date.now() - 50000,
+				parentID: null
+			}
+		]];
 	}
 }

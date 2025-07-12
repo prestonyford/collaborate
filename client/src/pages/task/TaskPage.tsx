@@ -8,6 +8,7 @@ import NotFound from "../NotFound";
 import Button from "../../components/base/Button";
 import MyCKEditor from "../../components/ckeditor/MyCKEditor";
 import Description from "./Description";
+import Discussion from "./Discussion";
 
 interface Props {
 
@@ -74,10 +75,7 @@ function TaskPage(props: Props) {
 							Names of participants here
 						</div>
 
-						<h3 className="mt-4">Discussion</h3>
-						<div className="text-text-muted flex flex-col pt-1">
-							Discussion here
-						</div>
+						<Discussion />
 					</div>
 				</Page>
 			}

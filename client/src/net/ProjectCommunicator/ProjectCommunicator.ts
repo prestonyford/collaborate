@@ -1,3 +1,4 @@
+import type CardDiscussionItemDTO from "../../model/dto/CardDiscussionItemDTO";
 import type CardSummaryDTO from "../../model/dto/CardSummaryDTO";
 import type ColumnDTO from "../../model/dto/ColumnDTO";
 import type LabelDTO from "../../model/dto/LabelDTO";
@@ -13,4 +14,5 @@ export default interface ProjectCommunicator {
 	getCardSummaries( projectID: string, columnID: string, pageSize: number, lastCardID: string | null ): Promise<[CardSummaryDTO[], boolean]>
 	getCardInfo( projectID: string, cardID: string ): Promise<TaskDTO>
 	updateCardDescription( projectID: string, cardID: string, description: string ): Promise<void>
+	getCardDiscussion( projectID: string, cardID: string, pageSize: number, lastItemID: string | null ): Promise<[boolean, CardDiscussionItemDTO[]]>
 }

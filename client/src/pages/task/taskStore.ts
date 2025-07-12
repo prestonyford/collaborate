@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import type TaskDTO from '../../model/dto/TaskDTO';
 import type LabelDTO from '../../model/dto/LabelDTO';
 import { useServiceStore } from '../../serviceStore';
+import type CardDiscussionItemDTO from '../../model/dto/CardDiscussionItemDTO';
 
 interface TaskState {
 	projectID?: string
@@ -9,10 +10,12 @@ interface TaskState {
 	task: TaskDTO | null
 	projectLabels: LabelDTO[]
 	editingDescription: boolean
+	discussionItems: CardDiscussionItemDTO[]
 	initialize: (projectID: string, taskID: string) => Promise<void>
 	reset: () => void
 	setEditingDescription: (val: boolean) => void
 	saveDescription: (description: string) => Promise<void>
+	loadDiscussionItems: (pageSize: number, lastItemID: string | null) => Promise<boolean>
 }
 
 const initialState = {
@@ -20,7 +23,8 @@ const initialState = {
 	isLoading: false,
 	task: null,
 	projectLabels: [],
-	editingDescription: false
+	editingDescription: false,
+	discussionItems: []
 }
 
 const useTaskStore = create<TaskState>()((set, get) => {
@@ -54,6 +58,19 @@ const useTaskStore = create<TaskState>()((set, get) => {
 					description
 				}
 			});
+		},
+		loadDiscussionItems: async (pageSize: number, lastItemID: string | null) => {
+			const { projectID, task } = get();
+			if (!projectID || !task) throw new Error("Cannot load discussion items without project and task loaded.");
+			const [hasMore, newItems] = await projectCommunicator.getCardDiscussion(projectID, task.id, pageSize, lastItemID);
+			set(state => {
+				const existingIDs = new Set(state.discussionItems.map(i => i.id));
+				const uniqueNewItems = newItems.filter(i => !existingIDs.has(i.id));
+				return {
+					discussionItems: [...state.discussionItems, ...uniqueNewItems]
+				};
+			});
+			return hasMore
 		}
 	}
 });

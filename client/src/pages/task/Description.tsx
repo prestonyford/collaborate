@@ -32,7 +32,7 @@ function Description(props: Props) {
 		<>
 			<div className="mt-4 mb-1 flex items-center">
 				<h3 className="">Description</h3>
-				<div className="ml-2.5 flex gap-2 items-center">
+				<div className="ml-2.5 flex gap-2 items-center select-none">
 					{editingDescription
 						? <>
 							<Button
