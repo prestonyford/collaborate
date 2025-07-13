@@ -12,6 +12,7 @@ interface ProjectState {
 	cardSummaries: Record<string, CardSummaryDTO[]>
 	initialize: (projectID: string) => Promise<void>
 	reset: () => void
+	setLoading: (isLoading: boolean) => void
 	setColumns: (newColumns: ColumnDTO[]) => void
 	setColumnCardSummaries: (columnID: string, newCardSummaries: CardSummaryDTO[]) => void
 }
@@ -30,29 +31,28 @@ const useBoardStore = create<ProjectState>()(set => {
 		...defaultState,
 
 		initialize: async (projectID: string) => {
-			set({ isLoading: true });
-			try {
-				const [projectLabels, columns] = await Promise.all([
-					projectCommunicator.getProjectLabels(projectID),
-					projectCommunicator.getColumnsByProject(projectID)
-				]);
-				set({ projectLabels, columns });
-				for (let col of columns) {
-					const [cardSummaries, hasMore] = await projectCommunicator.getCardSummaries(projectID, col.id, 10, null);
-					set(state => ({
-						cardSummaries: {
-							...state.cardSummaries,
-							[col.id]: cardSummaries
-						}
-					}));
-				}
-			} finally {
-				set({ isLoading: false });
+			const [projectLabels, columns] = await Promise.all([
+				projectCommunicator.getProjectLabels(projectID),
+				projectCommunicator.getColumnsByProject(projectID)
+			]);
+			set({ projectLabels, columns });
+			for (let col of columns) {
+				const [cardSummaries, hasMore] = await projectCommunicator.getCardSummaries(projectID, col.id, 10, null);
+				set(state => ({
+					cardSummaries: {
+						...state.cardSummaries,
+						[col.id]: cardSummaries
+					}
+				}));
 			}
 		},
 
 		reset: () => {
 			set(defaultState);
+		},
+
+		setLoading: (isLoading: boolean) => {
+			set({ isLoading });
 		},
 
 		setColumns: (newColumns: ColumnDTO[]) => {

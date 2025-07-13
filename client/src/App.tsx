@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import Project from './pages/Project'
+import Project from './pages/board/Project'
 import Navbar from './components/navigation/Navbar'
 import Sidebar from './components/navigation/Sidebar/Sidebar'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'

@@ -125,6 +125,7 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 	}
 
 	async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
+		// throw new Error("error");
 		return [
 			{
 				id: "1",

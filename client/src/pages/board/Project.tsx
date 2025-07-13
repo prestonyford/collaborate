@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react'
-import Button from '../components/base/Button'
-import Board from './board/Board';
-import { useBoardStore } from './board/boardStore';
-import LoadingIcon from '../components/base/LoadingIcon';
-import LabelChecklistDropdown from './board/LabelChecklistDropdown';
-import Page from './Page';
+import Button from '../../components/base/Button'
+import Board from './Board';
+import { useBoardStore } from './boardStore';
+import LoadingIcon from '../../components/base/LoadingIcon';
+import LabelChecklistDropdown from './LabelChecklistDropdown';
+import Page from '../Page';
+import ErrorView from '../../components/base/ErrorView';
+import { useAsyncWithError } from '../../hooks/useAsyncWithError';
 
 interface Props {
 
 }
 
 function Project(props: Props) {
-	const isLoading = useBoardStore((state) => state.isLoading);
 	const initialize = useBoardStore((state) => state.initialize);
 	const reset = useBoardStore((state) => state.reset);
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
+	const { error, loading } = useAsyncWithError(async () => initialize(""), [initialize, reset]);
 
-	useEffect(() => {
-		initialize("");
-		return reset;
-	}, [initialize]);
+	if (error) {
+		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
+	}
 
 	return (
 		<>
@@ -31,7 +32,7 @@ function Project(props: Props) {
 					<LabelChecklistDropdown onInput={() => { }} selectedIds={[]} defaultText="Filter labels" />
 				</div>
 			</>}>
-				{isLoading
+				{loading
 					? <LoadingIcon />
 					: <Board />
 				}
