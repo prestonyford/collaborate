@@ -64,7 +64,7 @@ function Board(props: Props) {
 								{columns.map((column, i) => (
 									<div
 										key={column.id}
-										className={clsx("h-full", {'column-item': !hasAnimated})}
+										className={clsx("h-full flex flex-col", {'column-item': !hasAnimated})}
 										style={{ animationDelay: `${i * 100}ms` }}
 										onAnimationEnd={() => onAnimationEnd(i)}
 									>
