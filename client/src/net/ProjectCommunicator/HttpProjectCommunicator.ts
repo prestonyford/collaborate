@@ -24,7 +24,8 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 		if (lastCardID) {
 			params.set("last", lastCardID);
 		}
-		return this.makeRequest(`/projects/${projectID}/columns/${columnID}/taskSummaries?${params}`);
+		const response = await this.makeRequest(`/projects/${projectID}/columns/${columnID}/taskSummaries?${params}`);
+		return [response.tasks, response.hasMore];
 	}
 	async getCardInfo(projectID: string, taskID: string): Promise<TaskDTO> {
 		return this.makeRequest(`/projects/${projectID}/tasks/${taskID}`);

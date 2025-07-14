@@ -16,7 +16,7 @@ function Project(props: Props) {
 	const initialize = useBoardStore((state) => state.initialize);
 	const reset = useBoardStore((state) => state.reset);
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
-	const { error, loading } = useAsyncWithError(async () => initialize(""), [initialize, reset]);
+	const { error, loading } = useAsyncWithError(async () => initialize("1"), [initialize, reset]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
