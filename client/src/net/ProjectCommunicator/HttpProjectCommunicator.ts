@@ -9,27 +9,25 @@ import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class HttpProjectCommunicator extends HttpCommunicator implements ProjectCommunicator {
 	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
-		return this.makeRequest("/projects");
+		return this.makeRequest(`/projects`);
 	}
 	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
-		return this.makeRequest(`/projectLabels?id=${projectID}`);
+		return this.makeRequest(`/projects/${projectID}/labels`);
 	}
 	async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
-		return this.makeRequest(`/projectColumns?id=${projectID}`);
+		return this.makeRequest(`/projects/${projectID}/columns`);
 	}
 	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		const params = new URLSearchParams({
-			id: projectID,
-			colid: columnID,
-			size: pageSize.toString(),
+			limit: pageSize.toString(),
 		});
 		if (lastCardID) {
 			params.set("last", lastCardID);
 		}
-		return this.makeRequest(`/projectCardSummaries?${params}`);
+		return this.makeRequest(`/projects/${projectID}/columns/${columnID}/taskSummaries?${params}`);
 	}
 	async getCardInfo(projectID: string, taskID: string): Promise<TaskDTO> {
-		return this.makeRequest(`/cardInfo?id=${projectID}&taskid=${taskID}`);
+		return this.makeRequest(`/projects/${projectID}/tasks/${taskID}`);
 	}
 	async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
 		throw new Error("Method not implemented.");
