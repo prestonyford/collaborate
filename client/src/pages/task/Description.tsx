@@ -21,9 +21,14 @@ function Description(props: Props) {
 
 	async function handleSave() {
 		setSavingDescription(true);
-		await saveDescription(newDescription);
-		setEditingDescription(false);
-		setSavingDescription(false);
+		try {
+			await saveDescription(newDescription);
+			setEditingDescription(false);
+		} catch (error) {
+			alert("An error occured while saving the description. Please try again.");
+		} finally {
+			setSavingDescription(false);
+		}
 	}
 
 	if (!task) return null;
