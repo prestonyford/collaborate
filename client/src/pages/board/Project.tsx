@@ -26,7 +26,7 @@ function Project(props: Props) {
 		return <NotFound />;
 	}
 
-	const { error, loading } = useAsyncWithError(async () => initialize(projectID), [initialize, reset]);
+	const { error, loading } = useAsyncWithError(async () => initialize(projectID), [initialize, reset, projectID]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
