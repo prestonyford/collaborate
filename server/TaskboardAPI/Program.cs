@@ -22,6 +22,15 @@ apiRoutes.MapGet("/projects", async (AppDbContext db) =>
 });
 
 var projectRoutes = apiRoutes.MapGroup("/projects/{pid}");
+projectRoutes.MapGet("", async (int pid, AppDbContext db) =>
+{
+    var project = await db.Projects.FindAsync(pid);
+    if (project == null)
+    {
+        return Results.NotFound();
+    }
+    return Results.Ok(project);
+});
 projectRoutes.MapGet("/labels", async (int pid, AppDbContext db) =>
 {
     return await db.Labels.Where(l => l.ProjectId == pid).ToListAsync();

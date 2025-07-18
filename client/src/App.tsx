@@ -16,11 +16,11 @@ function App() {
 					<Routes>
 						<Route
 							index
-							element={<Navigate to={`/projects/default`} replace />}
+							element={<Navigate to={`/projects/1`} replace />}
 						/>
 						<Route
 							path="projects"
-							element={<Navigate to={`/projects/default`} replace />}
+							element={<Navigate to={`/projects/1`} replace />}
 						/>
 						<Route path="projects/:pid" element={<Layout />}>
 							<Route index element={<Project />} />

@@ -11,6 +11,9 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
 		return this.makeRequest<ProjectDTO[]>(`/projects`);
 	}
+	async getProject(projectID: string): Promise<ProjectDTO> {
+		return this.makeRequest<ProjectDTO>(`/projects/${projectID}`);
+	}
 	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
 		return this.makeRequest<LabelDTO[]>(`/projects/${projectID}/labels`);
 	}

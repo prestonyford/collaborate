@@ -104,6 +104,16 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		]
 	}
 
+	async getProject(projectID: string): Promise<ProjectDTO> {
+		return {
+			id: '1',
+			name: 'Project 1',
+			numColumns: 3,
+			numTasks: 2,
+			owner: 'pyford'
+		}
+	}
+
 	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
 		return [
 			{ id: '0', projectID: '1', title: 'Frontend', color: '#f44336' },        // red

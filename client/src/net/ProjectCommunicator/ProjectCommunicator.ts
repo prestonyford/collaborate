@@ -7,6 +7,7 @@ import type TaskDTO from "../../model/dto/TaskDTO";
 
 export default interface ProjectCommunicator {
 	getOwnedAndSharedProjects(): Promise<ProjectDTO[]>
+	getProject( projectID: string ): Promise<ProjectDTO>
 	getProjectLabels( projectID: string ): Promise<LabelDTO[]>
 	getColumnsByProject(projectID: string): Promise<ColumnDTO[]>
 

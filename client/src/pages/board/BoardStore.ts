@@ -3,10 +3,12 @@ import type ColumnDTO from '../../model/dto/ColumnDTO';
 import type CardSummaryDTO from '../../model/dto/CardSummaryDTO';
 import type LabelDTO from '../../model/dto/LabelDTO';
 import { useServiceStore } from '../../serviceStore';
+import type ProjectDTO from '../../model/dto/ProjectDTO';
 
 
 interface ProjectState {
 	isLoading: boolean
+	project: ProjectDTO | null
 	projectLabels: LabelDTO[]
 	columns: ColumnDTO[]
 	cardSummaries: Record<string, CardSummaryDTO[]>
@@ -19,6 +21,7 @@ interface ProjectState {
 
 const defaultState = {
 	isLoading: false,
+	project: null,
 	projectLabels: [],
 	columns: [],
 	cardSummaries: {},
@@ -31,11 +34,12 @@ const useBoardStore = create<ProjectState>()(set => {
 		...defaultState,
 
 		initialize: async (projectID: string) => {
-			const [projectLabels, columns] = await Promise.all([
+			const [project, projectLabels, columns] = await Promise.all([
+				projectService.getProject(projectID),
 				projectService.getProjectLabels(projectID),
 				projectService.getColumnsByProject(projectID)
 			]);
-			set({ projectLabels, columns });
+			set({ project, projectLabels, columns });
 			for (let col of columns) {
 				const [cardSummaries, hasMore] = await projectService.getCardSummaries(projectID, col.id, 10, null);
 				set(state => ({

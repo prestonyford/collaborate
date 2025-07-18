@@ -16,6 +16,9 @@ export default class ProjectService {
 	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
 		return this.communicator.getOwnedAndSharedProjects();
 	}
+	async getProject(projectID: string): Promise<ProjectDTO> {
+		return this.communicator.getProject(projectID);
+	}
 	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
 		return this.communicator.getProjectLabels(projectID);
 	}

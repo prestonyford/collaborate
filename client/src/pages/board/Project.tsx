@@ -7,6 +7,8 @@ import LabelChecklistDropdown from './LabelChecklistDropdown';
 import Page from '../Page';
 import ErrorView from '../../components/base/ErrorView';
 import { useAsyncWithError } from '../../hooks/useAsyncWithError';
+import { useParams } from 'react-router-dom';
+import NotFound from '../NotFound';
 
 interface Props {
 
@@ -15,8 +17,16 @@ interface Props {
 function Project(props: Props) {
 	const initialize = useBoardStore((state) => state.initialize);
 	const reset = useBoardStore((state) => state.reset);
+	const project = useBoardStore((state) => state.project);
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
-	const { error, loading } = useAsyncWithError(async () => initialize("1"), [initialize, reset]);
+
+	const params = useParams();
+	const projectID = params.pid;
+	if (projectID === undefined) {
+		return <NotFound />;
+	}
+
+	const { error, loading } = useAsyncWithError(async () => initialize(projectID), [initialize, reset]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
@@ -25,7 +35,7 @@ function Project(props: Props) {
 	return (
 		<>
 			<Page title={<>
-				<h1 className="basis-0 grow truncate pr-2">Project Name Here</h1>
+				<h1 className="basis-0 grow truncate pr-2">{project?.name}</h1>
 				<div className='flex gap-3 text-sm'>
 					<Button content="Add column" variant="primary" />
 					<Button content="Share" variant="secondary" />
