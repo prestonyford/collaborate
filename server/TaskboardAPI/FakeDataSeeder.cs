@@ -15,32 +15,36 @@
             if (!db.Columns.Any())
             {
                 db.Columns.AddRange(
-                    new() { Id = 1, ProjectID = 1, Name = "Column 1", Color = "#f44336" },
-                    new() { Id = 2, ProjectID = 1, Name = "Column 2", Color = "#00D3F2" },
-                    new() { Id = 3, ProjectID = 1, Name = "Column 3", Color = "#BBF451" }
+                    new() { Id = 1, ProjectId = 1, Name = "Column 1", Color = "#f44336" },
+                    new() { Id = 2, ProjectId = 1, Name = "Column 2", Color = "#00D3F2" },
+                    new() { Id = 3, ProjectId = 1, Name = "Column 3", Color = "#BBF451" }
                 );
             }
 
-            if (!db.TaskSummaries.Any())
+            if (!db.Tasks.Any())
             {
-                db.TaskSummaries.AddRange(
+                db.Tasks.AddRange(
                     new()
                     {
                         Id = 1,
-                        ProjectID = 1,
+                        ProjectId = 1,
                         Title = "Task 1",
-                        ColumnID = 1,
+                        ColumnId = 1,
                         CreationDate = 1750383235022,
-                        Labels = [1]
+                        Labels = [1],
+                        CreatedBy = "pyford",
+                        Description = "Hello, world!"
                     },
                     new()
                     {
                         Id = 2,
-                        ProjectID = 1,
+                        ProjectId = 1,
                         Title = "Task 2",
-                        ColumnID = 2,
+                        ColumnId = 2,
                         CreationDate = 1750383235023,
-                        Labels = [1]
+                        Labels = [1],
+                        CreatedBy = "pyford",
+                        Description = "Hello, world 2!"
                     }
                 );
             }
@@ -48,8 +52,8 @@
             if (!db.Labels.Any())
             {
                 db.Labels.AddRange(
-                    new() { Id = 1, ProjectID = 1, Color = "#f44336", Title = "Label 1" },
-                    new() { Id = 2, ProjectID = 1, Color = "#2196f3", Title = "Label 2" }
+                    new() { Id = 1, ProjectId = 1, Color = "#f44336", Title = "Label 1" },
+                    new() { Id = 2, ProjectId = 1, Color = "#2196f3", Title = "Label 2" }
                 );
             }
 

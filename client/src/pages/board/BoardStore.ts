@@ -25,19 +25,19 @@ const defaultState = {
 }
 
 const useBoardStore = create<ProjectState>()(set => {
-	const { projectCommunicator } = useServiceStore.getState();
+	const { projectService } = useServiceStore.getState();
 	
 	return {
 		...defaultState,
 
 		initialize: async (projectID: string) => {
 			const [projectLabels, columns] = await Promise.all([
-				projectCommunicator.getProjectLabels(projectID),
-				projectCommunicator.getColumnsByProject(projectID)
+				projectService.getProjectLabels(projectID),
+				projectService.getColumnsByProject(projectID)
 			]);
 			set({ projectLabels, columns });
 			for (let col of columns) {
-				const [cardSummaries, hasMore] = await projectCommunicator.getCardSummaries(projectID, col.id, 10, null);
+				const [cardSummaries, hasMore] = await projectService.getCardSummaries(projectID, col.id, 10, null);
 				set(state => ({
 					cardSummaries: {
 						...state.cardSummaries,

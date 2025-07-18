@@ -9,13 +9,13 @@ import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class HttpProjectCommunicator extends HttpCommunicator implements ProjectCommunicator {
 	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
-		return this.makeRequest(`/projects`);
+		return this.makeRequest<ProjectDTO[]>(`/projects`);
 	}
 	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
-		return this.makeRequest(`/projects/${projectID}/labels`);
+		return this.makeRequest<LabelDTO[]>(`/projects/${projectID}/labels`);
 	}
 	async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
-		return this.makeRequest(`/projects/${projectID}/columns`);
+		return this.makeRequest<ColumnDTO[]>(`/projects/${projectID}/columns`);
 	}
 	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		const params = new URLSearchParams({
@@ -24,7 +24,7 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 		if (lastCardID) {
 			params.set("last", lastCardID);
 		}
-		const response = await this.makeRequest(`/projects/${projectID}/columns/${columnID}/taskSummaries?${params}`);
+		const response = await this.makeRequest<{tasks: CardSummaryDTO[], hasMore: boolean}>(`/projects/${projectID}/columns/${columnID}/taskSummaries?${params}`);
 		return [response.tasks, response.hasMore];
 	}
 	async getCardInfo(projectID: string, taskID: string): Promise<TaskDTO> {

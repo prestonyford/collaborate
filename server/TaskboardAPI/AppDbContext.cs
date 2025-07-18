@@ -10,17 +10,17 @@ namespace TaskboardAPI
 
         public DbSet<Project> Projects => Set<Project>();
         public DbSet<Column> Columns => Set<Column>();
-        public DbSet<TaskSummary> TaskSummaries => Set<TaskSummary>();
+        public DbSet<ProjectTask> Tasks => Set<ProjectTask>();
         public DbSet<Label> Labels => Set<Label>();
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Column>()
-                .HasIndex(c => c.ProjectID);
-            modelBuilder.Entity<TaskSummary>()
-                .HasIndex(c => c.ColumnID);
+                .HasIndex(c => c.ProjectId);
+            modelBuilder.Entity<ProjectTask>()
+                .HasIndex(c => c.ColumnId);
             modelBuilder.Entity<Label>()
-                .HasIndex(c => c.ProjectID);
+                .HasIndex(c => c.ProjectId);
         }
     }
 }

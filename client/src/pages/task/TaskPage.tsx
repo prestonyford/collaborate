@@ -9,6 +9,8 @@ import Button from "../../components/base/Button";
 import MyCKEditor from "../../components/ckeditor/MyCKEditor";
 import Description from "./Description";
 import Discussion from "./Discussion";
+import { useAsyncWithError } from "../../hooks/useAsyncWithError";
+import ErrorView from "../../components/base/ErrorView";
 
 interface Props {
 
@@ -18,9 +20,9 @@ function TaskPage(props: Props) {
 	const params = useParams();
 	const navigate = useNavigate();
 
+
 	const initialize = useTaskStore(state => state.initialize);
 	const reset = useTaskStore(state => state.reset);
-	const isLoading = useTaskStore(state => state.isLoading);
 	const task = useTaskStore(state => state.task);
 	const projectLabels = useTaskStore(state => state.projectLabels);
 
@@ -37,17 +39,18 @@ function TaskPage(props: Props) {
 
 	const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
 
-	useEffect(() => {
-		initialize(projectID, taskID);
-		return reset;
-	}, [initialize]);
+	const { error, loading } = useAsyncWithError(async () => initialize(projectID, taskID), [initialize, reset]);
+
+	if (error) {
+		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
+	}
 
 	return (
 		<>
-			{isLoading || task === null
+			{loading || task === null
 				? <LoadingIcon />
 				: <Page title={<div className="w-full -mb-2 flex justify-between items-center">
-					<h1 className="">Card Name Here</h1>
+					<h1 className="">{task.title}</h1>
 				</div>}>
 					<div className="px-6">
 						<div className="text-text-muted text-sm flex gap-6">

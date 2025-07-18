@@ -15,7 +15,7 @@ function Sidebar({ className = '' }: Props) {
 	const params = useParams();
 	const activeProjectID = params.pid;
 
-	const projectCommunicator = useServiceStore((state) => state.projectCommunicator);
+	const projectCommunicator = useServiceStore((state) => state.projectService);
 
 	const [loading, setLoading] = useState<boolean>(false);
 	const [allProjects, setAllProjects] = useState<ProjectDTO[]>([]);
