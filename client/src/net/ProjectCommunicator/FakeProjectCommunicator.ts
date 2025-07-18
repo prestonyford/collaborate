@@ -106,21 +106,21 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 
 	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
 		return [
-			{ id: '0', title: 'Frontend', color: '#f44336' },        // red
-			{ id: '1', title: 'Backend', color: '#2196f3' },         // blue
-			{ id: '2', title: 'In Progress', color: '#ffeb3b' },     // yellow
-			{ id: '3', title: 'Design Review', color: '#4caf50' },   // green
-			{ id: '4', title: 'UX', color: '#9c27b0' },              // purple
-			{ id: '5', title: '🔥 Hotfix', color: '#ff5722' },       // deep orange
-			{ id: '6', title: 'QA Needed', color: '#795548' },       // brown
-			{ id: '7', title: 'v1.2.0-beta', color: '#607d8b' },     // blue grey
-			{ id: '8', title: 'A', color: '#000000' },               // black
-			{ id: '9', title: 'Z', color: '#ffffff' },               // white
-			{ id: '10', title: 'This Label Has a Really Long Name', color: '#03a9f4' },
-			{ id: '11', title: 'Done', color: '#cddc39' },           // lime
-			{ id: '12', title: 'Stuck', color: '#e91e63' },          // pink
-			{ id: '13', title: 'Low Priority', color: '#ff9800' },   // orange
-			{ id: '14', title: 'Dark Theme Test', color: '#121212' } // very dark
+			{ id: '0', projectID: '1', title: 'Frontend', color: '#f44336' },        // red
+			{ id: '1', projectID: '1', title: 'Backend', color: '#2196f3' },         // blue
+			{ id: '2', projectID: '1', title: 'In Progress', color: '#ffeb3b' },     // yellow
+			{ id: '3', projectID: '1', title: 'Design Review', color: '#4caf50' },   // green
+			{ id: '4', projectID: '1', title: 'UX', color: '#9c27b0' },              // purple
+			{ id: '5', projectID: '1', title: '🔥 Hotfix', color: '#ff5722' },       // deep orange
+			{ id: '6', projectID: '1', title: 'QA Needed', color: '#795548' },       // brown
+			{ id: '7', projectID: '1', title: 'v1.2.0-beta', color: '#607d8b' },     // blue grey
+			{ id: '8', projectID: '1', title: 'A', color: '#000000' },               // black
+			{ id: '9', projectID: '1', title: 'Z', color: '#ffffff' },               // white
+			{ id: '10',  projectID: '1', title: 'This Label Has a Really Long Name', color: '#03a9f4' },
+			{ id: '11',  projectID: '1', title: 'Done', color: '#cddc39' },           // lime
+			{ id: '12',  projectID: '1', title: 'Stuck', color: '#e91e63' },          // pink
+			{ id: '13',  projectID: '1', title: 'Low Priority', color: '#ff9800' },   // orange
+			{ id: '14',  projectID: '1', title: 'Dark Theme Test', color: '#121212' } // very dark
 		]
 	}
 
@@ -129,21 +129,25 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		return [
 			{
 				id: "1",
+				projectID: "1",
 				name: "Column 1",
 				color: "#ff6467"
 			},
 			{
 				id: "2",
+				projectID: "1",
 				name: "Column 2",
 				color: "#00D3F2"
 			},
 			{
 				id: "3",
+				projectID: "1",
 				name: "Column 3",
 				color: "#BBF451"
 			},
 			{
 				id: "4",
+				projectID: "1",
 				name: "Column 4",
 				color: "#FFB900"
 			},
@@ -204,6 +208,7 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		await new Promise(resolve => setTimeout(resolve, 500));
 		return {
 			id: cardID,
+			projectID: '1',
 			columnID: '1',
 			title: 'Card Name!!',
 			creationDate: 1751732710021,

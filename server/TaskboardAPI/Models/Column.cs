@@ -2,8 +2,9 @@
 {
     public class Column
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Color { get; set; }
+        public required int Id { get; set; }
+        public required int ProjectID { get; set; }
+        public required string Name { get; set; }
+        public required string Color { get; set; }
     }
 }
