@@ -2,7 +2,7 @@
 {
     public class Project
     {
-        public required int Id { get; set; }
+        public int Id { get; set; }
         public required string Name { get; set; }
         public required int NumColumns { get; set; }
         public required int NumTasks { get; set; }

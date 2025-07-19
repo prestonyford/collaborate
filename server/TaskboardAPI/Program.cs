@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using TaskboardAPI;
 using TaskboardAPI.Models;
+using TaskboardAPI.Request;
 using TaskboardAPI.Response;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,20 +32,32 @@ projectRoutes.MapGet("", async (int pid, AppDbContext db) =>
     }
     return Results.Ok(project);
 });
+
 projectRoutes.MapGet("/labels", async (int pid, AppDbContext db) =>
 {
     return await db.Labels.Where(l => l.ProjectId == pid).ToListAsync();
 });
+
+projectRoutes.MapPost("/columns", async (int pid, CreateColumnRequest request, AppDbContext db) =>
+{
+    Column column = new Column { Name = request.Name, Color = request.Color, ProjectId = pid };
+    await db.Columns.AddAsync(column);
+    await db.SaveChangesAsync();
+    return Results.Created($"/api/projects/{pid}/columns/{column.Id}", column);
+});
+
 projectRoutes.MapGet("/columns", async (int pid, AppDbContext db) =>
 {
     return await db.Columns.Where(c => c.ProjectId == pid).ToListAsync();
 });
+
 projectRoutes.MapGet("/columns/{cid}/taskSummaries", async (int pid, int cid, AppDbContext db) =>
 {
     var tasks = await db.Tasks.Where(t => t.ProjectId == pid && t.ColumnId == cid).ToListAsync();
     var taskSummaries = tasks.Select<ProjectTask, TaskSummary>(task => TaskMapper.ToSummary(task));
     return new TaskSummariesResponse { HasMore = false, Tasks = taskSummaries.ToList() };
 });
+
 projectRoutes.MapGet("/tasks/{tid}", async (int pid, int tid, AppDbContext db) =>
 {
     var task = await db.Tasks.FindAsync(tid);

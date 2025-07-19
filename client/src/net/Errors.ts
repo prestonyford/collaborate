@@ -18,3 +18,9 @@ export class UnauthorizedError extends HttpError {
 		super(message, 401);
 	}
 }
+
+export class ServerError extends HttpError {
+	constructor(message = 'The server appears to be down. Please try again later.') {
+		super(message, 500);
+	}
+}

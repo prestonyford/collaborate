@@ -17,6 +17,7 @@ interface ProjectState {
 	setLoading: (isLoading: boolean) => void
 	setColumns: (newColumns: ColumnDTO[]) => void
 	setColumnCardSummaries: (columnID: string, newCardSummaries: CardSummaryDTO[]) => void
+	createColumn: (name: string, color: string) => Promise<void>
 }
 
 const defaultState = {
@@ -27,7 +28,7 @@ const defaultState = {
 	cardSummaries: {},
 }
 
-const useBoardStore = create<ProjectState>()(set => {
+const useBoardStore = create<ProjectState>()((set, get) => {
 	const { projectService } = useServiceStore.getState();
 	
 	return {
@@ -69,6 +70,17 @@ const useBoardStore = create<ProjectState>()(set => {
 					...state.cardSummaries,
 					[columnID]: newCardSummaries
 				}
+			}));
+		},
+
+		createColumn: async (name: string, color: string) => {
+			const pid = get().project?.id;
+			if (!pid) {
+				throw new Error("Cannot create a column outside of a project");
+			}
+			const newColumn = await projectService.createColumn(pid, name, color);
+			set(state => ({
+				columns: [...state.columns, newColumn]
 			}));
 		}
 	}

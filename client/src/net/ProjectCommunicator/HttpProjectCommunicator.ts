@@ -20,6 +20,12 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
 		return this.makeRequest<ColumnDTO[]>(`/projects/${projectID}/columns`);
 	}
+	async createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO> {
+		return this.makeRequest<ColumnDTO>(`/projects/${projectID}/columns`, {
+			method: 'POST',
+			body: JSON.stringify({ name, color })
+		});
+	}
 	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		const params = new URLSearchParams({
 			limit: pageSize.toString(),

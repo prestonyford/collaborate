@@ -10,6 +10,7 @@ export default interface ProjectCommunicator {
 	getProject( projectID: string ): Promise<ProjectDTO>
 	getProjectLabels( projectID: string ): Promise<LabelDTO[]>
 	getColumnsByProject(projectID: string): Promise<ColumnDTO[]>
+	createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO>
 
 	// Cards
 	getCardSummaries( projectID: string, columnID: string, pageSize: number, lastCardID: string | null ): Promise<[CardSummaryDTO[], boolean]>

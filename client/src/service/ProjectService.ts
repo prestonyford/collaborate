@@ -10,14 +10,14 @@ import type ProjectCommunicator from "../net/ProjectCommunicator/ProjectCommunic
 export default class ProjectService {
 	private readonly communicator: ProjectCommunicator
 
-	constructor(communicator: ProjectCommunicator) {
+	public constructor(communicator: ProjectCommunicator) {
 		this.communicator = communicator;
 	}
 
-	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
+	public async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
 		return this.communicator.getOwnedAndSharedProjects();
 	}
-	async getProject(projectID: string): Promise<ProjectDTO> {
+	public async getProject(projectID: string): Promise<ProjectDTO> {
 		try {
 			return await this.communicator.getProject(projectID);
 		} catch (error) {
@@ -27,16 +27,19 @@ export default class ProjectService {
 			throw error;
 		}
 	}
-	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
+	public async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
 		return this.communicator.getProjectLabels(projectID);
 	}
-	async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
+	public async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
 		return this.communicator.getColumnsByProject(projectID);
 	}
-	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
+	public async createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO> {
+		return this.communicator.createColumn(projectID, name, color);
+	}
+	public async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		return this.communicator.getCardSummaries(projectID, columnID, pageSize, lastCardID);
 	}
-	async getCardInfo(projectID: string, taskID: string): Promise<TaskDTO> {
+	public async getCardInfo(projectID: string, taskID: string): Promise<TaskDTO> {
 		try {
 			return await this.communicator.getCardInfo(projectID, taskID);
 		} catch (error) {
@@ -46,10 +49,10 @@ export default class ProjectService {
 			throw error;
 		}
 	}
-	async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
-		throw this.communicator.updateCardDescription(projectID, cardID, description);
+	public async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
+		return this.communicator.updateCardDescription(projectID, cardID, description);
 	}
-	async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
-		throw this.communicator.getCardDiscussion(projectID, cardID, pageSize, lastItemID);
+	public async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+		return this.communicator.getCardDiscussion(projectID, cardID, pageSize, lastItemID);
 	}
 }

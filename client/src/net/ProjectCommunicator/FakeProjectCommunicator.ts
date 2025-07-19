@@ -164,6 +164,15 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		]
 	}
 
+	async createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO> {
+		return {
+			id: '999',
+			projectID,
+			name,
+			color
+		}
+	}
+
 	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		await new Promise(resolve => setTimeout(resolve, 200));
 		return [
