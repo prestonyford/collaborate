@@ -31,6 +31,12 @@ function Description(props: Props) {
 		}
 	}
 
+	function handleCancel() {
+		if (window.confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")) {
+			setEditingDescription(false);
+		}
+	}
+
 	if (!task) return null;
 
 	return (
@@ -50,7 +56,7 @@ function Description(props: Props) {
 								content={<>Cancel <i className="ml-1.5 text-sm fa-solid fa-xmark"></i></>}
 								variant={"secondary"}
 								disabled={savingDescription}
-								onClick={() => setEditingDescription(false)}
+								onClick={handleCancel}
 							/>
 							{savingDescription && <LoadingIcon size="small" />}
 						</>
