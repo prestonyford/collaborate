@@ -50,6 +50,12 @@ function Board(props: Props) {
 		}
 	}
 
+	if (columns.length === 0) {
+		return <div className='flex h-full items-center justify-center text-text-muted select-none'>
+			This project is empty! Get started by clicking "Add column" above.
+		</div>
+	}
+
 	return (
 		<>
 			<DragDropContext onDragEnd={onDragEnd}>
