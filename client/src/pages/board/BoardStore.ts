@@ -18,6 +18,7 @@ interface ProjectState {
 	setColumns: (newColumns: ColumnDTO[]) => void
 	setColumnCardSummaries: (columnID: string, newCardSummaries: CardSummaryDTO[]) => void
 	createColumn: (name: string, color: string) => Promise<void>
+	createTask: (columnID: string, name: string, description: string) => Promise<void>
 }
 
 const defaultState = {
@@ -82,6 +83,20 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 			set(state => ({
 				columns: [...state.columns, newColumn]
 			}));
+		},
+		
+		createTask: async (columnID: string, name: string, description: string) => {
+			const pid = get().project?.id;
+			if (!pid) {
+				throw new Error("Cannot create a column outside of a project");
+			}
+			const newTask = await projectService.createTask(pid, columnID, name, description);
+			set(state => ({
+				cardSummaries: {
+					...state.cardSummaries,
+					[newTask.columnID]: [...state.cardSummaries[newTask.columnID], newTask]
+				}
+			}))
 		}
 	}
 });

@@ -7,6 +7,7 @@ import Popup from '../../components/base/Popup'
 import { useState } from 'react'
 import CreateCardPopup from './CreateCardPopup'
 import { useNavigate } from 'react-router-dom'
+import TaskCreator from './TaskCreator'
 
 interface Props {
 	index: number
@@ -20,8 +21,14 @@ type Popups = 'CreateCard'
 function BoardColumn(props: Props) {
 	const navigate = useNavigate();
 	const cardSummaries = useBoardStore((state) => state.cardSummaries[props.columnID]);
+	const createTask = useBoardStore((state) => state.createTask);
 
 	const [popupOpen, setPopupOpen] = useState<Popups | null>(null);
+
+	async function handleCreateTask(name: string, description: string) {
+		await createTask(props.columnID, name, description);
+		setPopupOpen(null)
+	}
 
 	return (
 		<>
@@ -81,7 +88,11 @@ function BoardColumn(props: Props) {
 				)}
 			</Draggable>
 
-			{popupOpen === 'CreateCard' && <CreateCardPopup onCancel={() => setPopupOpen(null)} />}
+			{popupOpen === 'CreateCard' && <TaskCreator
+				owningColumnName={props.columnName}
+				onCancel={() => setPopupOpen(null)}
+				onCreate={handleCreateTask}
+			/>}
 		</>
 	)
 }

@@ -11,6 +11,7 @@ export default interface ProjectCommunicator {
 	getProjectLabels( projectID: string ): Promise<LabelDTO[]>
 	getColumnsByProject(projectID: string): Promise<ColumnDTO[]>
 	createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO>
+	createTask(projectID: string, columnID: string, name: string, description: string): Promise<TaskDTO>
 
 	// Cards
 	getCardSummaries( projectID: string, columnID: string, pageSize: number, lastCardID: string | null ): Promise<[CardSummaryDTO[], boolean]>

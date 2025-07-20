@@ -1,3 +1,5 @@
+import type CardSummaryDTO from "./CardSummaryDTO"
+
 export default interface TaskDTO {
 	id: string
 	projectID: string

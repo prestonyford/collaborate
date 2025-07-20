@@ -36,6 +36,9 @@ export default class ProjectService {
 	public async createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO> {
 		return this.communicator.createColumn(projectID, name, color);
 	}
+	public async createTask(projectID: string, columnID: string, name: string, description: string): Promise<TaskDTO> {
+		return this.communicator.createTask(projectID, columnID, name, description);
+	}
 	public async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		return this.communicator.getCardSummaries(projectID, columnID, pageSize, lastCardID);
 	}

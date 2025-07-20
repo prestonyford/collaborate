@@ -26,6 +26,12 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 			body: JSON.stringify({ name, color })
 		});
 	}
+	async createTask(projectID: string, columnID: string, name: string, description: string): Promise<TaskDTO> {
+		return this.makeRequest<TaskDTO>(`/projects/${projectID}/columns/${columnID}/tasks`, {
+			method: 'POST',
+			body: JSON.stringify({ title: name, description })
+		});
+	}
 	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		const params = new URLSearchParams({
 			limit: pageSize.toString(),

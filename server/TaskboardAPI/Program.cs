@@ -51,6 +51,16 @@ projectRoutes.MapGet("/columns", async (int pid, AppDbContext db) =>
     return await db.Columns.Where(c => c.ProjectId == pid).ToListAsync();
 });
 
+projectRoutes.MapPost("/columns/{cid}/tasks", async (int pid, int cid, CreateTaskRequest request, AppDbContext db) =>
+{
+    TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+    int secondsSinceEpoch = (int)t.TotalSeconds;
+    ProjectTask task = new() { ProjectId = pid, ColumnId = cid, Title = request.Title, Description = request.Description, Labels = [], CreatedBy = "", CreationDate = secondsSinceEpoch };
+    await db.Tasks.AddAsync(task);
+    await db.SaveChangesAsync();
+    return Results.Created($"/api/projects/{pid}/columns/{cid}/tasks", task);
+});
+
 projectRoutes.MapGet("/columns/{cid}/taskSummaries", async (int pid, int cid, AppDbContext db) =>
 {
     var tasks = await db.Tasks.Where(t => t.ProjectId == pid && t.ColumnId == cid).ToListAsync();

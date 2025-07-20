@@ -169,7 +169,8 @@ export default function MyCKEditor(props: Props) {
 						'imageStyle:inline', 'imageStyle:wrapText', 'imageStyle:breakText', '|',
 						'toggleImageCaption', 'imageTextAlternative'
 					]
-				}
+				},
+				height: "500px"
 			}
 		};
 	}, [isLayoutReady]);

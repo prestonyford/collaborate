@@ -5,6 +5,9 @@
 		margin: 0 !important;
 	}
 }
+.ck-editor__editable {
+    min-height: 210px;
+}
 
 .ckeditor-main-container .main-container {
 	width: fit-content;
