@@ -5,6 +5,7 @@ import type LabelDTO from "../../model/dto/LabelDTO";
 import type ProjectDTO from "../../model/dto/ProjectDTO";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import HttpCommunicator from "../HttpCommunicator";
+import type CreateTaskRequest from "../request/CreateTaskRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class HttpProjectCommunicator extends HttpCommunicator implements ProjectCommunicator {
@@ -26,10 +27,10 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 			body: JSON.stringify({ name, color })
 		});
 	}
-	async createTask(projectId: string, columnId: string, name: string, description: string): Promise<TaskDTO> {
+	async createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO> {
 		return this.makeRequest<TaskDTO>(`/projects/${projectId}/columns/${columnId}/tasks`, {
 			method: 'POST',
-			body: JSON.stringify({ title: name, description })
+			body: JSON.stringify(createData)
 		});
 	}
 	async getCardSummaries(projectId: string, columnId: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {

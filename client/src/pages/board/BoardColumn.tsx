@@ -8,6 +8,7 @@ import { useState } from 'react'
 import CreateCardPopup from './CreateCardPopup'
 import { useNavigate } from 'react-router-dom'
 import TaskCreator from './TaskCreator'
+import type CreateTaskRequest from '../../net/request/CreateTaskRequest'
 
 interface Props {
 	index: number
@@ -22,12 +23,21 @@ function BoardColumn(props: Props) {
 	const navigate = useNavigate();
 	const cardSummaries = useBoardStore((state) => state.cardSummaries[props.columnId]);
 	const createTask = useBoardStore((state) => state.createTask);
+	const [isCreatingTask, setIsCreatingTask] = useState<boolean>(false);
 
 	const [popupOpen, setPopupOpen] = useState<Popups | null>(null);
 
-	async function handleCreateTask(name: string, description: string) {
-		await createTask(props.columnId, name, description);
-		setPopupOpen(null)
+	async function handleCreateTask(createData: CreateTaskRequest) {
+		setIsCreatingTask(true);
+		try {
+			await createTask(props.columnId, createData);
+			setPopupOpen(null)
+		} catch (error) {
+			alert("An error occured while creating the task. Please try again later.");
+			console.error(error);
+		} finally {
+			setIsCreatingTask(false);
+		}
 	}
 
 	return (
@@ -90,6 +100,7 @@ function BoardColumn(props: Props) {
 
 			{popupOpen === 'CreateCard' && <TaskCreator
 				owningColumnName={props.columnName}
+				loading={isCreatingTask}
 				onCancel={() => setPopupOpen(null)}
 				onCreate={handleCreateTask}
 			/>}

@@ -6,6 +6,7 @@ import type ProjectDTO from "../model/dto/ProjectDTO";
 import type TaskDTO from "../model/dto/TaskDTO";
 import { NotFoundError } from "../net/Errors";
 import type ProjectCommunicator from "../net/ProjectCommunicator/ProjectCommunicator";
+import type CreateTaskRequest from "../net/request/CreateTaskRequest";
 
 export default class ProjectService {
 	private readonly communicator: ProjectCommunicator
@@ -36,8 +37,8 @@ export default class ProjectService {
 	public async createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO> {
 		return this.communicator.createColumn(projectId, name, color);
 	}
-	public async createTask(projectId: string, columnId: string, name: string, description: string): Promise<TaskDTO> {
-		return this.communicator.createTask(projectId, columnId, name, description);
+	public async createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO> {
+		return this.communicator.createTask(projectId, columnId, createData);
 	}
 	public async getCardSummaries(projectId: string, columnId: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		return this.communicator.getCardSummaries(projectId, columnId, pageSize, lastCardID);

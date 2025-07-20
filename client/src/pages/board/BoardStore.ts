@@ -4,6 +4,7 @@ import type CardSummaryDTO from '../../model/dto/CardSummaryDTO';
 import type LabelDTO from '../../model/dto/LabelDTO';
 import { useServiceStore } from '../../serviceStore';
 import type ProjectDTO from '../../model/dto/ProjectDTO';
+import type CreateTaskRequest from '../../net/request/CreateTaskRequest';
 
 
 interface ProjectState {
@@ -18,7 +19,7 @@ interface ProjectState {
 	setColumns: (newColumns: ColumnDTO[]) => void
 	setColumnCardSummaries: (columnId: string, newCardSummaries: CardSummaryDTO[]) => void
 	createColumn: (name: string, color: string) => Promise<void>
-	createTask: (columnId: string, name: string, description: string) => Promise<void>
+	createTask: (columnId: string, createData: CreateTaskRequest) => Promise<void>
 }
 
 const defaultState = {
@@ -85,12 +86,12 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 			}));
 		},
 		
-		createTask: async (columnId: string, name: string, description: string) => {
+		createTask: async (columnId: string, createData: CreateTaskRequest) => {
 			const pid = get().project?.id;
 			if (!pid) {
 				throw new Error("Cannot create a column outside of a project");
 			}
-			const newTask = await projectService.createTask(pid, columnId, name, description);
+			const newTask = await projectService.createTask(pid, columnId, createData);
 			set(state => ({
 				cardSummaries: {
 					...state.cardSummaries,

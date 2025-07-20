@@ -4,10 +4,12 @@ import { useEffect, type ReactNode } from "react"
 import Button from "./Button"
 import { createPortal } from "react-dom"
 import "./popup.css"
+import LoadingIcon from "./LoadingIcon"
 
 export interface ButtonOption {
 	text: string,
 	variant: ButtonVariant
+	disabled?: boolean
 	onClick: () => void
 }
 
@@ -17,6 +19,7 @@ interface Props {
 	title?: ReactNode
 	buttons?: ButtonOption[],
 	children?: ReactNode
+	loading?: boolean
 	onEscape?: () => void
 }
 
@@ -54,8 +57,11 @@ function Popup(props: Props) {
 							<div>
 								<hr className="text-accent" />
 								<div className="p-2 flex justify-end gap-2">
+									{props.loading && <div>
+										<LoadingIcon size="small" />
+									</div>}
 									{props.buttons.map(buttonOption => (
-										<Button key={buttonOption.text} content={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} />
+										<Button key={buttonOption.text} content={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} disabled={buttonOption.disabled} />
 									))}
 								</div>
 							</div>
