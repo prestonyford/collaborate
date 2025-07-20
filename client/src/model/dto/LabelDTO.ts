@@ -1,6 +1,6 @@
 export default interface LabelDTO {
 	id: string
-	projectID: string,
+	projectId: string,
 	title: string,
 	color: string
 }

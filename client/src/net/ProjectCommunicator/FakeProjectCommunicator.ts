@@ -104,7 +104,7 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		]
 	}
 
-	async getProject(projectID: string): Promise<ProjectDTO> {
+	async getProject(projectId: string): Promise<ProjectDTO> {
 		return {
 			id: '1',
 			name: 'Project 1',
@@ -114,107 +114,107 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		}
 	}
 
-	async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
+	async getProjectLabels(projectId: string): Promise<LabelDTO[]> {
 		return [
-			{ id: '0', projectID: '1', title: 'Frontend', color: '#f44336' },        // red
-			{ id: '1', projectID: '1', title: 'Backend', color: '#2196f3' },         // blue
-			{ id: '2', projectID: '1', title: 'In Progress', color: '#ffeb3b' },     // yellow
-			{ id: '3', projectID: '1', title: 'Design Review', color: '#4caf50' },   // green
-			{ id: '4', projectID: '1', title: 'UX', color: '#9c27b0' },              // purple
-			{ id: '5', projectID: '1', title: '🔥 Hotfix', color: '#ff5722' },       // deep orange
-			{ id: '6', projectID: '1', title: 'QA Needed', color: '#795548' },       // brown
-			{ id: '7', projectID: '1', title: 'v1.2.0-beta', color: '#607d8b' },     // blue grey
-			{ id: '8', projectID: '1', title: 'A', color: '#000000' },               // black
-			{ id: '9', projectID: '1', title: 'Z', color: '#ffffff' },               // white
-			{ id: '10',  projectID: '1', title: 'This Label Has a Really Long Name', color: '#03a9f4' },
-			{ id: '11',  projectID: '1', title: 'Done', color: '#cddc39' },           // lime
-			{ id: '12',  projectID: '1', title: 'Stuck', color: '#e91e63' },          // pink
-			{ id: '13',  projectID: '1', title: 'Low Priority', color: '#ff9800' },   // orange
-			{ id: '14',  projectID: '1', title: 'Dark Theme Test', color: '#121212' } // very dark
+			{ id: '0', projectId: '1', title: 'Frontend', color: '#f44336' },        // red
+			{ id: '1', projectId: '1', title: 'Backend', color: '#2196f3' },         // blue
+			{ id: '2', projectId: '1', title: 'In Progress', color: '#ffeb3b' },     // yellow
+			{ id: '3', projectId: '1', title: 'Design Review', color: '#4caf50' },   // green
+			{ id: '4', projectId: '1', title: 'UX', color: '#9c27b0' },              // purple
+			{ id: '5', projectId: '1', title: '🔥 Hotfix', color: '#ff5722' },       // deep orange
+			{ id: '6', projectId: '1', title: 'QA Needed', color: '#795548' },       // brown
+			{ id: '7', projectId: '1', title: 'v1.2.0-beta', color: '#607d8b' },     // blue grey
+			{ id: '8', projectId: '1', title: 'A', color: '#000000' },               // black
+			{ id: '9', projectId: '1', title: 'Z', color: '#ffffff' },               // white
+			{ id: '10',  projectId: '1', title: 'This Label Has a Really Long Name', color: '#03a9f4' },
+			{ id: '11',  projectId: '1', title: 'Done', color: '#cddc39' },           // lime
+			{ id: '12',  projectId: '1', title: 'Stuck', color: '#e91e63' },          // pink
+			{ id: '13',  projectId: '1', title: 'Low Priority', color: '#ff9800' },   // orange
+			{ id: '14',  projectId: '1', title: 'Dark Theme Test', color: '#121212' } // very dark
 		]
 	}
 
-	async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
+	async getColumnsByProject(projectId: string): Promise<ColumnDTO[]> {
 		// throw new Error("error");
 		return [
 			{
 				id: "1",
-				projectID: "1",
+				projectId: "1",
 				name: "Column 1",
 				color: "#ff6467"
 			},
 			{
 				id: "2",
-				projectID: "1",
+				projectId: "1",
 				name: "Column 2",
 				color: "#00D3F2"
 			},
 			{
 				id: "3",
-				projectID: "1",
+				projectId: "1",
 				name: "Column 3",
 				color: "#BBF451"
 			},
 			{
 				id: "4",
-				projectID: "1",
+				projectId: "1",
 				name: "Column 4",
 				color: "#FFB900"
 			},
 		]
 	}
 
-	async createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO> {
+	async createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO> {
 		return {
 			id: '999',
-			projectID,
+			projectId,
 			name,
 			color
 		}
 	}
 
-	async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
+	async getCardSummaries(projectId: string, columnId: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
 		await new Promise(resolve => setTimeout(resolve, 200));
 		return [
-			columnID === "1" ? [
+			columnId === "1" ? [
 				{
 					id: "1",
-					columnID: "1",
+					columnId: "1",
 					title: "Card 1",
 					creationDate: 1750383235022,
 					labels: ['0', '1', '2', '7']
 				},
 				{
 					id: "2",
-					columnID: "1",
+					columnId: "1",
 					title: "Card 2",
 					creationDate: 1750383235022,
 					labels: ['5', '4']
 				},
 				{
 					id: "3",
-					columnID: "1",
+					columnId: "1",
 					title: "Card 3",
 					creationDate: 1750383235022,
 					labels: ['12', '3']
 				},
 				{
 					id: "4",
-					columnID: "1",
+					columnId: "1",
 					title: "Card 4",
 					creationDate: 1750383235022,
 					labels: ['0', '2', '3', '10', '1', '4', '5', '6']
 				},
 				{
 					id: "5",
-					columnID: "1",
+					columnId: "1",
 					title: "Card 5",
 					creationDate: 1750383235022,
 					labels: []
 				},
 				{
 					id: "6",
-					columnID: "1",
+					columnId: "1",
 					title: "Card 6",
 					creationDate: 1750383235022,
 					labels: ['13']
@@ -223,12 +223,12 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			, false];
 	}
 
-	async getCardInfo(projectID: string, cardID: string): Promise<TaskDTO> {
+	async getCardInfo(projectId: string, cardID: string): Promise<TaskDTO> {
 		await new Promise(resolve => setTimeout(resolve, 500));
 		return {
 			id: cardID,
-			projectID: '1',
-			columnID: '1',
+			projectId: '1',
+			columnId: '1',
 			title: 'Card Name!!',
 			creationDate: 1751732710021,
 			labels: ['1', '2'],
@@ -238,12 +238,12 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		}
 	}
 
-	async updateCard(projectID: string, taskID: string, diff: TaskDTO): Promise<Partial<TaskDTO>> {
+	async updateCard(projectId: string, taskID: string, diff: TaskDTO): Promise<Partial<TaskDTO>> {
 		await new Promise(resolve => setTimeout(resolve, 2000));
 		console.log(`Updating task ${taskID}: ${diff}`);
 		return diff;
 	}
-	async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+	async getCardDiscussion(projectId: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		return [false, [
 			{
 				id: 'cmt_1',

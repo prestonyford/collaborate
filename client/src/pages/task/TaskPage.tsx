@@ -30,15 +30,15 @@ function TaskPage(props: Props) {
 		[projectLabels]
 	);
 
-	const projectID = params.pid;
+	const projectId = params.pid;
 	const taskID = params.tid;
-	if (projectID === undefined || taskID === undefined) {
+	if (projectId === undefined || taskID === undefined) {
 		return <NotFound />;
 	}
 
 	const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
 
-	const { error, loading } = useAsyncWithError(async () => initialize(projectID, taskID), [initialize, reset]);
+	const { error, loading } = useAsyncWithError(async () => initialize(projectId, taskID), [initialize, reset]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />

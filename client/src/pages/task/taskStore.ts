@@ -5,11 +5,11 @@ import { useServiceStore } from '../../serviceStore';
 import type CardDiscussionItemDTO from '../../model/dto/CardDiscussionItemDTO';
 
 interface TaskState {
-	projectID?: string
+	projectId?: string
 	task: TaskDTO | null
 	projectLabels: LabelDTO[]
 	discussionItems: CardDiscussionItemDTO[]
-	initialize: (projectID: string, taskID: string) => Promise<void>
+	initialize: (projectId: string, taskID: string) => Promise<void>
 	reset: () => void
 	saveDescription: (description: string) => Promise<void>
 	saveTitle: (title: string) => Promise<void>
@@ -17,7 +17,7 @@ interface TaskState {
 }
 
 const initialState = {
-	projectID: undefined,
+	projectId: undefined,
 	task: null,
 	projectLabels: [],
 	discussionItems: []
@@ -28,11 +28,11 @@ const useTaskStore = create<TaskState>()((set, get) => {
 
 	return {
 		...initialState,
-		initialize: async (projectID: string, taskID: string) => {
-			set({ projectID });
+		initialize: async (projectId: string, taskID: string) => {
+			set({ projectId });
 			const [task, projectLabels] = await Promise.all([
-				projectService.getCardInfo(projectID, taskID),
-				projectService.getProjectLabels(projectID),
+				projectService.getCardInfo(projectId, taskID),
+				projectService.getProjectLabels(projectId),
 			]);
 			set({ task, projectLabels });
 		},
@@ -40,9 +40,9 @@ const useTaskStore = create<TaskState>()((set, get) => {
 			set(initialState);
 		},
 		saveDescription: async (description: string) => {
-			const { projectID, task } = get();
-			if (!projectID || !task) throw new Error("Cannot save without project and task loaded.");
-			await projectService.updateCardDescription(projectID, task.id, description);
+			const { projectId, task } = get();
+			if (!projectId || !task) throw new Error("Cannot save without project and task loaded.");
+			await projectService.updateCardDescription(projectId, task.id, description);
 			set({
 				task: {
 					...task,
@@ -51,9 +51,9 @@ const useTaskStore = create<TaskState>()((set, get) => {
 			});
 		},
 		saveTitle: async (title: string) => {
-			const { projectID, task } = get();
-			if (!projectID || !task) throw new Error("Cannot save without project and task loaded.");
-			await projectService.updateCardTitle(projectID, task.id, title);
+			const { projectId, task } = get();
+			if (!projectId || !task) throw new Error("Cannot save without project and task loaded.");
+			await projectService.updateCardTitle(projectId, task.id, title);
 			set({
 				task: {
 					...task,
@@ -62,9 +62,9 @@ const useTaskStore = create<TaskState>()((set, get) => {
 			});
 		},
 		loadDiscussionItems: async (pageSize: number, lastItemID: string | null) => {
-			const { projectID, task } = get();
-			if (!projectID || !task) throw new Error("Cannot load discussion items without project and task loaded.");
-			const [hasMore, newItems] = await projectService.getCardDiscussion(projectID, task.id, pageSize, lastItemID);
+			const { projectId, task } = get();
+			if (!projectId || !task) throw new Error("Cannot load discussion items without project and task loaded.");
+			const [hasMore, newItems] = await projectService.getCardDiscussion(projectId, task.id, pageSize, lastItemID);
 			set(state => {
 				const existingIDs = new Set(state.discussionItems.map(i => i.id));
 				const uniqueNewItems = newItems.filter(i => !existingIDs.has(i.id));

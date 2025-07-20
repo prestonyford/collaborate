@@ -1,6 +1,6 @@
 export default interface CardSummaryDTO {
 	id: string
-	columnID: string,
+	columnId: string,
 	title: string,
 	creationDate: number
 	labels: string[]

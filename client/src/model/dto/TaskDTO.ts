@@ -2,8 +2,8 @@ import type CardSummaryDTO from "./CardSummaryDTO"
 
 export default interface TaskDTO {
 	id: string
-	projectID: string
-	columnID: string
+	projectId: string
+	columnId: string
 	title: string
 	creationDate: number
 	labels: string[]

@@ -12,13 +12,13 @@ interface ProjectState {
 	projectLabels: LabelDTO[]
 	columns: ColumnDTO[]
 	cardSummaries: Record<string, CardSummaryDTO[]>
-	initialize: (projectID: string) => Promise<void>
+	initialize: (projectId: string) => Promise<void>
 	reset: () => void
 	setLoading: (isLoading: boolean) => void
 	setColumns: (newColumns: ColumnDTO[]) => void
-	setColumnCardSummaries: (columnID: string, newCardSummaries: CardSummaryDTO[]) => void
+	setColumnCardSummaries: (columnId: string, newCardSummaries: CardSummaryDTO[]) => void
 	createColumn: (name: string, color: string) => Promise<void>
-	createTask: (columnID: string, name: string, description: string) => Promise<void>
+	createTask: (columnId: string, name: string, description: string) => Promise<void>
 }
 
 const defaultState = {
@@ -35,15 +35,15 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 	return {
 		...defaultState,
 
-		initialize: async (projectID: string) => {
+		initialize: async (projectId: string) => {
 			const [project, projectLabels, columns] = await Promise.all([
-				projectService.getProject(projectID),
-				projectService.getProjectLabels(projectID),
-				projectService.getColumnsByProject(projectID)
+				projectService.getProject(projectId),
+				projectService.getProjectLabels(projectId),
+				projectService.getColumnsByProject(projectId)
 			]);
 			set({ project, projectLabels, columns });
 			for (let col of columns) {
-				const [cardSummaries, hasMore] = await projectService.getCardSummaries(projectID, col.id, 10, null);
+				const [cardSummaries, hasMore] = await projectService.getCardSummaries(projectId, col.id, 10, null);
 				set(state => ({
 					cardSummaries: {
 						...state.cardSummaries,
@@ -65,11 +65,11 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 			set({ columns: newColumns });
 		},
 
-		setColumnCardSummaries: (columnID: string, newCardSummaries: CardSummaryDTO[]) => {
+		setColumnCardSummaries: (columnId: string, newCardSummaries: CardSummaryDTO[]) => {
 			set(state => ({
 				cardSummaries: {
 					...state.cardSummaries,
-					[columnID]: newCardSummaries
+					[columnId]: newCardSummaries
 				}
 			}));
 		},
@@ -85,16 +85,16 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 			}));
 		},
 		
-		createTask: async (columnID: string, name: string, description: string) => {
+		createTask: async (columnId: string, name: string, description: string) => {
 			const pid = get().project?.id;
 			if (!pid) {
 				throw new Error("Cannot create a column outside of a project");
 			}
-			const newTask = await projectService.createTask(pid, columnID, name, description);
+			const newTask = await projectService.createTask(pid, columnId, name, description);
 			set(state => ({
 				cardSummaries: {
 					...state.cardSummaries,
-					[newTask.columnID]: [...state.cardSummaries[newTask.columnID], newTask]
+					[newTask.columnId]: [...state.cardSummaries[newTask.columnId], newTask]
 				}
 			}))
 		}

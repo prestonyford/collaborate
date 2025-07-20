@@ -11,7 +11,7 @@ import TaskCreator from './TaskCreator'
 
 interface Props {
 	index: number
-	columnID: string
+	columnId: string
 	columnName: string
 	columnColor?: string
 }
@@ -20,19 +20,19 @@ type Popups = 'CreateCard'
 
 function BoardColumn(props: Props) {
 	const navigate = useNavigate();
-	const cardSummaries = useBoardStore((state) => state.cardSummaries[props.columnID]);
+	const cardSummaries = useBoardStore((state) => state.cardSummaries[props.columnId]);
 	const createTask = useBoardStore((state) => state.createTask);
 
 	const [popupOpen, setPopupOpen] = useState<Popups | null>(null);
 
 	async function handleCreateTask(name: string, description: string) {
-		await createTask(props.columnID, name, description);
+		await createTask(props.columnId, name, description);
 		setPopupOpen(null)
 	}
 
 	return (
 		<>
-			<Draggable draggableId={`column-${props.columnID}`} index={props.index}>
+			<Draggable draggableId={`column-${props.columnId}`} index={props.index}>
 				{(provided) => (
 					<div
 						className={clsx(
@@ -54,7 +54,7 @@ function BoardColumn(props: Props) {
 									<ClickyIcon icon="fa-solid fa-ellipsis" />
 								</div>
 							</div>
-							<Droppable droppableId={props.columnID} type="card">
+							<Droppable droppableId={props.columnId} type="card">
 								{(provided, snapshot) => (
 									<>
 										<div

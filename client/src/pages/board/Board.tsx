@@ -76,7 +76,7 @@ function Board(props: Props) {
 									>
 										<BoardColumn
 											index={i}
-											columnID={column.id}
+											columnId={column.id}
 											columnName={column.name}
 											columnColor={column.color}
 										/>

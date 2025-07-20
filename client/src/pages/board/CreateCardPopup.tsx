@@ -47,7 +47,7 @@ function CreateCardPopup(props: Props) {
 					<label htmlFor="name">Name:</label>
 					<TextInput id="name" value={formData.title ?? ''} onChange={title => setFormData({...formData, title})} />
 					<label htmlFor="column">Column:</label>
-					<ColumnDropdown selectedId={formData.columnID} columns={columns} onSelect={columnID => setFormData({ ...formData, columnID })} />
+					<ColumnDropdown selectedId={formData.columnId} columns={columns} onSelect={columnId => setFormData({ ...formData, columnId })} />
 					<label htmlFor="description">Description:</label>
 					<TextArea value={description} onInput={setDescription} rows={3} />
 					<label htmlFor="labels">Labels:</label>

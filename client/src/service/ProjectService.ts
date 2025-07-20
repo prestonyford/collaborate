@@ -17,9 +17,9 @@ export default class ProjectService {
 	public async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
 		return this.communicator.getOwnedAndSharedProjects();
 	}
-	public async getProject(projectID: string): Promise<ProjectDTO> {
+	public async getProject(projectId: string): Promise<ProjectDTO> {
 		try {
-			return await this.communicator.getProject(projectID);
+			return await this.communicator.getProject(projectId);
 		} catch (error) {
 			if (error instanceof NotFoundError) {
 				throw new NotFoundError("The requested project was not found (has it been shared with you?).");
@@ -27,24 +27,24 @@ export default class ProjectService {
 			throw error;
 		}
 	}
-	public async getProjectLabels(projectID: string): Promise<LabelDTO[]> {
-		return this.communicator.getProjectLabels(projectID);
+	public async getProjectLabels(projectId: string): Promise<LabelDTO[]> {
+		return this.communicator.getProjectLabels(projectId);
 	}
-	public async getColumnsByProject(projectID: string): Promise<ColumnDTO[]> {
-		return this.communicator.getColumnsByProject(projectID);
+	public async getColumnsByProject(projectId: string): Promise<ColumnDTO[]> {
+		return this.communicator.getColumnsByProject(projectId);
 	}
-	public async createColumn(projectID: string, name: string, color: string): Promise<ColumnDTO> {
-		return this.communicator.createColumn(projectID, name, color);
+	public async createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO> {
+		return this.communicator.createColumn(projectId, name, color);
 	}
-	public async createTask(projectID: string, columnID: string, name: string, description: string): Promise<TaskDTO> {
-		return this.communicator.createTask(projectID, columnID, name, description);
+	public async createTask(projectId: string, columnId: string, name: string, description: string): Promise<TaskDTO> {
+		return this.communicator.createTask(projectId, columnId, name, description);
 	}
-	public async getCardSummaries(projectID: string, columnID: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
-		return this.communicator.getCardSummaries(projectID, columnID, pageSize, lastCardID);
+	public async getCardSummaries(projectId: string, columnId: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
+		return this.communicator.getCardSummaries(projectId, columnId, pageSize, lastCardID);
 	}
-	public async getCardInfo(projectID: string, taskID: string): Promise<TaskDTO> {
+	public async getCardInfo(projectId: string, taskID: string): Promise<TaskDTO> {
 		try {
-			return await this.communicator.getCardInfo(projectID, taskID);
+			return await this.communicator.getCardInfo(projectId, taskID);
 		} catch (error) {
 			if (error instanceof NotFoundError) {
 				throw new NotFoundError("The requested task was not found.");
@@ -52,15 +52,15 @@ export default class ProjectService {
 			throw error;
 		}
 	}
-	public async updateCardDescription(projectID: string, taskID: string, description: string): Promise<string> {
-		const newTask = await this.communicator.updateCard(projectID, taskID, { description });
+	public async updateCardDescription(projectId: string, taskID: string, description: string): Promise<string> {
+		const newTask = await this.communicator.updateCard(projectId, taskID, { description });
 		return newTask.description ?? description;
 	}
-	public async updateCardTitle(projectID: string, taskID: string, title: string): Promise<string> {
-		const newTask = await this.communicator.updateCard(projectID, taskID, { title });
+	public async updateCardTitle(projectId: string, taskID: string, title: string): Promise<string> {
+		const newTask = await this.communicator.updateCard(projectId, taskID, { title });
 		return newTask.title ?? title;
 	}
-	public async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
-		return this.communicator.getCardDiscussion(projectID, cardID, pageSize, lastItemID);
+	public async getCardDiscussion(projectId: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+		return this.communicator.getCardDiscussion(projectId, cardID, pageSize, lastItemID);
 	}
 }

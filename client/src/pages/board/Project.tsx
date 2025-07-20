@@ -25,12 +25,12 @@ function Project(props: Props) {
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
 
 	const params = useParams();
-	const projectID = params.pid;
-	if (projectID === undefined) {
+	const projectId = params.pid;
+	if (projectId === undefined) {
 		return <NotFound />;
 	}
 
-	const { error, loading } = useAsyncWithError(async () => initialize(projectID), [initialize, reset, projectID]);
+	const { error, loading } = useAsyncWithError(async () => initialize(projectId), [initialize, reset, projectId]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />

@@ -1,6 +1,6 @@
 export default interface ColumnDTO {
 	id: string,
-	projectID: string,
+	projectId: string,
 	name: string,
 	color: string
 }
