@@ -28,7 +28,7 @@ export default function EditableTitle(props: Props) {
 		setNewTitle(props.title);
 	}
 
-	return <div className={clsx("flex")} onClick={() => setIsEditingTitle(true)}>
+	return <div className={clsx("flex")} onClick={() => !isEditingTitle && setIsEditingTitle(true)}>
 		<h1 className={clsx({ 'w-0 overflow-hidden whitespace-nowrap': isEditingTitle })}>{props.title}</h1>
 		{isEditingTitle && <div className="flex gap-2">
 			<div className={clsx("flex items-stretch text-xl font-bold h-full", { [loadingClasses]: props.loading })}>

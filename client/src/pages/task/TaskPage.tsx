@@ -1,18 +1,16 @@
 import { useNavigate, useParams } from "react-router-dom"
 import Label from "../../components/base/Label"
 import Page from "../Page"
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import LoadingIcon from "../../components/base/LoadingIcon";
 import { useTaskStore } from "./taskStore";
 import NotFound from "../NotFound";
-import Button from "../../components/base/Button";
-import MyCKEditor from "../../components/ckeditor/MyCKEditor";
 import Description from "./Description";
 import Discussion from "./Discussion";
 import { useAsyncWithError } from "../../hooks/useAsyncWithError";
 import ErrorView from "../../components/base/ErrorView";
-import EditableTitle from "./EditableTitle";
 import TaskTitle from "./TaskTitle";
+import './taskPage.css'
 
 interface Props {
 
@@ -52,11 +50,11 @@ function TaskPage(props: Props) {
 			{loading || task === null
 				? <LoadingIcon />
 				: <Page title={
-					<div className="w-full -mb-2 flex justify-between items-center">
+					<div className="page-item w-full -mb-2 flex justify-between items-center">
 						<TaskTitle />
 					</div>
 				}>
-					<div className="px-6">
+					<div className="page-item px-6">
 						<div className="text-text-muted text-sm flex gap-6">
 							<div>
 								<i className="fa-solid fa-user mr-1"></i>
@@ -68,21 +66,29 @@ function TaskPage(props: Props) {
 							</div>
 						</div>
 
-						<Description />
-
-						<h3 className="mt-4">Labels</h3>
-						<div className="flex gap-2 pt-1">
-							{task.labels.map(lid => (
-								<Label key={lid} title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable />
-							))}
+						<div className="page-item">
+							<Description />
 						</div>
 
-						<h3 className="mt-4">Activity</h3>
-						<div className="text-text-muted flex gap-2 pt-1">
-							Names of participants here
+						<div className="page-item">
+							<h3 className="mt-4">Labels</h3>
+							<div className="flex gap-2 pt-1">
+								{task.labels.map(lid => (
+									<Label key={lid} title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable />
+								))}
+							</div>
 						</div>
 
-						<Discussion />
+						<div className="page-item">
+							<h3 className="mt-4">Activity</h3>
+							<div className="text-text-muted flex gap-2 pt-1">
+								Names of participants here
+							</div>
+						</div>
+
+						<div className="page-item">
+							<Discussion />
+						</div>
 					</div>
 				</Page>
 			}

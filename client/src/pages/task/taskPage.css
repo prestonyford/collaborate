@@ -1,0 +1,22 @@
+.page-item {
+	counter-increment: item-counter;
+	animation: itemAppear 400ms ease-in-out forwards;
+    animation-delay: calc(var(--item-delay) * 20ms);
+	opacity: 0;
+}
+
+.page-item:nth-child(1) { --item-delay: 0; }
+.page-item:nth-child(2) { --item-delay: 0; }
+.page-item:nth-child(3) { --item-delay: 1; }
+.page-item:nth-child(4) { --item-delay: 2; }
+.page-item:nth-child(5) { --item-delay: 3; }
+
+@keyframes itemAppear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
