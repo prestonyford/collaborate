@@ -18,13 +18,24 @@ function Sidebar({ className = '' }: Props) {
 	const projectCommunicator = useServiceStore((state) => state.projectService);
 
 	const [loading, setLoading] = useState<boolean>(false);
+	const [error, setError] = useState<Error | null>(null);
 	const [allProjects, setAllProjects] = useState<ProjectDTO[]>([]);
+
 	useEffect(() => {
 		setLoading(true);
 		(async () => {
-			const res = await projectCommunicator.getOwnedAndSharedProjects();
-			setAllProjects(res);
-			setLoading(false);
+			try {
+				const res = await projectCommunicator.getOwnedAndSharedProjects();
+				setAllProjects(res);
+			} catch (err) {
+				if (err instanceof Error) {
+					setError(err);
+				} else {
+					setError(new Error("An error occured while loading projects."));
+				}
+			} finally {
+				setLoading(false);
+			}
 		})();
 	}, [projectCommunicator]);
 
@@ -34,47 +45,54 @@ function Sidebar({ className = '' }: Props) {
 	return (
 		<>
 			<div className={clsx('h-full border-r border-accent bg-surface overflow-y-auto', className)}>
-				<div className='flex'>
-					<button className='grow mx-3 my-2 p-1.5 flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 text-gray-50 transition-colors cursor-pointer rounded-2xl'>
-						<strong>Create Project</strong>
-					</button>
-				</div>
-				{loading
-					? <div className='mt-4'><LoadingIcon /></div>
+				{error
+					? <div className='text-text-muted select-none'>
+						An error occured while loading projects.
+					</div>
 					: <>
-						<h4 className='px-1.5 pt-2 bg-attention border-accent border-b sticky top-0'>Owned</h4>
-						<div className="flex flex-col">
-							{ownedProjects.length
-								? ownedProjects.map(p =>
-									<SidebarProjectItem
-										key={p.id}
-										projectName={p.name}
-										numColumns={p.numColumns}
-										numTasks={p.numTasks}
-										active={p.id === activeProjectID}
-										onClick={() => navigate(`/projects/${p.id}`)}
-									/>
-								)
-								: <div className='text-sm text-text-muted italic select-none ml-1.5'>None</div>
-							}
+						<div className='flex'>
+							<button className='grow mx-3 my-2 p-1.5 flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 text-gray-50 transition-colors cursor-pointer rounded-2xl'>
+								<strong>Create Project</strong>
+							</button>
 						</div>
-						<h4 className='px-1.5 pt-3 bg-attention border-accent border-b sticky top-0'>Shared with me</h4>
-						<div className="flex flex-col">
-							{sharedProjects.length
-								? sharedProjects.map(p =>
-									<SidebarProjectItem
-										key={p.id}
-										projectName={p.name}
-										numColumns={p.numColumns}
-										numTasks={p.numTasks}
-										owner={p.owner}
-										active={p.id === activeProjectID}
-										onClick={() => navigate(`/projects/${p.id}`)}
-									/>
-								)
-								: <div className='text-sm text-text-muted italic select-none ml-1.5'>None</div>
-							}
-						</div>
+						{loading
+							? <div className='mt-4'><LoadingIcon /></div>
+							: <>
+								<h4 className='px-1.5 pt-2 bg-attention border-accent border-b sticky top-0'>Owned</h4>
+								<div className="flex flex-col">
+									{ownedProjects.length
+										? ownedProjects.map(p =>
+											<SidebarProjectItem
+												key={p.id}
+												projectName={p.name}
+												numColumns={p.numColumns}
+												numTasks={p.numTasks}
+												active={p.id === activeProjectID}
+												onClick={() => navigate(`/projects/${p.id}`)}
+											/>
+										)
+										: <div className='text-sm text-text-muted italic select-none ml-1.5'>None</div>
+									}
+								</div>
+								<h4 className='px-1.5 pt-3 bg-attention border-accent border-b sticky top-0'>Shared with me</h4>
+								<div className="flex flex-col">
+									{sharedProjects.length
+										? sharedProjects.map(p =>
+											<SidebarProjectItem
+												key={p.id}
+												projectName={p.name}
+												numColumns={p.numColumns}
+												numTasks={p.numTasks}
+												owner={p.owner}
+												active={p.id === activeProjectID}
+												onClick={() => navigate(`/projects/${p.id}`)}
+											/>
+										)
+										: <div className='text-sm text-text-muted italic select-none ml-1.5'>None</div>
+									}
+								</div>
+							</>
+						}
 					</>
 				}
 			</div>

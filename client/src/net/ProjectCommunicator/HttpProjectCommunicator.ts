@@ -39,8 +39,11 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	async getCardInfo(projectID: string, taskID: string): Promise<TaskDTO> {
 		return this.makeRequest(`/projects/${projectID}/tasks/${taskID}`);
 	}
-	async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
-		throw new Error("Method not implemented.");
+	async updateCard(projectID: string, taskID: string, diff: TaskDTO): Promise<Partial<TaskDTO>> {
+		return await this.makeRequest<Partial<TaskDTO>>(`/projects/${projectID}/tasks/${taskID}`, {
+			method: 'PATCH',
+			body: JSON.stringify(diff)
+		});
 	}
 	async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		throw new Error("Method not implemented.");

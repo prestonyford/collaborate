@@ -40,7 +40,7 @@ projectRoutes.MapGet("/labels", async (int pid, AppDbContext db) =>
 
 projectRoutes.MapPost("/columns", async (int pid, CreateColumnRequest request, AppDbContext db) =>
 {
-    Column column = new Column { Name = request.Name, Color = request.Color, ProjectId = pid };
+    Column column = new() { Name = request.Name, Color = request.Color, ProjectId = pid };
     await db.Columns.AddAsync(column);
     await db.SaveChangesAsync();
     return Results.Created($"/api/projects/{pid}/columns/{column.Id}", column);
@@ -65,6 +65,25 @@ projectRoutes.MapGet("/tasks/{tid}", async (int pid, int tid, AppDbContext db) =
     {
         return Results.NotFound();
     }
+    return Results.Ok(task);
+});
+
+projectRoutes.MapPatch("/tasks/{tid}", async (int pid, int tid, UpdateTaskRequest request, AppDbContext db) =>
+{
+    ProjectTask? task = await db.Tasks.FindAsync(tid);
+    if (task == null)
+    {
+        return Results.NotFound();
+    }
+    if (request.Description != null)
+    {
+        task.Description = request.Description;
+    }
+    if (request.Title != null)
+    {
+        task.Title = request.Title;
+    }
+    await db.SaveChangesAsync();
     return Results.Ok(task);
 });
 

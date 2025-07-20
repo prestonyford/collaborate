@@ -238,11 +238,11 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		}
 	}
 
-	async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
+	async updateCard(projectID: string, taskID: string, diff: TaskDTO): Promise<Partial<TaskDTO>> {
 		await new Promise(resolve => setTimeout(resolve, 2000));
-		console.log(`Saving card description ${cardID}: ${description}`);
+		console.log(`Updating task ${taskID}: ${diff}`);
+		return diff;
 	}
-
 	async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		return [false, [
 			{

@@ -15,6 +15,6 @@ export default interface ProjectCommunicator {
 	// Cards
 	getCardSummaries( projectID: string, columnID: string, pageSize: number, lastCardID: string | null ): Promise<[CardSummaryDTO[], boolean]>
 	getCardInfo( projectID: string, cardID: string ): Promise<TaskDTO>
-	updateCardDescription( projectID: string, cardID: string, description: string ): Promise<void>
+	updateCard( projectID: string, cardID: string, diff: Partial<TaskDTO> ): Promise<Partial<TaskDTO>>
 	getCardDiscussion( projectID: string, cardID: string, pageSize: number, lastItemID: string | null ): Promise<[boolean, CardDiscussionItemDTO[]]>
 }

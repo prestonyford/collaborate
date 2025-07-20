@@ -49,8 +49,9 @@ export default class ProjectService {
 			throw error;
 		}
 	}
-	public async updateCardDescription(projectID: string, cardID: string, description: string): Promise<void> {
-		return this.communicator.updateCardDescription(projectID, cardID, description);
+	public async updateCardDescription(projectID: string, taskID: string, description: string): Promise<string> {
+		const newTask = await this.communicator.updateCard(projectID, taskID, { description });
+		return newTask.description ?? description;
 	}
 	public async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		return this.communicator.getCardDiscussion(projectID, cardID, pageSize, lastItemID);
