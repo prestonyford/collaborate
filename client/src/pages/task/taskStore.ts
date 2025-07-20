@@ -8,12 +8,11 @@ interface TaskState {
 	projectID?: string
 	task: TaskDTO | null
 	projectLabels: LabelDTO[]
-	editingDescription: boolean
 	discussionItems: CardDiscussionItemDTO[]
 	initialize: (projectID: string, taskID: string) => Promise<void>
 	reset: () => void
-	setEditingDescription: (val: boolean) => void
 	saveDescription: (description: string) => Promise<void>
+	saveTitle: (title: string) => Promise<void>
 	loadDiscussionItems: (pageSize: number, lastItemID: string | null) => Promise<boolean>
 }
 
@@ -21,7 +20,6 @@ const initialState = {
 	projectID: undefined,
 	task: null,
 	projectLabels: [],
-	editingDescription: false,
 	discussionItems: []
 }
 
@@ -41,7 +39,6 @@ const useTaskStore = create<TaskState>()((set, get) => {
 		reset: () => {
 			set(initialState);
 		},
-		setEditingDescription: val => set({ editingDescription: val }),
 		saveDescription: async (description: string) => {
 			const { projectID, task } = get();
 			if (!projectID || !task) throw new Error("Cannot save without project and task loaded.");
@@ -50,6 +47,17 @@ const useTaskStore = create<TaskState>()((set, get) => {
 				task: {
 					...task,
 					description
+				}
+			});
+		},
+		saveTitle: async (title: string) => {
+			const { projectID, task } = get();
+			if (!projectID || !task) throw new Error("Cannot save without project and task loaded.");
+			await projectService.updateCardTitle(projectID, task.id, title);
+			set({
+				task: {
+					...task,
+					title
 				}
 			});
 		},

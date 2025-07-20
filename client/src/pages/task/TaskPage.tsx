@@ -11,6 +11,8 @@ import Description from "./Description";
 import Discussion from "./Discussion";
 import { useAsyncWithError } from "../../hooks/useAsyncWithError";
 import ErrorView from "../../components/base/ErrorView";
+import EditableTitle from "./EditableTitle";
+import TaskTitle from "./TaskTitle";
 
 interface Props {
 
@@ -19,7 +21,6 @@ interface Props {
 function TaskPage(props: Props) {
 	const params = useParams();
 	const navigate = useNavigate();
-
 
 	const initialize = useTaskStore(state => state.initialize);
 	const reset = useTaskStore(state => state.reset);
@@ -45,13 +46,16 @@ function TaskPage(props: Props) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
 	}
 
+
 	return (
 		<>
 			{loading || task === null
 				? <LoadingIcon />
-				: <Page title={<div className="w-full -mb-2 flex justify-between items-center">
-					<h1 className="">{task.title}</h1>
-				</div>}>
+				: <Page title={
+					<div className="w-full -mb-2 flex justify-between items-center">
+						<TaskTitle />
+					</div>
+				}>
 					<div className="px-6">
 						<div className="text-text-muted text-sm flex gap-6">
 							<div>

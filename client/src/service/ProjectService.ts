@@ -53,6 +53,10 @@ export default class ProjectService {
 		const newTask = await this.communicator.updateCard(projectID, taskID, { description });
 		return newTask.description ?? description;
 	}
+	public async updateCardTitle(projectID: string, taskID: string, title: string): Promise<string> {
+		const newTask = await this.communicator.updateCard(projectID, taskID, { title });
+		return newTask.title ?? title;
+	}
 	public async getCardDiscussion(projectID: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		return this.communicator.getCardDiscussion(projectID, cardID, pageSize, lastItemID);
 	}

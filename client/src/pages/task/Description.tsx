@@ -12,18 +12,19 @@ interface Props {
 
 function Description(props: Props) {
 	const task = useTaskStore(state => state.task);
-	const editingDescription = useTaskStore(state => state.editingDescription);
-	const setEditingDescription = useTaskStore(state => state.setEditingDescription);
+	if (!task) return null;
+
 	const saveDescription = useTaskStore(state => state.saveDescription);
 
-	const [newDescription, setNewDescription] = useState<string>('Lorem ipsum dolor sit amet, consectetur adipiscing elit.');
+	const [isEditingDescription, setIsEditingDescription] = useState<boolean>(false);
+	const [newDescription, setNewDescription] = useState<string>(task.description ?? "");
 	const [savingDescription, setSavingDescription] = useState<boolean>(false);
 
 	async function handleSave() {
 		setSavingDescription(true);
 		try {
 			await saveDescription(newDescription);
-			setEditingDescription(false);
+			setIsEditingDescription(false);
 		} catch (error) {
 			alert("An error occured while saving the description. Please try again.");
 		} finally {
@@ -32,19 +33,18 @@ function Description(props: Props) {
 	}
 
 	function handleCancel() {
-		if (window.confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")) {
-			setEditingDescription(false);
+		if (newDescription === task?.description || window.confirm("Are you sure you want to cancel? Any unsaved changes will be lost.")) {
+			setIsEditingDescription(false);
 		}
 	}
 
-	if (!task) return null;
 
 	return (
 		<>
 			<div className="mt-4 mb-1 flex items-center">
 				<h3 className="">Description</h3>
 				<div className="ml-2.5 flex gap-2 items-center select-none">
-					{editingDescription
+					{isEditingDescription
 						? <>
 							<Button
 								content={<>Save <i className="ml-1.5 text-sm fa-solid fa-floppy-disk"></i></>}
@@ -63,12 +63,12 @@ function Description(props: Props) {
 						: <Button
 							content={<>Edit <i className="ml-1.5 text-sm fa-solid fa-pen-to-square"></i></>}
 							variant={"secondary"}
-							onClick={() => setEditingDescription(true)}
+							onClick={() => setIsEditingDescription(true)}
 						/>
 					}
 				</div>
 			</div>
-			{editingDescription
+			{isEditingDescription
 				? <div className={clsx({'opacity-50 pointer-events-none': savingDescription})}>
 					<MyCKEditor placeholder="Click to edit" initialData={task.description} onChange={setNewDescription} />
 				</div>
