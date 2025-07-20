@@ -82,7 +82,11 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 			}
 			const newColumn = await projectService.createColumn(pid, name, color);
 			set(state => ({
-				columns: [...state.columns, newColumn]
+				columns: [...state.columns, newColumn],
+				cardSummaries: {
+					...state.cardSummaries,
+					[newColumn.id]: []
+				}
 			}));
 		},
 		
