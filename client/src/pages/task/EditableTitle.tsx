@@ -6,7 +6,7 @@ import LoadingIcon from "../../components/base/LoadingIcon";
 
 interface Props {
 	title: string
-	onInput: (title: string) => void
+	onInput: (title: string) => Promise<void>
 	loading?: boolean
 }
 
@@ -16,9 +16,9 @@ export default function EditableTitle(props: Props) {
 	const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
 	const [newTitle, setNewTitle] = useState<string>(props.title);
 
-	function handleInput(event: React.MouseEvent) {
+	async function handleInput(event: React.MouseEvent) {
 		event.stopPropagation();
-		props.onInput(newTitle);
+		await props.onInput(newTitle);
 		setIsEditingTitle(false);
 	}
 
