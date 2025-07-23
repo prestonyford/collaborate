@@ -6,6 +6,7 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import NotFound from './pages/NotFound'
 import TaskPage from './pages/task/TaskPage'
 import Layout from './Layout'
+import LoginPage from './pages/login/LoginPage'
 
 function App() {
 	return (
@@ -16,8 +17,14 @@ function App() {
 					<Routes>
 						<Route
 							index
-							element={<Navigate to={`/projects/1`} replace />}
+							element={<Navigate to={`/login`} replace />}
 						/>
+
+						<Route
+							path="login"
+							element={<LoginPage />}
+						/>
+
 						<Route
 							path="projects"
 							element={<Navigate to={`/projects/1`} replace />}
