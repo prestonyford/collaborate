@@ -9,6 +9,10 @@ import type CreateTaskRequest from "../request/CreateTaskRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class HttpProjectCommunicator extends HttpCommunicator implements ProjectCommunicator {
+	public constructor() {
+		super("/api");
+	}
+
 	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
 		return this.makeRequest<ProjectDTO[]>(`/projects`);
 	}

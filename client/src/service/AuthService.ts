@@ -1,4 +1,5 @@
 import type AuthCommunicator from "../net/AuthCommunicator/AuthCommunicator";
+import { UnauthorizedError } from "../net/Errors";
 import type LoginRequest from "../net/request/LoginRequest";
 import type RegisterRequest from "../net/request/RegisterRequest";
 
@@ -17,7 +18,14 @@ export default class AuthService {
 		return this.communicator.register(data);
 	}
 	public async checkStatus(): Promise<boolean> {
-		const response = await this.communicator.checkStatus();
-		return response.status;
+		try {
+			const response = await this.communicator.checkStatus();
+			return response.status;
+		} catch (error) {
+			if (error instanceof UnauthorizedError) {
+				return false;
+			}
+		}
+		return false;
 	}
 }

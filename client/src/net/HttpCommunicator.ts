@@ -1,8 +1,13 @@
 import { HttpError, NotFoundError, ServerError, UnauthorizedError } from "./Errors";
 
-export default class HttpCommunicator {
+export default abstract class HttpCommunicator {
+	private url: string
+	protected constructor(url: string) {
+		this.url = url;
+	}
+
 	protected async makeRequest<T>(path: string, options?: RequestInit) {
-		const response = await fetch('/api' + path, {
+		const response = await fetch(this.url + path, {
 			headers: {
 				'Content-Type': 'application/json'
 			},
