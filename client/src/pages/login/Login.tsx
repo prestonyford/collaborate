@@ -29,7 +29,7 @@ export default function Login() {
 	}
 
 	return (
-		<div className="w-96 max-w-screen bg-base-alt border border-accent rounded-xl p-6">
+		<div className="w-96 max-w-screen bg-base-alt dark:bg-surface border border-accent rounded-xl p-6">
 			<h2>Login</h2>
 			<div className="mt-2">
 				<label htmlFor="username" className="text-text-muted">Username</label>

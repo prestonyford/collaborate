@@ -8,6 +8,7 @@ namespace TaskboardAPI
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+        public DbSet<User> Users => Set<User>();
         public DbSet<Project> Projects => Set<Project>();
         public DbSet<Column> Columns => Set<Column>();
         public DbSet<ProjectTask> Tasks => Set<ProjectTask>();
@@ -15,6 +16,8 @@ namespace TaskboardAPI
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .HasKey(u => u.Username);
             modelBuilder.Entity<Column>()
                 .HasIndex(c => c.ProjectId);
             modelBuilder.Entity<ProjectTask>()

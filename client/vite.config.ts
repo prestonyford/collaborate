@@ -13,7 +13,11 @@ export default defineConfig({
 			'/api': {
 				target: 'https://localhost:7069',
 				secure: false
-			}
+			},
+			'/auth': {
+				target: 'https://localhost:7069',
+				secure: false
+			},
 		}
 	}
 })

@@ -1,5 +1,5 @@
 import type AuthCommunicator from "../net/AuthCommunicator/AuthCommunicator";
-import { UnauthorizedError } from "../net/Errors";
+import { HttpError, UnauthorizedError } from "../net/Errors";
 import type LoginRequest from "../net/request/LoginRequest";
 import type RegisterRequest from "../net/request/RegisterRequest";
 
@@ -15,7 +15,18 @@ export default class AuthService {
 	}
 
 	public async register(data: RegisterRequest): Promise<void> {
-		return this.communicator.register(data);
+		try {
+			const response = await this.communicator.register(data);
+			return response;
+		} catch (error) {
+			if (error instanceof HttpError && error.status === 409) {
+				throw new HttpError("A user with this username already exists. Please choose another.", 409);
+			}
+			if (error instanceof HttpError && error.status === 400) {
+				throw new HttpError("Please enter a username, password, and email.", 409);
+			}
+			throw new Error("An error occured while creating your account. Please try again later.");
+		}
 	}
 	public async checkStatus(): Promise<boolean> {
 		try {

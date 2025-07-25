@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
 using TaskboardAPI.Request;
+using TaskboardAPI.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TaskboardAPI;
 
@@ -13,9 +16,36 @@ public static class AuthRoutes
 
         authRoutes.MapPost("/login", Login);
         authRoutes.MapPost("/logout", Logout);
+        authRoutes.MapPost("/register", Register);
         authRoutes.MapGet("/status", GetStatus);
 
         return app;
+    }
+    private static async Task<IResult> Register([FromBody] RegisterRequest request, HttpContext ctx, AppDbContext db)
+    {
+        var user = await db.Users.FindAsync(request.Username);
+        if (user != null)
+        {
+            return Results.Conflict();
+        }
+        var hasher = new PasswordHasher<object>();
+        string hashedPassword = hasher.HashPassword(null, request.Password);
+        var newUser = db.Users.Add(new User { Username = request.Username, Email = request.Email, HashedPassword = hashedPassword });
+        await db.SaveChangesAsync();
+
+        var claims = new List<Claim>
+        {
+            new Claim(ClaimTypes.Name, newUser.Entity.Username),
+        };
+
+        var claimsIdentity = new ClaimsIdentity(
+            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+        await ctx.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity));
+
+        return Results.Created($"/auth/register", new { username = newUser.Entity.Username });
     }
 
     private static async Task<IResult> Login(HttpContext ctx, LoginRequest request)
