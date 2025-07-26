@@ -48,7 +48,7 @@ public static class AuthRoutes
         return Results.Created($"/auth/register", new { username = newUser.Entity.Username });
     }
 
-    private static async Task<IResult> Login(HttpContext ctx, LoginRequest request)
+    private static async Task<IResult> Login(HttpContext ctx, [FromBody] LoginRequest request)
     {
         var claims = new List<Claim>
         {
@@ -60,13 +60,13 @@ public static class AuthRoutes
 
         await ctx.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-        return Results.Ok("Logged in");
+        return Results.Ok();
     }
 
     private static async Task<IResult> Logout(HttpContext ctx)
     {
         await ctx.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return Results.Ok("Logged out");
+        return Results.Ok("");
     }
 
     private static IResult GetStatus(HttpContext ctx)

@@ -28,6 +28,11 @@ export default class AuthService {
 			throw new Error("An error occured while creating your account. Please try again later.");
 		}
 	}
+
+	public async logout(): Promise<void> {
+		this.communicator.logout();
+	}
+
 	public async checkStatus(): Promise<boolean> {
 		try {
 			const response = await this.communicator.checkStatus();

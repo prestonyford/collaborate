@@ -1,0 +1,16 @@
+.profile-menu {
+	transform-origin: top;
+	animation: open 100ms ease-out forwards;
+}
+
+@keyframes open {
+	from {
+		opacity: 0;
+		transform: scaleY(0);
+	}
+
+	to {
+		opacity: 1;
+		transform: scaleY(1);
+	}
+}

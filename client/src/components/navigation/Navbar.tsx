@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import LightDarkToggle from '../base/LightDarkToggle'
 import { useNavigate } from 'react-router-dom'
+import ProfileIcon from './ProfileIcon'
 
 function Navbar() {
 	const navigate = useNavigate()
@@ -18,8 +19,9 @@ function Navbar() {
 				</div>
 
 				{/* Right */}
-				<div className='flex items-center h-full gap-2 mr-4'>
+				<div className='flex items-center h-full gap-4 mr-4'>
 					<LightDarkToggle />
+					<ProfileIcon />
 				</div>
 			</div>
 		</>

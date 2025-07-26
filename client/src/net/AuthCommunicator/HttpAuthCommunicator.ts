@@ -21,6 +21,13 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 			body: JSON.stringify(data)
 		});
 	}
+	
+	async logout(): Promise<void> {
+		await this.makeRequest(`/logout`, {
+			method: "POST"
+		});
+	}
+
 	async checkStatus(): Promise<StatusResponse> {
 		return await this.makeRequest<StatusResponse>(`/status`);
 	}

@@ -14,12 +14,16 @@ export default abstract class HttpCommunicator {
 			...options
 		});
 		if (response.ok) {
-			return response.json() as Promise<T>;
+			if (response.headers.get('content-type')?.includes('application/json')) {
+				return await response.json() as T;
+			}
+			return undefined as T;
 		} else {
 			if (response.status === 404) {
 				throw new NotFoundError();
 			} else if (response.status === 401) {
-				throw new UnauthorizedError();
+				window.location.href = "/login";
+				// throw new UnauthorizedError();
 			} else if (response.status >= 500) {
 				throw new ServerError();
 			}

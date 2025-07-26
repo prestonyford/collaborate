@@ -1,6 +1,7 @@
 import clsx from 'clsx'
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { createPortal } from 'react-dom'
+import { useClickOutside } from '../../hooks/useClickOutside'
 
 export interface Option {
 	id: string
@@ -43,23 +44,8 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 			setPos({ top: rect.bottom + window.scrollY, left: rect.left + window.scrollX });
 		}
 	}, [open, triggerRef]);
-
-	useEffect(() => {
-		if (!open) return;
-		function handleClickOutside(event: MouseEvent) {
-			const target = event.target as Node;
-			if (
-				(triggerRef.current && !triggerRef.current.contains(target)) &&
-				(menuRef.current && !menuRef.current.contains(target))
-			) {
-				setOpen(false);
-			}
-		}
-		document.addEventListener('mousedown', handleClickOutside);
-		return () => {
-			document.removeEventListener('mousedown', handleClickOutside);
-		};
-	}, [open]);
+	
+	useClickOutside([triggerRef, menuRef], () => setOpen(false), open);
 
 	return (
 		<div ref={triggerRef} className={clsx("relative inline-block text-left text-sm", triggerClass)}>
