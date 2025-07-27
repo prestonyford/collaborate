@@ -13,7 +13,7 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 		await this.makeRequest(`/login`, {
 			method: "POST",
 			body: JSON.stringify(data)
-		});
+		}, true);
 	}
 	async register(data: RegisterRequest): Promise<void> {
 		await this.makeRequest(`/register`, {

@@ -6,7 +6,7 @@ export default abstract class HttpCommunicator {
 		this.url = url;
 	}
 
-	protected async makeRequest<T>(path: string, options?: RequestInit) {
+	protected async makeRequest<T>(path: string, options?: RequestInit, ignoreUnauthorized: boolean = false) {
 		const response = await fetch(this.url + path, {
 			headers: {
 				'Content-Type': 'application/json'
@@ -22,8 +22,11 @@ export default abstract class HttpCommunicator {
 			if (response.status === 404) {
 				throw new NotFoundError();
 			} else if (response.status === 401) {
-				window.location.href = "/login";
-				// throw new UnauthorizedError();
+				if (ignoreUnauthorized) {
+					throw new UnauthorizedError();
+				} else {
+					window.location.href = "/login";
+				}
 			} else if (response.status >= 500) {
 				throw new ServerError();
 			}

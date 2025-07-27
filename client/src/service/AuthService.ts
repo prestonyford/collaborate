@@ -11,7 +11,15 @@ export default class AuthService {
 	}
 
 	public async login(data: LoginRequest): Promise<void> {
-		return this.communicator.login(data);
+		try {
+			const response = await this.communicator.login(data);
+			return response;
+		} catch (error) {
+			if (error instanceof HttpError && error.status === 401) {
+				throw new HttpError("Invalid username or password.", 401);
+			}
+			throw error;
+		}
 	}
 
 	public async register(data: RegisterRequest): Promise<void> {

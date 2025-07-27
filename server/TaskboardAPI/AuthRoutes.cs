@@ -48,8 +48,21 @@ public static class AuthRoutes
         return Results.Created($"/auth/register", new { username = newUser.Entity.Username });
     }
 
-    private static async Task<IResult> Login(HttpContext ctx, [FromBody] LoginRequest request)
+    private static async Task<IResult> Login(HttpContext ctx, AppDbContext db, [FromBody] LoginRequest request)
     {
+        var user = await db.Users.FindAsync(request.Username);
+        if (user == null)
+        {
+            return Results.Unauthorized();
+        }
+        var hasher = new PasswordHasher<object>();
+        var result = hasher.VerifyHashedPassword(null, user.HashedPassword, request.Password);
+
+        if (result == PasswordVerificationResult.Failed)
+        {
+            return Results.Unauthorized();
+        }
+
         var claims = new List<Claim>
         {
             new (ClaimTypes.Name, request.Username)

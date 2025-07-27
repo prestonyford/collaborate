@@ -18,8 +18,9 @@ export default function Login() {
 		setIsLoading(true);
 		try {
 			await authService.login({ username, password });
+			window.location.href = "/projects";
 		} catch (error) {
-			console.log(error);
+			console.error(error);
 			if (error instanceof Error) {
 				alert(error.message);
 			}
