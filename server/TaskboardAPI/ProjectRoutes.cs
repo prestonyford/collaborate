@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TaskboardAPI.Models;
 using TaskboardAPI.Request;
 using TaskboardAPI.Response;
@@ -65,9 +66,15 @@ public static class ProjectRoutes
         return Results.Ok(columns);
     }
 
-    private static async Task<IResult> CreateTask(int pid, int cid, CreateTaskRequest request, AppDbContext db)
+    private static async Task<IResult> CreateTask(int pid, int cid, [FromBody] CreateTaskRequest request, AppDbContext db, HttpContext ctx)
     {
         TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+        string? name = ctx?.User?.Identity?.Name;
+        if (name == null)
+        {
+            return Results.Unauthorized();
+        }
+
         ProjectTask task = new()
         {
             ProjectId = pid,
@@ -75,9 +82,10 @@ public static class ProjectRoutes
             Title = request.Title,
             Description = request.Description,
             Labels = [],
-            CreatedBy = "",
+            CreatedBy = name,
             CreationDate = (long)t.TotalMilliseconds
         };
+
         await db.Tasks.AddAsync(task);
         await db.SaveChangesAsync();
         return Results.Created($"/api/projects/{pid}/tasks/{task.Id}", task);
