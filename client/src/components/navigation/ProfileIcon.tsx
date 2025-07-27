@@ -4,10 +4,13 @@ import { useClickOutside } from "../../hooks/useClickOutside";
 import "./profileIcon.css"
 import { useServiceStore } from "../../serviceStore";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../userStore";
 
 
 export default function ProfileIcon() {
 	const authService = useServiceStore(state => state.authService);
+	const me = useUserStore(state => state.me);
+
 	const navigate = useNavigate();
 	const iconRef = useRef<HTMLDivElement>(null);
 	const menuRef = useRef<HTMLDivElement>(null);
@@ -49,7 +52,7 @@ export default function ProfileIcon() {
 						right: `${pos.right}px`
 					}}
 				>
-					<h4 className="p-3 pb-1">Username</h4>
+					<h4 className="p-3 pb-1">{me?.username}</h4>
 					<div className="text-text-muted cursor-pointer">
 						<div className="border-t border-accent hover:bg-surface-active transition-colors py-1.5 px-3">
 							View profile

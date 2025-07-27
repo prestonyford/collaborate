@@ -9,14 +9,14 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 		super("/auth");
 	}
 	
-	async login(data: LoginRequest): Promise<void> {
-		await this.makeRequest(`/login`, {
+	async login(data: LoginRequest): Promise<StatusResponse> {
+		return await this.makeRequest<StatusResponse>(`/login`, {
 			method: "POST",
 			body: JSON.stringify(data)
 		}, true);
 	}
-	async register(data: RegisterRequest): Promise<void> {
-		await this.makeRequest(`/register`, {
+	async register(data: RegisterRequest): Promise<StatusResponse> {
+		return await this.makeRequest<StatusResponse>(`/register`, {
 			method: "POST",
 			body: JSON.stringify(data)
 		});
@@ -29,6 +29,6 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	}
 
 	async checkStatus(): Promise<StatusResponse> {
-		return await this.makeRequest<StatusResponse>(`/status`);
+		return await this.makeRequest<StatusResponse>(`/status`, undefined, true);
 	}
 }

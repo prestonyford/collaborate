@@ -5,6 +5,7 @@ using TaskboardAPI.Request;
 using TaskboardAPI.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TaskboardAPI.Response;
 
 namespace TaskboardAPI;
 
@@ -45,7 +46,7 @@ public static class AuthRoutes
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity));
 
-        return Results.Created($"/auth/register", new { username = newUser.Entity.Username });
+        return Results.Created($"/auth/register", new StatusResponse { Username = newUser.Entity.Username, Email = newUser.Entity.Email });
     }
 
     private static async Task<IResult> Login(HttpContext ctx, AppDbContext db, [FromBody] LoginRequest request)
@@ -73,7 +74,7 @@ public static class AuthRoutes
 
         await ctx.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-        return Results.Ok();
+        return Results.Ok(new StatusResponse { Username = user.Username, Email = user.Email });
     }
 
     private static async Task<IResult> Logout(HttpContext ctx)
@@ -82,11 +83,17 @@ public static class AuthRoutes
         return Results.Ok("");
     }
 
-    private static IResult GetStatus(HttpContext ctx)
+    private static async Task<IResult> GetStatus(HttpContext ctx, AppDbContext db)
     {
         if (ctx.User.Identity?.IsAuthenticated == true)
         {
-            return Results.Ok(new { Status = true });
+            string? username = ctx.User.Identity.Name;
+            if (username == null) { return Results.Unauthorized(); }
+
+            var user = await db.Users.FindAsync(username);
+            if (user == null) { return Results.Unauthorized(); }
+
+            return Results.Ok(new StatusResponse { Username = username, Email = user.Email });
         }
 
         return Results.Unauthorized();

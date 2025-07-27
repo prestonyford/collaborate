@@ -1,7 +1,9 @@
+import type UserDTO from "../model/dto/UserDTO";
 import type AuthCommunicator from "../net/AuthCommunicator/AuthCommunicator";
 import { HttpError, UnauthorizedError } from "../net/Errors";
 import type LoginRequest from "../net/request/LoginRequest";
 import type RegisterRequest from "../net/request/RegisterRequest";
+import type StatusResponse from "../net/response/StatusResponse";
 
 export default class AuthService {
 	private readonly communicator: AuthCommunicator
@@ -10,7 +12,7 @@ export default class AuthService {
 		this.communicator = communicator;
 	}
 
-	public async login(data: LoginRequest): Promise<void> {
+	public async login(data: LoginRequest): Promise<StatusResponse> {
 		try {
 			const response = await this.communicator.login(data);
 			return response;
@@ -22,7 +24,7 @@ export default class AuthService {
 		}
 	}
 
-	public async register(data: RegisterRequest): Promise<void> {
+	public async register(data: RegisterRequest): Promise<StatusResponse> {
 		try {
 			const response = await this.communicator.register(data);
 			return response;
@@ -41,15 +43,11 @@ export default class AuthService {
 		this.communicator.logout();
 	}
 
-	public async checkStatus(): Promise<boolean> {
-		try {
-			const response = await this.communicator.checkStatus();
-			return response.status;
-		} catch (error) {
-			if (error instanceof UnauthorizedError) {
-				return false;
-			}
-		}
-		return false;
+	public async checkStatus(): Promise<UserDTO> {
+		const response = await this.communicator.checkStatus();
+		return {
+			username: response.username,
+			email: response.email
+		};
 	}
 }

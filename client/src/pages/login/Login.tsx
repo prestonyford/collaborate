@@ -4,12 +4,15 @@ import TextInput from "../../components/base/TextInput";
 import { useServiceStore } from "../../serviceStore";
 import clsx from "clsx";
 import LoadingIcon from "../../components/base/LoadingIcon";
+import { useUserStore } from "../../userStore";
 
 interface Props {
 }
 
 export default function Login() {
 	const authService = useServiceStore(state => state.authService);
+	const setMe = useUserStore(state => state.setMe);
+	
 	const [username, setUsername] = useState<string>("");
 	const [password, setPassword] = useState<string>("");
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -17,7 +20,8 @@ export default function Login() {
 	async function handleLogin() {
 		setIsLoading(true);
 		try {
-			await authService.login({ username, password });
+			const user = await authService.login({ username, password });
+			setMe(user);
 			window.location.href = "/projects";
 		} catch (error) {
 			console.error(error);

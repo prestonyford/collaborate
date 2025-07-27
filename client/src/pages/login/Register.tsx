@@ -5,12 +5,14 @@ import { useServiceStore } from "../../serviceStore";
 import clsx from "clsx";
 import LoadingIcon from "../../components/base/LoadingIcon";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../userStore";
 
 interface Props {
 }
 
 export default function Register() {
 	const authService = useServiceStore(state => state.authService);
+	const setMe = useUserStore(state => state.setMe);
 	const navigate = useNavigate();
 
 	const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -70,7 +72,8 @@ export default function Register() {
 		}
 		setIsLoading(true);
 		try {
-			await authService.register({ username, email, password });
+			const user = await authService.register({ username, email, password });
+			setMe(user);
 			navigate("/projects");
 		} catch (error) {
 			console.error(error);

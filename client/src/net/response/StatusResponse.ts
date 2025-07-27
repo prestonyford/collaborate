@@ -1,3 +1,4 @@
 export default interface StatusResponse {
-	status: boolean
+	username: string
+	email: string
 }
