@@ -20,6 +20,7 @@ function Project(props: Props) {
 	const reset = useBoardStore((state) => state.reset);
 	const createColumn = useBoardStore((state) => state.createColumn);
 	const project = useBoardStore((state) => state.project);
+	const projectLabels = useBoardStore((state) => state.projectLabels);
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
 
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
@@ -52,7 +53,7 @@ function Project(props: Props) {
 				<div className='flex gap-3 text-sm'>
 					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
 					<Button content="Share" variant="secondary" />
-					<LabelChecklistDropdown onInput={() => { }} selectedIds={[]} defaultText="Filter labels" />
+					<LabelChecklistDropdown labels={projectLabels} onInput={() => { }} selectedIds={[]} defaultText="Filter labels" />
 				</div>
 			</>}>
 				{loading

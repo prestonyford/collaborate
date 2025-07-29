@@ -14,6 +14,7 @@ interface TaskState {
 	saveDescription: (description: string) => Promise<void>
 	saveTitle: (title: string) => Promise<void>
 	loadDiscussionItems: (pageSize: number, lastItemID: string | null) => Promise<boolean>
+	updateLabels: (labels: string[]) => Promise<void>
 }
 
 const initialState = {
@@ -73,6 +74,17 @@ const useTaskStore = create<TaskState>()((set, get) => {
 				};
 			});
 			return hasMore
+		},
+		updateLabels: async (labels: string[]) => {
+			const { projectId, task } = get();
+			if (!projectId || !task) throw new Error("Cannot modify labels without project and task loaded.");
+			await projectService.updateCardLabels(projectId, task.id, labels);
+			set({
+				task: {
+					...task,
+					labels
+				}
+			});
 		}
 	}
 });

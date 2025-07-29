@@ -20,9 +20,10 @@ interface Props {
 	selectedId?: string,
 	triggerClass?: string,
 	onSelect: (id: string) => void
+	onClose?: () => void
 }
 
-function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = '', onSelect }: Props) {
+function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = '', onSelect, onClose }: Props) {
 	const [open, setOpen] = useState(false);
 	const [pos, setPos] = useState({ top: 0, left: 0 });
 	const triggerRef = useRef<HTMLDivElement>(null);
@@ -45,7 +46,7 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 		}
 	}, [open, triggerRef]);
 	
-	useClickOutside([triggerRef, menuRef], () => setOpen(false), open);
+	useClickOutside([triggerRef, menuRef], () => { setOpen(false); onClose?.() } , open);
 
 	return (
 		<div ref={triggerRef} className={clsx("relative inline-block text-left text-sm", triggerClass)}>

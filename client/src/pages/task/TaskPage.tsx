@@ -11,6 +11,7 @@ import { useAsyncWithError } from "../../hooks/useAsyncWithError";
 import ErrorView from "../../components/base/ErrorView";
 import TaskTitle from "./TaskTitle";
 import './taskPage.css'
+import Labels from "./Labels";
 
 interface Props {
 
@@ -23,12 +24,6 @@ function TaskPage(props: Props) {
 	const initialize = useTaskStore(state => state.initialize);
 	const reset = useTaskStore(state => state.reset);
 	const task = useTaskStore(state => state.task);
-	const projectLabels = useTaskStore(state => state.projectLabels);
-
-	const projectLabelsMap = useMemo(
-		() => Object.fromEntries(projectLabels.map(label => [label.id, label])),
-		[projectLabels]
-	);
 
 	const projectId = params.pid;
 	const taskID = params.tid;
@@ -71,12 +66,7 @@ function TaskPage(props: Props) {
 						</div>
 
 						<div className="page-item">
-							<h3 className="mt-4">Labels</h3>
-							<div className="flex gap-2 pt-1">
-								{task.labels.map(lid => (
-									<Label key={lid} title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable />
-								))}
-							</div>
+							<Labels />
 						</div>
 
 						<div className="page-item">

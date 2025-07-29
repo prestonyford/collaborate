@@ -19,12 +19,13 @@ function App() {
 	const setAuthChecked = useUserStore(state => state.setAuthChecked);
 
 	useEffect(() => {
-		authService.checkStatus().then(user => {
-			setMe(user);
-		})
-		.finally(() => {
-			setAuthChecked(true);
-		});
+		authService.checkStatus()
+			.then(user => {
+				setMe(user);
+			})
+			.finally(() => {
+				setAuthChecked(true);
+			});
 	}, []);
 
 	if (!authChecked) {

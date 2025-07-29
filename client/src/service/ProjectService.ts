@@ -64,4 +64,7 @@ export default class ProjectService {
 	public async getCardDiscussion(projectId: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		return this.communicator.getCardDiscussion(projectId, cardID, pageSize, lastItemID);
 	}
+	public async updateCardLabels(projectId: string, cardID: string, labels: string[]): Promise<void> {
+		await this.communicator.updateCard(projectId, cardID, { labels });
+	}
 }

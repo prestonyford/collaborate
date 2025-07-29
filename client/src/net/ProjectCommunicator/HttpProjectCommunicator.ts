@@ -56,7 +56,7 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 			body: JSON.stringify(diff)
 		});
 	}
-	async getCardDiscussion(projectId: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+	async getCardDiscussion(projectId: string, taskID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		throw new Error("Method not implemented.");
 	}
 }

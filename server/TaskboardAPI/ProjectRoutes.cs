@@ -131,6 +131,11 @@ public static class ProjectRoutes
             task.Title = request.Title;
         }
 
+        if (request.Labels != null)
+        {
+            task.Labels = request.Labels;
+        }
+
         await db.SaveChangesAsync();
         return Results.Ok(task);
     }
