@@ -81,7 +81,7 @@ public static class ProjectRoutes
             ColumnId = cid,
             Title = request.Title,
             Description = request.Description,
-            Labels = [],
+            Labels = request.Labels,
             CreatedBy = name,
             CreationDate = (long)t.TotalMilliseconds
         };

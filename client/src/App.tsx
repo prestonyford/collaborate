@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import Project from './pages/board/Project'
 import Navbar from './components/navigation/Navbar'
 import Sidebar from './components/navigation/Sidebar/Sidebar'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes, useNavigate } from 'react-router-dom'
 import NotFound from './pages/NotFound'
 import TaskPage from './pages/task/TaskPage'
 import Layout from './Layout'
@@ -22,6 +22,11 @@ function App() {
 		authService.checkStatus()
 			.then(user => {
 				setMe(user);
+			})
+			.catch(() => {
+				if (window.location.pathname !== "/login") {
+					window.location.href = "/login";
+				}
 			})
 			.finally(() => {
 				setAuthChecked(true);
