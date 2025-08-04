@@ -8,6 +8,7 @@ import type TaskDTO from "../model/dto/TaskDTO";
 import { NotFoundError } from "../net/Errors";
 import type ProjectCommunicator from "../net/ProjectCommunicator/ProjectCommunicator";
 import type CreateTaskRequest from "../net/request/CreateTaskRequest";
+import type ShareProjectRequest from "../net/request/ShareProjectRequest";
 
 export default class ProjectService {
 	private readonly communicator: ProjectCommunicator
@@ -70,5 +71,8 @@ export default class ProjectService {
 	}
 	public async updateCardLabels(projectId: string, cardID: string, labels: string[]): Promise<void> {
 		await this.communicator.updateCard(projectId, cardID, { labels });
+	}
+	public async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {
+		return this.communicator.shareProject(shareData);
 	}
 }

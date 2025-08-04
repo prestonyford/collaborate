@@ -61,7 +61,7 @@ function Popup(props: Props) {
 										<LoadingIcon size="small" />
 									</div>}
 									{props.buttons.map(buttonOption => (
-										<Button key={buttonOption.text} content={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} disabled={buttonOption.disabled} />
+										<Button key={buttonOption.text} content={buttonOption.text} variant={buttonOption.variant} onClick={buttonOption.onClick} disabled={props.loading || buttonOption.disabled} />
 									))}
 								</div>
 							</div>

@@ -17,7 +17,7 @@ interface ServiceState {
 const useServiceStore = create<ServiceState>()(set => ({
 	projectService: new ProjectService(new FakeProjectCommunicator()),
 	authService: new AuthService(new HttpAuthCommunicator()),
-	userService: new UserService(new FakeUserCommunicator())
+	userService: new UserService(FakeUserCommunicator.getInstance()) // Should probably make all the rest singletons too
 }));
 
 export { useServiceStore };

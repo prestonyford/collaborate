@@ -6,6 +6,7 @@ import type ProjectDTO from "../../model/dto/ProjectDTO";
 import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
+import type ShareProjectRequest from "../request/ShareProjectRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class FakeProjectCommunicator implements ProjectCommunicator {
@@ -185,23 +186,9 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			{
 				id: 'ps_003',
 				projectId: projectId,
-				sharedWith: 'user_123',
-				sharedBy: 'user_888',
-				sharedTime: Date.now() - 800000
-			},
-			{
-				id: 'ps_004',
-				projectId: projectId,
 				sharedWith: 'user_789',
 				sharedBy: 'user_777',
 				sharedTime: Date.now() - 700000
-			},
-			{
-				id: 'ps_005',
-				projectId: projectId,
-				sharedWith: 'user_456',
-				sharedBy: 'user_888',
-				sharedTime: Date.now() - 600000
 			}
 		];
 	}
@@ -340,5 +327,16 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 				parentID: null
 			}
 		]];
+	}
+
+	async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {
+		await new Promise(resolve => setTimeout(resolve, 1000));
+		return shareData.usernames.map(username => ({
+			id: 'ps_' + username,
+			projectId: shareData.projectId,
+			sharedWith: username,
+			sharedBy: 'user_999',
+			sharedTime: Date.now() - 1000000
+		}));
 	}
 }

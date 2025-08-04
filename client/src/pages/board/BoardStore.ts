@@ -6,6 +6,7 @@ import { useServiceStore } from '../../serviceStore';
 import type ProjectDTO from '../../model/dto/ProjectDTO';
 import type CreateTaskRequest from '../../net/request/CreateTaskRequest';
 import type ProjectShare from '../../model/dto/ProjectShare';
+import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
 
 
 interface ProjectState {
@@ -22,6 +23,7 @@ interface ProjectState {
 	setColumnCardSummaries: (columnId: string, newCardSummaries: CardSummaryDTO[]) => void
 	createColumn: (name: string, color: string) => Promise<void>
 	createTask: (columnId: string, createData: CreateTaskRequest) => Promise<void>
+	shareProject: (shareData: ShareProjectRequest) => Promise<void>
 }
 
 const defaultState = {
@@ -35,7 +37,7 @@ const defaultState = {
 
 const useBoardStore = create<ProjectState>()((set, get) => {
 	const { projectService } = useServiceStore.getState();
-	
+
 	return {
 		...defaultState,
 
@@ -93,7 +95,7 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 				}
 			}));
 		},
-		
+
 		createTask: async (columnId: string, createData: CreateTaskRequest) => {
 			const pid = get().project?.id;
 			if (!pid) {
@@ -105,7 +107,12 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 					...state.cardSummaries,
 					[newTask.columnId]: [...state.cardSummaries[newTask.columnId], newTask]
 				}
-			}))
+			}));
+		},
+
+		shareProject: async (shareData: ShareProjectRequest) => {
+			const newShares = await projectService.shareProject(shareData);
+			set({ projectShares: newShares });
 		}
 	}
 });

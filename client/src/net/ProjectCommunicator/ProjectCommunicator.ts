@@ -6,6 +6,7 @@ import type ProjectDTO from "../../model/dto/ProjectDTO";
 import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
+import type ShareProjectRequest from "../request/ShareProjectRequest";
 
 export default interface ProjectCommunicator {
 	getOwnedAndSharedProjects(): Promise<ProjectDTO[]>
@@ -15,6 +16,7 @@ export default interface ProjectCommunicator {
 	getProjectShares(projectId: string): Promise<ProjectShare[]>
 	createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO>
 	createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO>
+	shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]>
 
 	// Cards
 	getCardSummaries( projectId: string, columnId: string, pageSize: number, lastCardID: string | null ): Promise<[CardSummaryDTO[], boolean]>

@@ -8,6 +8,7 @@ interface Props {
 	value: string
 	type?: "text" | "password" | "email"
 	className?: string
+	disabled?: boolean
 	onChange: (val: string) => void
 }
 
@@ -15,7 +16,12 @@ function TextInput(props: Props) {
 	
 	return (
 		<input
-			className={clsx("border rounded-md px-1.5 py-[1px] bg-base", props.invalid ? 'border-red-400' : 'border-gray-300 dark:border-gray-400', props.className ?? '')}
+			className={clsx(
+				"border rounded-md px-1.5 py-[1px] bg-base",
+				props.invalid ? 'border-red-400' : 'border-gray-300 dark:border-gray-400',
+				props.className ?? '',
+				{'opacity-60 pointer-events-none': props.disabled}
+			)}
 			type={props.type ?? "text"}
 			id={props.id}
 			placeholder={props.placeholder}
