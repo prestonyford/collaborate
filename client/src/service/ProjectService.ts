@@ -3,6 +3,7 @@ import type CardSummaryDTO from "../model/dto/CardSummaryDTO";
 import type ColumnDTO from "../model/dto/ColumnDTO";
 import type LabelDTO from "../model/dto/LabelDTO";
 import type ProjectDTO from "../model/dto/ProjectDTO";
+import type ProjectShare from "../model/dto/ProjectShare";
 import type TaskDTO from "../model/dto/TaskDTO";
 import { NotFoundError } from "../net/Errors";
 import type ProjectCommunicator from "../net/ProjectCommunicator/ProjectCommunicator";
@@ -33,6 +34,9 @@ export default class ProjectService {
 	}
 	public async getColumnsByProject(projectId: string): Promise<ColumnDTO[]> {
 		return this.communicator.getColumnsByProject(projectId);
+	}
+	public async getProjectShares(projectId: string): Promise<ProjectShare[]> {
+		return this.communicator.getProjectShares(projectId);
 	}
 	public async createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO> {
 		return this.communicator.createColumn(projectId, name, color);

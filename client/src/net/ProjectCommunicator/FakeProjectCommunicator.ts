@@ -3,7 +3,9 @@ import type CardSummaryDTO from "../../model/dto/CardSummaryDTO";
 import type ColumnDTO from "../../model/dto/ColumnDTO";
 import type LabelDTO from "../../model/dto/LabelDTO";
 import type ProjectDTO from "../../model/dto/ProjectDTO";
+import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
+import type CreateTaskRequest from "../request/CreateTaskRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class FakeProjectCommunicator implements ProjectCommunicator {
@@ -126,11 +128,11 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			{ id: '7', projectId: '1', title: 'v1.2.0-beta', color: '#607d8b' },     // blue grey
 			{ id: '8', projectId: '1', title: 'A', color: '#000000' },               // black
 			{ id: '9', projectId: '1', title: 'Z', color: '#ffffff' },               // white
-			{ id: '10',  projectId: '1', title: 'This Label Has a Really Long Name', color: '#03a9f4' },
-			{ id: '11',  projectId: '1', title: 'Done', color: '#cddc39' },           // lime
-			{ id: '12',  projectId: '1', title: 'Stuck', color: '#e91e63' },          // pink
-			{ id: '13',  projectId: '1', title: 'Low Priority', color: '#ff9800' },   // orange
-			{ id: '14',  projectId: '1', title: 'Dark Theme Test', color: '#121212' } // very dark
+			{ id: '10', projectId: '1', title: 'This Label Has a Really Long Name', color: '#03a9f4' },
+			{ id: '11', projectId: '1', title: 'Done', color: '#cddc39' },           // lime
+			{ id: '12', projectId: '1', title: 'Stuck', color: '#e91e63' },          // pink
+			{ id: '13', projectId: '1', title: 'Low Priority', color: '#ff9800' },   // orange
+			{ id: '14', projectId: '1', title: 'Dark Theme Test', color: '#121212' } // very dark
 		]
 	}
 
@@ -164,6 +166,46 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		]
 	}
 
+	async getProjectShares(projectId: string): Promise<ProjectShare[]> {
+		return [
+			{
+				id: 'ps_001',
+				projectId: projectId,
+				sharedWith: 'user_123',
+				sharedBy: 'user_999',
+				sharedTime: Date.now() - 1000000
+			},
+			{
+				id: 'ps_002',
+				projectId: projectId,
+				sharedWith: 'user_456',
+				sharedBy: 'user_999',
+				sharedTime: Date.now() - 900000
+			},
+			{
+				id: 'ps_003',
+				projectId: projectId,
+				sharedWith: 'user_123',
+				sharedBy: 'user_888',
+				sharedTime: Date.now() - 800000
+			},
+			{
+				id: 'ps_004',
+				projectId: projectId,
+				sharedWith: 'user_789',
+				sharedBy: 'user_777',
+				sharedTime: Date.now() - 700000
+			},
+			{
+				id: 'ps_005',
+				projectId: projectId,
+				sharedWith: 'user_456',
+				sharedBy: 'user_888',
+				sharedTime: Date.now() - 600000
+			}
+		];
+	}
+
 	async createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO> {
 		return {
 			id: '999',
@@ -171,6 +213,10 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			name,
 			color
 		}
+	}
+
+	async createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO> {
+		throw new Error("Method not implemented.");
 	}
 
 	async getCardSummaries(projectId: string, columnId: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {

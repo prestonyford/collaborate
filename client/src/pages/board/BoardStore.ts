@@ -5,6 +5,7 @@ import type LabelDTO from '../../model/dto/LabelDTO';
 import { useServiceStore } from '../../serviceStore';
 import type ProjectDTO from '../../model/dto/ProjectDTO';
 import type CreateTaskRequest from '../../net/request/CreateTaskRequest';
+import type ProjectShare from '../../model/dto/ProjectShare';
 
 
 interface ProjectState {
@@ -13,6 +14,7 @@ interface ProjectState {
 	projectLabels: LabelDTO[]
 	columns: ColumnDTO[]
 	cardSummaries: Record<string, CardSummaryDTO[]>
+	projectShares: ProjectShare[]
 	initialize: (projectId: string) => Promise<void>
 	reset: () => void
 	setLoading: (isLoading: boolean) => void
@@ -28,6 +30,7 @@ const defaultState = {
 	projectLabels: [],
 	columns: [],
 	cardSummaries: {},
+	projectShares: []
 }
 
 const useBoardStore = create<ProjectState>()((set, get) => {
@@ -37,12 +40,13 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 		...defaultState,
 
 		initialize: async (projectId: string) => {
-			const [project, projectLabels, columns] = await Promise.all([
+			const [project, projectLabels, columns, projectShares] = await Promise.all([
 				projectService.getProject(projectId),
 				projectService.getProjectLabels(projectId),
-				projectService.getColumnsByProject(projectId)
+				projectService.getColumnsByProject(projectId),
+				projectService.getProjectShares(projectId)
 			]);
-			set({ project, projectLabels, columns });
+			set({ project, projectLabels, columns, projectShares });
 			for (let col of columns) {
 				const [cardSummaries, hasMore] = await projectService.getCardSummaries(projectId, col.id, 10, null);
 				set(state => ({

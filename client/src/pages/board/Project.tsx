@@ -10,6 +10,7 @@ import { useAsyncWithError } from '../../hooks/useAsyncWithError';
 import { useParams } from 'react-router-dom';
 import NotFound from '../NotFound';
 import ColumnEditorPopup from './ColumnEditorPopup';
+import ShareProjectPopup from './ShareProjectPopup';
 
 interface Props {
 
@@ -24,6 +25,7 @@ function Project(props: Props) {
 	const [labelFilter, setLabelFilter] = useState<string | null>(null);
 
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
+	const [sharePopupOpen, setSharePopupOpen] = useState<boolean>(false);
 
 	const params = useParams();
 	const projectId = params.pid;
@@ -52,7 +54,7 @@ function Project(props: Props) {
 				<h1 className="basis-0 grow truncate pr-2">{project?.name}</h1>
 				<div className='flex gap-3 text-sm'>
 					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
-					<Button content="Share" variant="secondary" />
+					<Button content="Share" variant="secondary" onClick={() => setSharePopupOpen(true)}/>
 					<LabelChecklistDropdown labels={projectLabels} onInput={() => { }} selectedIds={[]} defaultText="Filter labels" />
 				</div>
 			</>}>
@@ -65,6 +67,10 @@ function Project(props: Props) {
 			{createColumnPopupOpen && <ColumnEditorPopup
 				onCancel={() => setCreateColumnPopupOpen(false)}
 				onSubmit={handleCreateColumn}
+			/>}
+			{sharePopupOpen && <ShareProjectPopup
+				onCancel={() => setSharePopupOpen(false)}
+				onSubmit={() => {}}
 			/>}
 		</>
 	)

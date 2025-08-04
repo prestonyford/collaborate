@@ -3,6 +3,7 @@ import type CardSummaryDTO from "../../model/dto/CardSummaryDTO";
 import type ColumnDTO from "../../model/dto/ColumnDTO";
 import type LabelDTO from "../../model/dto/LabelDTO";
 import type ProjectDTO from "../../model/dto/ProjectDTO";
+import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
 
@@ -11,6 +12,7 @@ export default interface ProjectCommunicator {
 	getProject( projectId: string ): Promise<ProjectDTO>
 	getProjectLabels( projectId: string ): Promise<LabelDTO[]>
 	getColumnsByProject(projectId: string): Promise<ColumnDTO[]>
+	getProjectShares(projectId: string): Promise<ProjectShare[]>
 	createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO>
 	createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO>
 

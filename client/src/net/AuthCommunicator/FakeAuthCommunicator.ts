@@ -3,7 +3,7 @@ import type RegisterRequest from "../request/RegisterRequest";
 import type StatusResponse from "../response/StatusResponse";
 import type AuthCommunicator from "./AuthCommunicator";
 
-export default class HttpProjectCommunicator implements AuthCommunicator {
+export default class FakeAuthCommunicator implements AuthCommunicator {
 	async login(data: LoginRequest): Promise<void> {
 		return;
 	}
