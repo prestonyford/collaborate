@@ -68,9 +68,9 @@ function Project(props: Props) {
 			<Page title={<>
 				<h1 className="basis-0 grow truncate pr-2">{project?.name}</h1>
 				<div className='flex gap-3 text-sm'>
-					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
-					<Button content="Share" variant="secondary" onClick={() => setSharePopupOpen(true)} />
 					<LabelChecklistDropdown labels={projectLabels} onInput={() => { }} selectedIds={[]} defaultText="Filter labels" />
+					<Button content="Share" variant="secondary" onClick={() => setSharePopupOpen(true)} />
+					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
 				</div>
 			</>}>
 				{loading
