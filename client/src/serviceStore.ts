@@ -7,6 +7,7 @@ import AuthService from './service/AuthService';
 import HttpAuthCommunicator from './net/AuthCommunicator/HttpAuthCommunicator';
 import UserService from './service/UserService';
 import FakeUserCommunicator from './net/UserCommunicator/FakeUserCommunicator';
+import HttpUserCommunicator from './net/UserCommunicator/HttpUserCommunicator';
 
 interface ServiceState {
 	projectService: ProjectService
@@ -17,7 +18,7 @@ interface ServiceState {
 const useServiceStore = create<ServiceState>()(set => ({
 	projectService: new ProjectService(new FakeProjectCommunicator()),
 	authService: new AuthService(new HttpAuthCommunicator()),
-	userService: new UserService(FakeUserCommunicator.getInstance()) // Should probably make all the rest singletons too
+	userService: new UserService(HttpUserCommunicator.getInstance()) // Should probably make all the rest singletons too
 }));
 
 export { useServiceStore };

@@ -3,9 +3,11 @@ import type CardSummaryDTO from "../../model/dto/CardSummaryDTO";
 import type ColumnDTO from "../../model/dto/ColumnDTO";
 import type LabelDTO from "../../model/dto/LabelDTO";
 import type ProjectDTO from "../../model/dto/ProjectDTO";
+import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import HttpCommunicator from "../HttpCommunicator";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
+import type ShareProjectRequest from "../request/ShareProjectRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
 
 export default class HttpProjectCommunicator extends HttpCommunicator implements ProjectCommunicator {
@@ -57,6 +59,12 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 		});
 	}
 	async getCardDiscussion(projectId: string, taskID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+		throw new Error("Method not implemented.");
+	}
+	async getProjectShares(projectId: string): Promise<ProjectShare[]> {
+		throw new Error("Method not implemented.");
+	}
+	async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {
 		throw new Error("Method not implemented.");
 	}
 }

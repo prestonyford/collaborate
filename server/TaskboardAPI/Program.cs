@@ -48,5 +48,6 @@ app.MapAuthRoutes();
 
 var apiRoutes = app.MapGroup("/api").RequireAuthorization();
 apiRoutes.MapProjectRoutes();
+apiRoutes.MapUserRoutes();
 
 app.Run();

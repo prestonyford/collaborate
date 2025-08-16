@@ -8,6 +8,7 @@ import { useState } from "react"
 import LoadingIcon from "../../components/base/LoadingIcon"
 import { useServiceStore } from "../../serviceStore"
 import type ShareProjectRequest from "../../net/request/ShareProjectRequest"
+import { useUserStore } from "../../userStore"
 
 interface Props {
 	loading: boolean
@@ -22,6 +23,7 @@ function ShareProjectPopup(props: Props) {
 	const userService = useServiceStore(state => state.userService);
 	const liveShares = useBoardStore(state => state.projectShares);
 	const project = useBoardStore(state => state.project);
+	const me = useUserStore(state => state.me);
 	const [activeShares, setActiveShares] = useState<PendingShare[]>(liveShares);
 
 	const [addUserUsername, setAddUserUsername] = useState<string>("");
@@ -34,6 +36,11 @@ function ShareProjectPopup(props: Props) {
 	}
 
 	async function handleAddUser() {
+		if (me && me.username === addUserUsername) {
+			alert("You cannot share a project that you own with yourself.");
+			return;
+		}
+
 		setQueryingUsername(true);
 		try {
 			const user = await userService.checkUsername(addUserUsername);
