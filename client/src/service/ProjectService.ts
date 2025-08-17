@@ -73,6 +73,6 @@ export default class ProjectService {
 		await this.communicator.updateCard(projectId, cardID, { labels });
 	}
 	public async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {
-		return this.communicator.shareProject(shareData);
+		return await this.communicator.shareProject(shareData);
 	}
 }

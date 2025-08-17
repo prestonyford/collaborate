@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Security.Cryptography;
+using System.Xml.Linq;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskboardAPI.Models;
 using TaskboardAPI.Request;
@@ -21,6 +24,8 @@ public static class ProjectRoutes
         projectRoutes.MapGet("/columns/{cid}/taskSummaries", GetTaskSummaries);
         projectRoutes.MapGet("/tasks/{tid}", GetTaskById);
         projectRoutes.MapPatch("/tasks/{tid}", UpdateTask);
+        projectRoutes.MapGet("/shares", GetProjectShares);
+        projectRoutes.MapPost("/shares", ShareProject);
 
         return routeGroupBuilder;
     }
@@ -68,7 +73,6 @@ public static class ProjectRoutes
 
     private static async Task<IResult> CreateTask(int pid, int cid, [FromBody] CreateTaskRequest request, AppDbContext db, HttpContext ctx)
     {
-        TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
         string? name = ctx?.User?.Identity?.Name;
         if (name == null)
         {
@@ -83,7 +87,7 @@ public static class ProjectRoutes
             Description = request.Description,
             Labels = request.Labels,
             CreatedBy = name,
-            CreationDate = (long)t.TotalMilliseconds
+            CreationDate = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
         };
 
         await db.Tasks.AddAsync(task);
@@ -138,5 +142,49 @@ public static class ProjectRoutes
 
         await db.SaveChangesAsync();
         return Results.Ok(task);
+    }
+
+    private static async Task<IResult> GetProjectShares(int pid, AppDbContext db)
+    {
+        var shares = await db.ProjectShares.Where(s => s.ProjectId == pid).ToArrayAsync();
+        if (shares == null)
+        {
+            return Results.Ok(Array.Empty<ProjectShare>());
+        };
+
+        return Results.Ok(shares);
+    }
+    private static async Task<IResult> ShareProject(int pid, [FromBody] ShareProjectRequest request, AppDbContext db, HttpContext ctx)
+    {
+        TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
+        string? creator = ctx?.User?.Identity?.Name;
+        if (creator == null)
+        {
+            return Results.Unauthorized();
+        }
+
+        var existingShares = await db.ProjectShares.Where(s => s.ProjectId == pid).ToArrayAsync();
+        var alreadySharedUsers = existingShares.Select(s => s.SharedWith).ToHashSet();
+
+        ProjectShare[] addedShares = request.Usernames
+            .Where(username => !alreadySharedUsers.Contains(username))
+            .Select(username => new ProjectShare() {
+                ProjectId = pid,
+                SharedWith = username,
+                SharedBy = creator,
+                SharedTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            }).ToArray();
+
+        var requestUsernamesSet = request.Usernames.ToHashSet();
+        ProjectShare[] removedShares = existingShares
+            .Where(share => !requestUsernamesSet.Contains(share.SharedWith))
+            .ToArray();
+
+        await db.ProjectShares.AddRangeAsync(addedShares);
+        db.ProjectShares.RemoveRange(removedShares);
+        await db.SaveChangesAsync();
+
+        var response = await db.ProjectShares.Where(s => s.ProjectId == pid).ToArrayAsync();
+        return Results.Ok(response);
     }
 }

@@ -57,7 +57,7 @@ function Project(props: Props) {
 			await shareProject(data);
 			setSharePopupOpen(false);
 		} catch (error) {
-			alert("An error occured while creating the column. Please try again.");
+			alert("An error occured while sharing the project. Please try again.");
 		} finally {
 			setIsSavingShare(false);
 		}

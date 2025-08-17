@@ -62,9 +62,12 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 		throw new Error("Method not implemented.");
 	}
 	async getProjectShares(projectId: string): Promise<ProjectShare[]> {
-		throw new Error("Method not implemented.");
+		return this.makeRequest<ProjectShare[]>(`/projects/${projectId}/shares`);
 	}
 	async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {
-		throw new Error("Method not implemented.");
+		return this.makeRequest<ProjectShare[]>(`/projects/${shareData.projectId}/shares`, {
+			method: 'POST',
+			body: JSON.stringify(shareData)
+		});
 	}
 }

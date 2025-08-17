@@ -4,6 +4,13 @@
     {
         public static void Seed(AppDbContext db)
         {
+            if (!db.Users.Any())
+            {
+                db.Users.AddRange(
+                    new() { Username = "user1", Email = "user1@email.com", HashedPassword = "" },
+                    new() { Username = "user2", Email = "user2@email.com", HashedPassword = "" }
+                );
+            }
             if (!db.Projects.Any())
             {
                 db.Projects.AddRange(
