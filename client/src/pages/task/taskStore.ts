@@ -5,16 +5,16 @@ import { useServiceStore } from '../../serviceStore';
 import type CardDiscussionItemDTO from '../../model/dto/CardDiscussionItemDTO';
 
 interface TaskState {
-	projectId?: string
+	projectId?: number
 	task: TaskDTO | null
 	projectLabels: LabelDTO[]
 	discussionItems: CardDiscussionItemDTO[]
-	initialize: (projectId: string, taskID: string) => Promise<void>
+	initialize: (projectId: number, taskID: number) => Promise<void>
 	reset: () => void
 	saveDescription: (description: string) => Promise<void>
 	saveTitle: (title: string) => Promise<void>
 	loadDiscussionItems: (pageSize: number, lastItemID: string | null) => Promise<boolean>
-	updateLabels: (labels: string[]) => Promise<void>
+	updateLabels: (labels: number[]) => Promise<void>
 }
 
 const initialState = {
@@ -29,7 +29,7 @@ const useTaskStore = create<TaskState>()((set, get) => {
 
 	return {
 		...initialState,
-		initialize: async (projectId: string, taskID: string) => {
+		initialize: async (projectId: number, taskID: number) => {
 			set({ projectId });
 			const [task, projectLabels] = await Promise.all([
 				projectService.getCardInfo(projectId, taskID),
@@ -75,7 +75,7 @@ const useTaskStore = create<TaskState>()((set, get) => {
 			});
 			return hasMore
 		},
-		updateLabels: async (labels: string[]) => {
+		updateLabels: async (labels: number[]) => {
 			const { projectId, task } = get();
 			if (!projectId || !task) throw new Error("Cannot modify labels without project and task loaded.");
 			await projectService.updateCardLabels(projectId, task.id, labels);

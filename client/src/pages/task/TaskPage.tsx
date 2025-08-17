@@ -33,7 +33,7 @@ function TaskPage(props: Props) {
 
 	const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
 
-	const { error, loading } = useAsyncWithError(async () => initialize(projectId, taskID), [initialize, reset]);
+	const { error, loading } = useAsyncWithError(async () => initialize(+projectId, +taskID), [initialize, reset]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />

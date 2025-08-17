@@ -21,7 +21,7 @@ export default function Labels() {
 		[task.labels]
 	);
 
-	const [selectedLabels, setSelectedLabels] = useState<string[]>(task.labels);
+	const [selectedLabels, setSelectedLabels] = useState<number[]>(task.labels);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	async function handleLabelDropdownClose() {
@@ -40,7 +40,7 @@ export default function Labels() {
 		}
 	}
 
-	async function handleRemoveLabel(id: string) {
+	async function handleRemoveLabel(id: number) {
 		setIsLoading(true);
 		try {
 			const newLabels = task!.labels.filter(l => l !== id);

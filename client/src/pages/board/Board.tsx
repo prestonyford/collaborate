@@ -25,8 +25,8 @@ function Board(props: Props) {
 			newColumns.splice(destination.index, 0, moved)
 			setColumns(newColumns);
 		} else if (type === 'card') {
-			const sourceColumn = source.droppableId;
-			const destinationColumn = destination.droppableId;
+			const sourceColumn = +source.droppableId;
+			const destinationColumn = +destination.droppableId;
 
 			const sourceCards = [...cardSummaries[sourceColumn]];
 			const [moved] = sourceCards.splice(source.index, 1);

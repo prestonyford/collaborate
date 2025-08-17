@@ -10,17 +10,17 @@ import type ShareProjectRequest from "../request/ShareProjectRequest";
 
 export default interface ProjectCommunicator {
 	getOwnedAndSharedProjects(): Promise<ProjectDTO[]>
-	getProject( projectId: string ): Promise<ProjectDTO>
-	getProjectLabels( projectId: string ): Promise<LabelDTO[]>
-	getColumnsByProject(projectId: string): Promise<ColumnDTO[]>
-	getProjectShares(projectId: string): Promise<ProjectShare[]>
-	createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO>
-	createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO>
+	getProject( projectId: number ): Promise<ProjectDTO>
+	getProjectLabels( projectId: number ): Promise<LabelDTO[]>
+	getColumnsByProject(projectId: number): Promise<ColumnDTO[]>
+	getProjectShares(projectId: number): Promise<ProjectShare[]>
+	createColumn(projectId: number, name: string, color: string): Promise<ColumnDTO>
+	createTask(projectId: number, columnId: number, createData: CreateTaskRequest): Promise<TaskDTO>
 	shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]>
 
 	// Cards
-	getCardSummaries( projectId: string, columnId: string, pageSize: number, lastCardID: string | null ): Promise<[CardSummaryDTO[], boolean]>
-	getCardInfo( projectId: string, cardID: string ): Promise<TaskDTO>
-	updateCard( projectId: string, cardID: string, diff: Partial<TaskDTO> ): Promise<Partial<TaskDTO>>
-	getCardDiscussion( projectId: string, cardID: string, pageSize: number, lastItemID: string | null ): Promise<[boolean, CardDiscussionItemDTO[]]>
+	getCardSummaries( projectId: number, columnId: number, pageSize: number, lastcardID: number | null ): Promise<[CardSummaryDTO[], boolean]>
+	getCardInfo( projectId: number, cardID: number ): Promise<TaskDTO>
+	updateCard( projectId: number, cardID: number, diff: Partial<TaskDTO> ): Promise<Partial<TaskDTO>>
+	getCardDiscussion( projectId: number, cardID: number, pageSize: number, lastItemID: string | null ): Promise<[boolean, CardDiscussionItemDTO[]]>
 }

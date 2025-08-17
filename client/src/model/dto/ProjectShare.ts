@@ -1,6 +1,6 @@
 export default interface ProjectShare {
-	id?: string
-	projectId: string
+	id?: number
+	projectId: number
 	sharedWith: string
 	sharedBy: string
 	sharedTime: number

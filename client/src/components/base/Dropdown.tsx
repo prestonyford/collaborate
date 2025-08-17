@@ -2,40 +2,43 @@ import clsx from 'clsx'
 import { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { useClickOutside } from '../../hooks/useClickOutside'
-
-export interface Option {
-	id: string
+export interface OptionKey {
+	toString(): string;
 }
 
-export interface TextOption extends Option {
+export interface Option<T extends OptionKey> {
+	id: T
+}
+
+export interface TextOption<T extends OptionKey> extends Option<T> {
 	text: string
 }
-export interface SlotOption extends Option {
-	renderOption: (id: string) => React.ReactNode
+export interface SlotOption<T extends OptionKey> extends Option<T> {
+	renderOption: (id: T) => React.ReactNode
 }
 
-interface Props {
+interface Props<T extends OptionKey> {
 	defaultText?: string,
-	options: Array<TextOption | SlotOption>,
-	selectedId?: string,
+	options: Array<TextOption<T> | SlotOption<T>>,
+	selectedId?: T,
 	triggerClass?: string,
-	onSelect: (id: string) => void
+	onSelect: (id: T) => void
 	onClose?: () => void
 }
 
-function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = '', onSelect, onClose }: Props) {
+function Dropdown<T extends OptionKey>({ defaultText = 'Select', options, selectedId, triggerClass = '', onSelect, onClose }: Props<T>) {
 	const [open, setOpen] = useState(false);
 	const [pos, setPos] = useState({ top: 0, left: 0 });
 	const triggerRef = useRef<HTMLDivElement>(null);
 	const menuRef = useRef<HTMLDivElement>(null);
 
 	const selected = options.find(opt => opt.id === selectedId) || null;
-	const handleSelect = (option: Option) => {
+	const handleSelect = (option: Option<T>) => {
 		onSelect(option.id)
 		setOpen(false)
 	}
 
-	function isTextOption(opt: Option): opt is TextOption {
+	function isTextOption(opt: Option<T>): opt is TextOption<T> {
 		return 'text' in opt;
 	}
 
@@ -94,7 +97,7 @@ function Dropdown({ defaultText = 'Select', options, selectedId, triggerClass = 
 				>
 					{options.map(option => (
 						<div
-							key={option.id}
+							key={option.id.toString()}
 							onClick={() => handleSelect(option)}
 							className={clsx("cursor-pointer hover:bg-indigo-100 dark:hover:bg-indigo-700", { "px-4 py-1": isTextOption(option) })}
 							tabIndex={0}

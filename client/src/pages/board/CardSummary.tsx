@@ -5,10 +5,10 @@ import { useMemo } from 'react'
 
 interface Props {
 	index: number
-	cardID: string
+	cardID: number
 	title: string
 	creationDate: number
-	labelIDs?: string[]
+	labelIDs?: number[]
 	onClick?: () => void
 }
 

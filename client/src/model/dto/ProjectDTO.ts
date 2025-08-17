@@ -1,5 +1,5 @@
 export default interface ProjectDTO {
-	id: string,
+	id: number,
 	name: string,
 	numColumns: number,
 	numTasks: number,

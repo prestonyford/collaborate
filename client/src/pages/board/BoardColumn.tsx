@@ -12,7 +12,7 @@ import type CreateTaskRequest from '../../net/request/CreateTaskRequest'
 
 interface Props {
 	index: number
-	columnId: string
+	columnId: number
 	columnName: string
 	columnColor?: string
 }
@@ -64,7 +64,7 @@ function BoardColumn(props: Props) {
 									<ClickyIcon icon="fa-solid fa-ellipsis" />
 								</div>
 							</div>
-							<Droppable droppableId={props.columnId} type="card">
+							<Droppable droppableId={props.columnId.toString()} type="card">
 								{(provided, snapshot) => (
 									<>
 										<div

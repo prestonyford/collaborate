@@ -1,7 +1,7 @@
 import Dropdown from "../../components/base/Dropdown"
 import type ColumnDTO from "../../model/dto/ColumnDTO";
 
-type BaseDropdownProps = Omit<React.ComponentPropsWithoutRef<typeof Dropdown>, 'options'>
+type BaseDropdownProps = Omit<React.ComponentPropsWithoutRef<typeof Dropdown<number>>, 'options'>
 
 type Props = BaseDropdownProps & {
 	columns: ColumnDTO[],
@@ -10,7 +10,7 @@ type Props = BaseDropdownProps & {
 function ColumnDropdown(props: Props) {
 	const columnDropdownOptions = props.columns.map(c => ({
 		id: c.id,
-		renderOption: (id: string) => {
+		renderOption: (id: number) => {
 			const column = props.columns.find(c => c.id === id);
 			return (
 				<div className="border-l-4 px-2 py-1" style={{borderColor: column?.color}}>

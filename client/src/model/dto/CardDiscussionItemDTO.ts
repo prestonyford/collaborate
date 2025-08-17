@@ -1,6 +1,6 @@
 export default interface CardDiscussionItemDTO {
-	id: string,
-	taskID: string,
+	id: number,
+	taskID: number,
 	authorID: string,
 	content: string,
 	createdAt: number,

@@ -20,7 +20,7 @@ export default class ProjectService {
 	public async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
 		return this.communicator.getOwnedAndSharedProjects();
 	}
-	public async getProject(projectId: string): Promise<ProjectDTO> {
+	public async getProject(projectId: number): Promise<ProjectDTO> {
 		try {
 			return await this.communicator.getProject(projectId);
 		} catch (error) {
@@ -30,25 +30,25 @@ export default class ProjectService {
 			throw error;
 		}
 	}
-	public async getProjectLabels(projectId: string): Promise<LabelDTO[]> {
+	public async getProjectLabels(projectId: number): Promise<LabelDTO[]> {
 		return this.communicator.getProjectLabels(projectId);
 	}
-	public async getColumnsByProject(projectId: string): Promise<ColumnDTO[]> {
+	public async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
 		return this.communicator.getColumnsByProject(projectId);
 	}
-	public async getProjectShares(projectId: string): Promise<ProjectShare[]> {
+	public async getProjectShares(projectId: number): Promise<ProjectShare[]> {
 		return this.communicator.getProjectShares(projectId);
 	}
-	public async createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO> {
+	public async createColumn(projectId: number, name: string, color: string): Promise<ColumnDTO> {
 		return this.communicator.createColumn(projectId, name, color);
 	}
-	public async createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO> {
+	public async createTask(projectId: number, columnId: number, createData: CreateTaskRequest): Promise<TaskDTO> {
 		return this.communicator.createTask(projectId, columnId, createData);
 	}
-	public async getCardSummaries(projectId: string, columnId: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
+	public async getCardSummaries(projectId: number, columnId: number, pageSize: number, lastCardID: number | null): Promise<[CardSummaryDTO[], boolean]> {
 		return this.communicator.getCardSummaries(projectId, columnId, pageSize, lastCardID);
 	}
-	public async getCardInfo(projectId: string, taskID: string): Promise<TaskDTO> {
+	public async getCardInfo(projectId: number, taskID: number): Promise<TaskDTO> {
 		try {
 			return await this.communicator.getCardInfo(projectId, taskID);
 		} catch (error) {
@@ -58,18 +58,18 @@ export default class ProjectService {
 			throw error;
 		}
 	}
-	public async updateCardDescription(projectId: string, taskID: string, description: string): Promise<string> {
+	public async updateCardDescription(projectId: number, taskID: number, description: string): Promise<string> {
 		const newTask = await this.communicator.updateCard(projectId, taskID, { description });
 		return newTask.description ?? description;
 	}
-	public async updateCardTitle(projectId: string, taskID: string, title: string): Promise<string> {
+	public async updateCardTitle(projectId: number, taskID: number, title: string): Promise<string> {
 		const newTask = await this.communicator.updateCard(projectId, taskID, { title });
 		return newTask.title ?? title;
 	}
-	public async getCardDiscussion(projectId: string, cardID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+	public async getCardDiscussion(projectId: number, cardID: number, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		return this.communicator.getCardDiscussion(projectId, cardID, pageSize, lastItemID);
 	}
-	public async updateCardLabels(projectId: string, cardID: string, labels: string[]): Promise<void> {
+	public async updateCardLabels(projectId: number, cardID: number, labels: number[]): Promise<void> {
 		await this.communicator.updateCard(projectId, cardID, { labels });
 	}
 	public async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {

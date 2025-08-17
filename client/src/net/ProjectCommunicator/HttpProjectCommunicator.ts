@@ -18,50 +18,50 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
 		return this.makeRequest<ProjectDTO[]>(`/projects`);
 	}
-	async getProject(projectId: string): Promise<ProjectDTO> {
+	async getProject(projectId: number): Promise<ProjectDTO> {
 		return this.makeRequest<ProjectDTO>(`/projects/${projectId}`);
 	}
-	async getProjectLabels(projectId: string): Promise<LabelDTO[]> {
+	async getProjectLabels(projectId: number): Promise<LabelDTO[]> {
 		return this.makeRequest<LabelDTO[]>(`/projects/${projectId}/labels`);
 	}
-	async getColumnsByProject(projectId: string): Promise<ColumnDTO[]> {
+	async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
 		return this.makeRequest<ColumnDTO[]>(`/projects/${projectId}/columns`);
 	}
-	async createColumn(projectId: string, name: string, color: string): Promise<ColumnDTO> {
+	async createColumn(projectId: number, name: string, color: string): Promise<ColumnDTO> {
 		return this.makeRequest<ColumnDTO>(`/projects/${projectId}/columns`, {
 			method: 'POST',
 			body: JSON.stringify({ name, color })
 		});
 	}
-	async createTask(projectId: string, columnId: string, createData: CreateTaskRequest): Promise<TaskDTO> {
+	async createTask(projectId: number, columnId: number, createData: CreateTaskRequest): Promise<TaskDTO> {
 		return this.makeRequest<TaskDTO>(`/projects/${projectId}/columns/${columnId}/tasks`, {
 			method: 'POST',
 			body: JSON.stringify(createData)
 		});
 	}
-	async getCardSummaries(projectId: string, columnId: string, pageSize: number, lastCardID: string | null): Promise<[CardSummaryDTO[], boolean]> {
+	async getCardSummaries(projectId: number, columnId: number, pageSize: number, lastCardID: number | null): Promise<[CardSummaryDTO[], boolean]> {
 		const params = new URLSearchParams({
 			limit: pageSize.toString(),
 		});
 		if (lastCardID) {
-			params.set("last", lastCardID);
+			params.set("last", lastCardID.toString());
 		}
 		const response = await this.makeRequest<{tasks: CardSummaryDTO[], hasMore: boolean}>(`/projects/${projectId}/columns/${columnId}/taskSummaries?${params}`);
 		return [response.tasks, response.hasMore];
 	}
-	async getCardInfo(projectId: string, taskID: string): Promise<TaskDTO> {
+	async getCardInfo(projectId: number, taskID: number): Promise<TaskDTO> {
 		return this.makeRequest(`/projects/${projectId}/tasks/${taskID}`);
 	}
-	async updateCard(projectId: string, taskID: string, diff: TaskDTO): Promise<Partial<TaskDTO>> {
+	async updateCard(projectId: number, taskID: number, diff: TaskDTO): Promise<Partial<TaskDTO>> {
 		return await this.makeRequest<Partial<TaskDTO>>(`/projects/${projectId}/tasks/${taskID}`, {
 			method: 'PATCH',
 			body: JSON.stringify(diff)
 		});
 	}
-	async getCardDiscussion(projectId: string, taskID: string, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
+	async getCardDiscussion(projectId: number, taskID: number, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		throw new Error("Method not implemented.");
 	}
-	async getProjectShares(projectId: string): Promise<ProjectShare[]> {
+	async getProjectShares(projectId: number): Promise<ProjectShare[]> {
 		return this.makeRequest<ProjectShare[]>(`/projects/${projectId}/shares`);
 	}
 	async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {

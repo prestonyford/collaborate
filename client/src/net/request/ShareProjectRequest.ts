@@ -1,4 +1,4 @@
 export default interface ShareProjectRequest {
-	projectId: string,
+	projectId: number,
 	usernames: string[]
 }
