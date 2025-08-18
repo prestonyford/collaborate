@@ -67,7 +67,7 @@ function Sidebar({ className = '' }: Props) {
 												projectName={p.name}
 												numColumns={p.numColumns}
 												numTasks={p.numTasks}
-												active={p.id === activeProjectID}
+												active={p.id === +(activeProjectID ?? '-1')}
 												onClick={() => navigate(`/projects/${p.id}`)}
 											/>
 										)
@@ -84,7 +84,7 @@ function Sidebar({ className = '' }: Props) {
 												numColumns={p.numColumns}
 												numTasks={p.numTasks}
 												owner={p.owner}
-												active={p.id === activeProjectID}
+												active={p.id === +(activeProjectID ?? '-1')}
 												onClick={() => navigate(`/projects/${p.id}`)}
 											/>
 										)

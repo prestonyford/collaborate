@@ -5,7 +5,7 @@ import type LabelDTO from "../model/dto/LabelDTO";
 import type ProjectDTO from "../model/dto/ProjectDTO";
 import type ProjectShare from "../model/dto/ProjectShare";
 import type TaskDTO from "../model/dto/TaskDTO";
-import { NotFoundError } from "../net/Errors";
+import { HttpError, NotFoundError } from "../net/Errors";
 import type ProjectCommunicator from "../net/ProjectCommunicator/ProjectCommunicator";
 import type CreateTaskRequest from "../net/request/CreateTaskRequest";
 import type ShareProjectRequest from "../net/request/ShareProjectRequest";
@@ -24,7 +24,7 @@ export default class ProjectService {
 		try {
 			return await this.communicator.getProject(projectId);
 		} catch (error) {
-			if (error instanceof NotFoundError) {
+			if (error instanceof HttpError && (error.status === 403 || error.status === 404)) {
 				throw new NotFoundError("The requested project was not found (has it been shared with you?).");
 			}
 			throw error;

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using System.Security.Cryptography;
-using System.Xml.Linq;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskboardAPI.Models;
 using TaskboardAPI.Request;
@@ -15,6 +12,7 @@ public static class ProjectRoutes
         routeGroupBuilder.MapGet("/projects", GetAllProjects);
 
         var projectRoutes = routeGroupBuilder.MapGroup("/projects/{pid}");
+        projectRoutes.AddEndpointFilter<ProjectAccessFilter>();
 
         projectRoutes.MapGet("", GetProjectById);
         projectRoutes.MapGet("/labels", GetProjectLabels);
@@ -30,7 +28,7 @@ public static class ProjectRoutes
         return routeGroupBuilder;
     }
 
-    private static async Task<IResult> GetAllProjects(AppDbContext db)
+    private static async Task<IResult> GetAllProjects(AppDbContext db, HttpContext ctx)
     {
         var projects = await db.Projects.ToListAsync();
         return Results.Ok(projects);
@@ -157,7 +155,7 @@ public static class ProjectRoutes
     private static async Task<IResult> ShareProject(int pid, [FromBody] ShareProjectRequest request, AppDbContext db, HttpContext ctx)
     {
         TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
-        string? creator = ctx?.User?.Identity?.Name;
+        string? creator = ctx.User?.Identity?.Name;
         if (creator == null)
         {
             return Results.Unauthorized();

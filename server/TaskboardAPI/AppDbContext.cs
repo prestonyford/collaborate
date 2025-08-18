@@ -19,6 +19,8 @@ namespace TaskboardAPI
         {
             modelBuilder.Entity<User>()
                 .HasKey(u => u.Username);
+            modelBuilder.Entity<Project>()
+                .HasIndex(p => p.Owner);
             modelBuilder.Entity<ProjectShare>()
                 .HasIndex(c => c.SharedWith);
             modelBuilder.Entity<ProjectShare>()
