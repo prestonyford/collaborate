@@ -46,7 +46,7 @@ function BoardColumn(props: Props) {
 				{(provided) => (
 					<div
 						className={clsx(
-							"mx-2 w-[360px] shadow-xl rounded-2xl bg-base border-accent border-1 flex flex-col max-h-full overflow-hidden"
+							"mx-2 w-[360px] shadow-md rounded-2xl bg-base border-accent border-1 flex flex-col max-h-full overflow-hidden"
 						)}
 						ref={provided.innerRef}
 						{...provided.draggableProps}
