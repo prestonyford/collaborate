@@ -36,6 +36,9 @@ function ShareProjectPopup(props: Props) {
 	}
 
 	async function handleAddUser() {
+		if (!addUserUsername || queryingUsername) {
+			return;
+		}
 		if (me && me.username === addUserUsername) {
 			alert("You cannot share a project that you own with yourself.");
 			return;
@@ -115,7 +118,7 @@ function ShareProjectPopup(props: Props) {
 				<div>
 					<strong>Add user</strong>
 					<div className="flex gap-2 flex-wrap text-text-muted">
-						<TextInput disabled={queryingUsername} className="grow" placeholder="Username" value={addUserUsername} onChange={setAddUserUsername} />
+						<TextInput disabled={queryingUsername} className="grow" placeholder="Username" value={addUserUsername} onChange={setAddUserUsername} onEnter={handleAddUser} />
 						<div className="flex gap-2">
 							<Button disabled={!addUserUsername || queryingUsername} content="Add" variant="primary" onClick={handleAddUser} />
 							<div className={clsx({ "invisible": !queryingUsername })}>

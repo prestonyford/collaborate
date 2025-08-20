@@ -67,7 +67,7 @@ export default function Register() {
 	}
 
 	async function register() {
-		if (!validate()) {
+		if (isLoading || !validate()) {
 			return;
 		}
 		setIsLoading(true);
@@ -91,25 +91,25 @@ export default function Register() {
 			<div className="mt-2">
 				<label htmlFor="username" className="text-text-muted">Username</label>
 				<div className={clsx({ 'opacity-50 pointer-events-none': isLoading })}>
-					<TextInput className="w-full" id="username" value={username} invalid={!!usernameValidationMessage} onChange={handleInputUsername} />
+					<TextInput className="w-full" id="username" value={username} invalid={!!usernameValidationMessage} onChange={handleInputUsername} onEnter={register} />
 				</div>
 			</div>
 			<div className="mt-2">
 				<label htmlFor="email" className="text-text-muted">Email</label>
 				<div className={clsx({ 'opacity-50 pointer-events-none': isLoading })}>
-					<TextInput className="w-full" id="email" type="email" value={email} invalid={!!emailValidationMessage} onChange={handleInputEmail} />
+					<TextInput className="w-full" id="email" type="email" value={email} invalid={!!emailValidationMessage} onChange={handleInputEmail} onEnter={register} />
 				</div>
 			</div>
 			<div className="mt-2">
 				<label htmlFor="password" className="text-text-muted">Password</label>
 				<div className={clsx({ 'opacity-50 pointer-events-none': isLoading })}>
-					<TextInput className="w-full" id="password" type="password" value={password} invalid={!!passwordValidationMessage} onChange={handleInputPassword} />
+					<TextInput className="w-full" id="password" type="password" value={password} invalid={!!passwordValidationMessage} onChange={handleInputPassword} onEnter={register} />
 				</div>
 			</div>
 			<div className="mt-2">
 				<label htmlFor="repeatPassword" className="text-text-muted">Repeat password</label>
 				<div className={clsx({ 'opacity-50 pointer-events-none': isLoading })}>
-					<TextInput className="w-full" id="repeatPassword" type="password" value={repeatPassword} invalid={!!repeatPasswordValidationMessage} onChange={handleInputRepeatPassword} />
+					<TextInput className="w-full" id="repeatPassword" type="password" value={repeatPassword} invalid={!!repeatPasswordValidationMessage} onChange={handleInputRepeatPassword} onEnter={register} />
 				</div>
 			</div>
 			<div className="mt-3 mb-1 text-red-400 text-sm">

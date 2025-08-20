@@ -18,6 +18,7 @@ export default function Login() {
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
 	async function handleLogin() {
+		if (isLoading) return;
 		setIsLoading(true);
 		try {
 			const user = await authService.login({ username, password });
@@ -39,13 +40,13 @@ export default function Login() {
 			<div className="mt-2">
 				<label htmlFor="username" className="text-text-muted">Username</label>
 				<div className={clsx({ 'opacity-50 pointer-events-none': isLoading })}>
-					<TextInput className="w-full" id="username" value={username} onChange={setUsername} />
+					<TextInput className="w-full" id="username" value={username} onChange={setUsername} onEnter={handleLogin} />
 				</div>
 			</div>
 			<div className="mt-2">
 				<label htmlFor="password" className="text-text-muted">Password</label>
 				<div className={clsx({ 'opacity-50 pointer-events-none': isLoading })}>
-					<TextInput className="w-full" id="password" type="password" value={password} onChange={setPassword} />
+					<TextInput className="w-full" id="password" type="password" value={password} onChange={setPassword} onEnter={handleLogin} />
 				</div>
 			</div>
 			<div className="mt-8 flex justify-end gap-2">
