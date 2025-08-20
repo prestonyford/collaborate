@@ -76,7 +76,7 @@ function ProjectLandingPage(props: Props) {
 	return (
 		<>
 			<Page>
-				<div className="page-item py-4 px-6">
+				<div className="py-4 px-6">
 					<h1 className="mb-2">Owned Projects</h1>
 					{isLoading
 						? <LoadingIcon />

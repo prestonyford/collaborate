@@ -1,0 +1,14 @@
+.appear {
+	opacity: 0;
+	animation: itemAppear 400ms ease-in-out forwards;
+}
+
+@keyframes itemAppear {
+	from {
+		opacity: 0;
+	}
+
+	to {
+		opacity: 1;
+	}
+}
