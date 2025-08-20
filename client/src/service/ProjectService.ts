@@ -33,6 +33,9 @@ export default class ProjectService {
 	public async getProjectLabels(projectId: number): Promise<LabelDTO[]> {
 		return this.communicator.getProjectLabels(projectId);
 	}
+	public async getProjectLabelCounts(projectId: number): Promise<Record<number, number>> {
+		return this.communicator.getProjectLabelCounts(projectId);
+	}
 	public async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
 		return this.communicator.getColumnsByProject(projectId);
 	}

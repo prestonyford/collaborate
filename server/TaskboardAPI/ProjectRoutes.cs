@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Security.Cryptography;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskboardAPI.Models;
 using TaskboardAPI.Request;
@@ -16,6 +17,7 @@ public static class ProjectRoutes
 
         projectRoutes.MapGet("", GetProjectById);
         projectRoutes.MapGet("/labels", GetProjectLabels);
+        projectRoutes.MapGet("/labelCounts", GetProjectLabelCounts);
         projectRoutes.MapPost("/columns", CreateColumn);
         projectRoutes.MapGet("/columns", GetColumns);
         projectRoutes.MapPost("/columns/{cid}/tasks", CreateTask);
@@ -48,6 +50,20 @@ public static class ProjectRoutes
     {
         var labels = await db.Labels.Where(l => l.ProjectId == pid).ToListAsync();
         return Results.Ok(labels);
+    }
+    private static async Task<IResult> GetProjectLabelCounts(int pid, AppDbContext db)
+    {
+        var tasks = await db.Tasks.Where(t => t.ProjectId == pid).ToListAsync();
+        var labelToNumTasks = new Dictionary<int, int>();
+        foreach (var task in tasks)
+        {
+            foreach (var label in task.Labels)
+            {
+                labelToNumTasks[label] = labelToNumTasks.GetValueOrDefault(label, 0) + 1;
+            }
+        }
+
+        return Results.Ok(labelToNumTasks);
     }
 
     private static async Task<IResult> CreateColumn(int pid, CreateColumnRequest request, AppDbContext db)

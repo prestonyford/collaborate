@@ -12,6 +12,7 @@ export default interface ProjectCommunicator {
 	getOwnedAndSharedProjects(): Promise<ProjectDTO[]>
 	getProject( projectId: number ): Promise<ProjectDTO>
 	getProjectLabels( projectId: number ): Promise<LabelDTO[]>
+	getProjectLabelCounts( projectId: number ): Promise<Record<number, number>>
 	getColumnsByProject(projectId: number): Promise<ColumnDTO[]>
 	getProjectShares(projectId: number): Promise<ProjectShare[]>
 	createColumn(projectId: number, name: string, color: string): Promise<ColumnDTO>

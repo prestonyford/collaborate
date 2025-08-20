@@ -6,10 +6,13 @@ interface Props {
 	color: string
 	removable?: boolean
 	onRemove?: () => void
+	count?: number
 }
 
-function Label({title, color, removable = false, onRemove}: Props) {
+function Label({ title, color, removable = false, onRemove, count }: Props) {
 	const borderColor = darken(0.1, color);
+	const hasSide = removable || count !== undefined
+
 	return (
 		<>
 			<div
@@ -21,10 +24,15 @@ function Label({title, color, removable = false, onRemove}: Props) {
 					borderColor
 				}}
 			>
-				<div className={clsx("flex", {"pr-1.5": !removable})}>
-					<div className="py-[1px] cursor-default">{ title }</div>
+				<div className={clsx("flex", { "pr-1.5": !hasSide })}>
+					<div className={clsx("py-[1px]", {"mr-1": hasSide})}>{title}</div>
+					{count !== undefined && (
+						<div className="py-[1px] px-1.5 font-bold" style={{ backgroundColor: borderColor }}>
+							{count}
+						</div>
+					)}
 					{removable && (
-						<div className="ml-1 px-1.5 cursor-pointer flex select-none" style={{ backgroundColor: borderColor }} onClick={() => onRemove?.()}>
+						<div className="px-1.5 cursor-pointer flex select-none" style={{ backgroundColor: borderColor }} onClick={() => onRemove?.()}>
 							<i className="m-auto fa-solid fa-xmark"></i>
 						</div>
 					)}

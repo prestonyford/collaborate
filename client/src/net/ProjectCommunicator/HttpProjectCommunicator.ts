@@ -24,6 +24,9 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	async getProjectLabels(projectId: number): Promise<LabelDTO[]> {
 		return this.makeRequest<LabelDTO[]>(`/projects/${projectId}/labels`);
 	}
+	async getProjectLabelCounts(projectId: number): Promise<Record<number, number>> {
+		return this.makeRequest<Record<number, number>>(`/projects/${projectId}/labelCounts`);
+	}
 	async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
 		return this.makeRequest<ColumnDTO[]>(`/projects/${projectId}/columns`);
 	}

@@ -10,6 +10,7 @@ import LoginPage from './pages/login/LoginPage'
 import { useServiceStore } from './serviceStore'
 import { useUserStore } from './userStore'
 import LoadingIcon from './components/base/LoadingIcon'
+import ProjectLandingPage from './pages/projectLanding/ProjectLandingPage'
 
 function App() {
 	const authService = useServiceStore(state => state.authService);
@@ -61,8 +62,11 @@ function App() {
 
 						<Route
 							path="projects"
-							element={<Navigate to={`/projects/1`} replace />}
-						/>
+							element={<Layout />}
+						>
+							<Route index element={<ProjectLandingPage />} />
+						</Route>
+						
 						<Route path="projects/:pid" element={<Layout />}>
 							<Route index element={<Project />} />
 							<Route path="tasks" element={<TaskPage />} />

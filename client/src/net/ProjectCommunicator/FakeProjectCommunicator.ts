@@ -137,6 +137,15 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 		]
 	}
 
+	
+	async getProjectLabelCounts(projectId: number): Promise<Record<number, number>> {
+		return {
+			0: 2,
+			1: 1,
+			2: 3
+		}
+	}
+
 	async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
 		// throw new Error("error");
 		return [
