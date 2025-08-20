@@ -71,7 +71,7 @@ function Sidebar({ className = '' }: Props) {
 												onClick={() => navigate(`/projects/${p.id}`)}
 											/>
 										)
-										: <div className='text-sm text-text-muted italic select-none ml-1.5'>None</div>
+										: <div className='text-sm text-text-muted select-none h-8 flex justify-center items-center'>None</div>
 									}
 								</div>
 								<h4 className='px-1.5 pt-3 bg-attention border-accent border-b sticky top-0'>Shared with me</h4>
@@ -88,7 +88,7 @@ function Sidebar({ className = '' }: Props) {
 												onClick={() => navigate(`/projects/${p.id}`)}
 											/>
 										)
-										: <div className='text-sm text-text-muted italic select-none ml-1.5'>None</div>
+										: <div className='text-sm text-text-muted select-none h-8 flex justify-center items-center'>None</div>
 									}
 								</div>
 							</>
