@@ -26,7 +26,7 @@ function CardSummary(props: Props) {
 			<Draggable draggableId={`card-${props.cardID}`} index={props.index}>
 				{(provided) => (
 					<div
-						className="shadow-md rounded-lg bg-base border-accent border-1 py-1 px-2 mb-1.5 !cursor-pointer flex flex-col justify-between"
+						className="shadow-md rounded-lg bg-surface hover:bg-surface-active transition-colors border-accent border-1 py-1 px-2 mb-1.5 !cursor-pointer flex flex-col justify-between"
 						ref={provided.innerRef}
 						{...provided.draggableProps}
 						{...provided.dragHandleProps}
