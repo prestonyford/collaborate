@@ -50,11 +50,11 @@ function Sidebar({ className = '' }: Props) {
 						An error occured while loading projects.
 					</div>
 					: <>
-						<div className='flex'>
+						{/* <div className='flex'>
 							<button className='grow mx-3 my-2 p-1.5 flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 text-gray-50 transition-colors cursor-pointer rounded-2xl'>
 								<strong>Create Project</strong>
 							</button>
-						</div>
+						</div> */}
 						{loading
 							? <div className='mt-4'><LoadingIcon /></div>
 							: <>

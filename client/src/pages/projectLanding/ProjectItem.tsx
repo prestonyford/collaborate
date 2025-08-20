@@ -15,7 +15,7 @@ interface Props {
 
 function ProjectItem(props: Props) {
 	return (
-		<div className={clsx(" bg-surface rounded-xl py-2 px-3", props.className)}>
+		<div className={clsx(" bg-surface hover:bg-surface-active transition-colors rounded-xl py-2 px-3", props.className)}>
 			<div className="flex items-center gap-4">
 				<h4>{props.project.name}</h4>
 				<div className="text-text-muted text-sm gap-1 inline-flex">

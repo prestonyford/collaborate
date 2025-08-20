@@ -77,7 +77,7 @@ function ProjectLandingPage(props: Props) {
 		<>
 			<Page>
 				<div className="page-item py-4 px-6">
-					<h1>Owned Projects</h1>
+					<h1 className="mb-2">Owned Projects</h1>
 					{isLoading
 						? <LoadingIcon />
 						: <ProjectItemList
@@ -85,10 +85,11 @@ function ProjectLandingPage(props: Props) {
 							projectLabels={projectLabels}
 							projectLabelCounts={projectLabelCounts}
 							handleProjectClick={handleProjectClick}
+							showCreateButton
 						/>
 					}
 
-					<h1 className="mt-2">Shared Projects</h1>
+					<h1 className="my-2">Shared Projects</h1>
 					{isLoading
 						? <LoadingIcon />
 						: <ProjectItemList

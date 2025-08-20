@@ -7,12 +7,13 @@ interface Props {
 	projectLabels: Record<number, LabelDTO[]>
 	projectLabelCounts: Record<number, Record<number, number>>
 	handleProjectClick: (id: number) => void
+	showCreateButton?: boolean
 }
 
-export default function ProjectItemList({ projects, projectLabels, projectLabelCounts, handleProjectClick }: Props) {
+export default function ProjectItemList({ projects, projectLabels, projectLabelCounts, handleProjectClick, showCreateButton = false }: Props) {
 	return <>
 		{
-			projects.length === 0
+			projects.length === 0 && !showCreateButton
 				? <p className="text-text-muted">No projects</p>
 				: <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
 					{projects.map(p => <>
@@ -25,6 +26,12 @@ export default function ProjectItemList({ projects, projectLabels, projectLabelC
 							/>
 						</div>
 					</>)}
+
+					{showCreateButton && <>
+						<div className="rounded-xl border border-accent min-h-[60px] flex text-text-muted hover:bg-indigo-500 hover:text-white transition-colors cursor-pointer">
+							<div className="m-auto"><i className="fa-solid fa-plus"></i> Create Project</div>
+						</div>
+					</>}
 				</div>
 		}
 
