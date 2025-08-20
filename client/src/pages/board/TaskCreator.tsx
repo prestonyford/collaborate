@@ -20,7 +20,7 @@ export default function TaskCreator(props: Props) {
 
 	const [name, setName] = useState<string>("");
 	const [description, setDescription] = useState<string>("");
-	const [labels, setLabels] = useState<string[]>([]);
+	const [labels, setLabels] = useState<number[]>([]);
 
 	function handleCreate() {
 		props.onCreate({ title: name, description, labels });
@@ -50,13 +50,13 @@ export default function TaskCreator(props: Props) {
 		[projectLabels]
 	);
 
-	function handleRemoveLabel(id: string) {
+	function handleRemoveLabel(id: number) {
 		const newLabels = labels.filter(l => l !== id);
 		setLabels(newLabels);
 	}
 
 	return (
-		<Popup size="xl" title={<h4>Create Task - {props.owningColumnName}</h4>} buttons={buttons} loading={props.loading} fullHeight>
+		<Popup size="large" title={<h4>Create Task - {props.owningColumnName}</h4>} buttons={buttons} loading={props.loading}>
 			<div className={clsx("p-6 pt-4 overflow-y-auto", { 'opacity-50 pointer-events-none': props.loading })}>
 				<h4 className="">Name</h4>
 				<TextInput value={name} onChange={setName} />
@@ -81,7 +81,7 @@ export default function TaskCreator(props: Props) {
 					</div>
 				</div>
 
-				<h4 className="pt-3">Sharing</h4>
+				{/* <h4 className="pt-3">Sharing</h4> */}
 
 			</div>
 		</Popup>
