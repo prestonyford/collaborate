@@ -17,7 +17,7 @@ function Navbar() {
 						<i className="fa-solid fa-bars "></i>
 					</div>
 					<div className='font-[Merriweather] select-none cursor-pointer' onClick={() => navigate('')}>
-						Taskboard
+						Collaborate
 					</div>
 				</div>
 
