@@ -11,7 +11,7 @@ Collaborate is a collaborative teamwork and project management application desig
 
 ## Column & Task Organization
 - Projects contain customizable columns (e.g., To Do, In Progress, Done).
--- Each column holds tasks for better workflow management.
+- Each column holds tasks for better workflow management.
 
 ## Task Details
 - Add labels to tasks for easy categorization.
