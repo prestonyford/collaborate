@@ -22,7 +22,7 @@ type PendingShare = MakeOptional<ProjectShare, "sharedTime" | "sharedBy">
 function ShareProjectPopup(props: Props) {
 	const userService = useServiceStore(state => state.userService);
 	const liveShares = useBoardStore(state => state.projectShares);
-	const project = useBoardStore(state => state.project);
+	const projectId = useBoardStore(state => state.projectId);
 	const me = useUserStore(state => state.me);
 	const [activeShares, setActiveShares] = useState<PendingShare[]>(liveShares);
 
@@ -49,7 +49,7 @@ function ShareProjectPopup(props: Props) {
 			const user = await userService.checkUsername(addUserUsername);
 			if (user) {
 				const newShare = {
-					projectId: project!.id,
+					projectId,
 					sharedWith: addUserUsername
 				}
 				setActiveShares([...activeShares, newShare])
@@ -67,7 +67,7 @@ function ShareProjectPopup(props: Props) {
 
 	function handleSave() {
 		props.onSubmit({
-			projectId: project!.id,
+			projectId: projectId,
 			usernames: activeShares.map(s => s.sharedWith)
 		});
 	}

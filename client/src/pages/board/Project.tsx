@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import Button from '../../components/base/Button'
 import Board from './Board';
 import { useBoardStore } from './boardStore';
@@ -12,7 +12,6 @@ import NotFound from '../NotFound';
 import ColumnEditorPopup from './ColumnEditorPopup';
 import ShareProjectPopup from './ShareProjectPopup';
 import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
-import TextInput from '../../components/base/TextInput';
 import EditableTitle from '../task/EditableTitle';
 import { useProjectsStore } from '../../projectsStore';
 
@@ -21,33 +20,43 @@ interface Props {
 }
 
 function Project(props: Props) {
-	const initialize = useBoardStore((state) => state.initialize);
-	const reset = useBoardStore((state) => state.reset);
-	const createColumn = useBoardStore((state) => state.createColumn);
-	const project = useBoardStore((state) => state.project);
-	const projectLabels = useBoardStore((state) => state.projectLabels);
-	const shareProject = useBoardStore((state) => state.shareProject);
-	const labelFilter = useBoardStore((state) => state.labelFilter);
-	const setLabelFilter = useBoardStore((state) => state.setLabelFilter);
-	const renameProject = useBoardStore((state) => state.renameProject);
-	const projectsStoreHasInitialized = useProjectsStore((state) => state.hasInitialized);
+	const {
+		initialize,
+		reset,
+		createColumn,
+		projectLabels,
+		shareProject,
+		labelFilter,
+		setLabelFilter
+	} = useBoardStore();
+
+	const {
+		updateProjectName,
+		hasInitialized: projectsStoreHasInitialized,
+		getProject,
+		isLoadingAllProjects
+	} = useProjectsStore();
 
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
 	const [sharePopupOpen, setSharePopupOpen] = useState<boolean>(false);
 	const [isSavingShare, setIsSavingShare] = useState<boolean>(false);
 	const [isRenamingProjectName, setIsRenamingProjectName] = useState<boolean>(false);
 
-	const params = useParams();
-	const projectId = params.pid;
-	if (projectId === undefined) {
-		return <NotFound />;
-	}
+	const { pid } = useParams();
+	const projectId = pid ? +pid : undefined;
+	if (projectId === undefined) return <NotFound />;
+
+	const project = useMemo(() => {
+		if (projectsStoreHasInitialized) {
+			return getProject(projectId);
+		}
+	}, [getProject, projectId, projectsStoreHasInitialized]);
 
 	const { error, loading } = useAsyncWithError(async () => {
 		if (projectsStoreHasInitialized) {
-			initialize(+projectId);
+			await initialize(projectId);
 		}
-	}, [initialize, reset, projectId, projectsStoreHasInitialized]);
+	}, [initialize, reset, projectsStoreHasInitialized]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
@@ -77,7 +86,7 @@ function Project(props: Props) {
 	async function handleSaveProjectName(newName: string) {
 		setIsRenamingProjectName(true);
 		try {
-			await renameProject(newName);
+			await updateProjectName(+projectId!, newName);
 		} catch (error) {
 			alert("An error occured while renaming the project. Please try again.");
 		} finally {
@@ -95,7 +104,7 @@ function Project(props: Props) {
 					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
 				</div>
 			</>}>
-				{loading
+				{loading || isLoadingAllProjects
 					? <LoadingIcon />
 					: <Board />
 				}
