@@ -40,7 +40,7 @@ function ProjectItem(props: Props) {
 				<div className="relative mt-1">
 					<div
 						ref={labelsRef}
-						className="flex gap-2 flex-wrap max-h-[170px] overflow-hidden"
+						className="flex gap-2 flex-wrap max-h-[120px] overflow-hidden"
 					>
 						{props.labels.map(label => (
 							<Label key={label.id} title={label.title} color={label.color} count={props.labelCount[label.id] || 0} />

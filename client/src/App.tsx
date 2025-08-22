@@ -11,6 +11,7 @@ import { useServiceStore } from './serviceStore'
 import { useUserStore } from './userStore'
 import LoadingIcon from './components/base/LoadingIcon'
 import ProjectLandingPage from './pages/projectLanding/ProjectLandingPage'
+import { useProjectsStore } from './projectsStore'
 
 function App() {
 	const authService = useServiceStore(state => state.authService);
@@ -18,6 +19,7 @@ function App() {
 	const setMe = useUserStore(state => state.setMe);
 	const authChecked = useUserStore(state => state.authChecked);
 	const setAuthChecked = useUserStore(state => state.setAuthChecked);
+	const refreshAllProjects = useProjectsStore(state => state.refreshAllProjects);
 
 	useEffect(() => {
 		authService.checkStatus()
@@ -32,7 +34,11 @@ function App() {
 			.finally(() => {
 				setAuthChecked(true);
 			});
-	}, []);
+	}, [authService]);
+
+	useEffect(() => {
+		refreshAllProjects();
+	}, [refreshAllProjects]);
 
 	if (!authChecked) {
 		return <div className="w-screen h-screen flex">

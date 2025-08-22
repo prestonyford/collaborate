@@ -43,7 +43,7 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			},
 			{
 				id: 5,
-				name: 'LONG NAME LONG NAME LONG NAME',
+				name: 'Shared Project 2',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user2'
@@ -57,49 +57,70 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			},
 			{
 				id: 7,
-				name: 'Shared Project 3',
+				name: 'Shared Project 4',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user3'
 			},
 			{
 				id: 8,
-				name: 'Shared Project 3',
+				name: 'Shared Project 5',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user3'
 			},
 			{
 				id: 9,
-				name: 'Shared Project 3',
+				name: 'Shared Project 6',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user3'
 			},
 			{
 				id: 10,
-				name: 'Shared Project 3',
+				name: 'Shared Project 7',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user3'
 			},
 			{
 				id: 11,
-				name: 'Shared Project 3',
+				name: 'Shared Project 8',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user3'
 			},
 			{
 				id: 12,
-				name: 'Shared Project 3',
+				name: 'Shared Project 9',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user3'
 			},
 			{
 				id: 13,
-				name: 'Shared Project 3',
+				name: 'Shared Project 10',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: 14,
+				name: 'Shared Project 11',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: 15,
+				name: 'Shared Project 12',
+				numColumns: 4,
+				numTasks: 8,
+				owner: 'user3'
+			},
+			{
+				id: 16,
+				name: 'Shared Project 13',
 				numColumns: 4,
 				numTasks: 8,
 				owner: 'user3'

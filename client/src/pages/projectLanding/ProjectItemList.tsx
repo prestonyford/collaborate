@@ -28,11 +28,11 @@ export default function ProjectItemList({ projects, projectLabels, projectLabelC
 						</div>
 					</>)}
 
-					{showCreateButton && <div>
+					{showCreateButton && <>
 						<div className="rounded-xl border border-accent min-h-[60px] flex text-text-muted hover:bg-indigo-500 hover:text-white transition-colors cursor-pointer">
 							<div className="m-auto"><i className="fa-solid fa-plus"></i> Create Project</div>
 						</div>
-					</div>}
+					</>}
 				</div>
 		}
 

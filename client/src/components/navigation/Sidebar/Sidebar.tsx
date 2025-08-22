@@ -5,6 +5,8 @@ import { useServiceStore } from '../../../serviceStore';
 import type ProjectDTO from '../../../model/dto/ProjectDTO';
 import { act, useEffect, useMemo, useState } from 'react';
 import LoadingIcon from '../../base/LoadingIcon';
+import { useProjectsStore } from '../../../projectsStore';
+import { useUserStore } from '../../../userStore';
 
 interface Props {
 	className?: string
@@ -15,32 +17,19 @@ function Sidebar({ className = '' }: Props) {
 	const params = useParams();
 	const activeProjectID = params.pid;
 
-	const projectCommunicator = useServiceStore((state) => state.projectService);
-
-	const [loading, setLoading] = useState<boolean>(false);
 	const [error, setError] = useState<Error | null>(null);
-	const [allProjects, setAllProjects] = useState<ProjectDTO[]>([]);
+	const allProjects = useProjectsStore(state => state.allProjects);
+	const isLoadingAllProjects = useProjectsStore(state => state.isLoadingAllProjects);
+	const me = useUserStore(state => state.me);
 
-	useEffect(() => {
-		setLoading(true);
-		(async () => {
-			try {
-				const res = await projectCommunicator.getOwnedAndSharedProjects();
-				setAllProjects(res);
-			} catch (err) {
-				if (err instanceof Error) {
-					setError(err);
-				} else {
-					setError(new Error("An error occured while loading projects."));
-				}
-			} finally {
-				setLoading(false);
-			}
-		})();
-	}, [projectCommunicator]);
-
-	const ownedProjects = useMemo(() => allProjects.filter(p => p.owner === 'pyford'), [allProjects]);
-	const sharedProjects = useMemo(() => allProjects.filter(p => p.owner !== 'pyford'), [allProjects]);
+	const ownedProjects = useMemo(
+		() => allProjects.filter(p => p.owner === me?.username),
+		[allProjects]
+	);
+	const sharedProjects = useMemo(
+		() => allProjects.filter(p => p.owner !== me?.username),
+		[allProjects]
+	);
 
 	return (
 		<>
@@ -50,12 +39,7 @@ function Sidebar({ className = '' }: Props) {
 						An error occured while loading projects.
 					</div>
 					: <>
-						{/* <div className='flex'>
-							<button className='grow mx-3 my-2 p-1.5 flex items-center justify-center bg-indigo-600 hover:bg-indigo-500 text-gray-50 transition-colors cursor-pointer rounded-2xl'>
-								<strong>Create Project</strong>
-							</button>
-						</div> */}
-						{loading
+						{isLoadingAllProjects
 							? <div className='mt-4'><LoadingIcon /></div>
 							: <>
 								<h4 className='px-1.5 pt-2 bg-attention border-accent border-b sticky top-0'>Owned</h4>
