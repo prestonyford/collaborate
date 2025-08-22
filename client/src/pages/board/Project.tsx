@@ -24,7 +24,8 @@ function Project(props: Props) {
 	const project = useBoardStore((state) => state.project);
 	const projectLabels = useBoardStore((state) => state.projectLabels);
 	const shareProject = useBoardStore((state) => state.shareProject);
-	const [labelFilter, setLabelFilter] = useState<string | null>(null);
+	const labelFilter = useBoardStore((state) => state.labelFilter);
+	const setLabelFilter = useBoardStore((state) => state.setLabelFilter);
 
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
 	const [sharePopupOpen, setSharePopupOpen] = useState<boolean>(false);
@@ -68,7 +69,7 @@ function Project(props: Props) {
 			<Page title={<>
 				<h1 className="basis-0 grow truncate pr-2">{project?.name}</h1>
 				<div className='flex gap-3 text-sm'>
-					<LabelChecklistDropdown labels={projectLabels} onInput={() => { }} selectedIds={[]} defaultText="Filter labels" />
+					<LabelChecklistDropdown labels={projectLabels} onInput={setLabelFilter} selectedIds={[...labelFilter]} defaultText="Filter labels" />
 					<Button content="Share" variant="secondary" onClick={() => setSharePopupOpen(true)} />
 					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
 				</div>

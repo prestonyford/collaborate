@@ -16,9 +16,11 @@ interface ProjectState {
 	columns: ColumnDTO[]
 	cardSummaries: Record<string, CardSummaryDTO[]>
 	projectShares: ProjectShare[]
+	labelFilter: Set<number>
 	initialize: (projectId: number) => Promise<void>
 	reset: () => void
 	setLoading: (isLoading: boolean) => void
+	setLabelFilter: (newLabelFilter: number[]) => void
 	setColumns: (newColumns: ColumnDTO[]) => void
 	setColumnCardSummaries: (columnId: number, newCardSummaries: CardSummaryDTO[]) => void
 	createColumn: (name: string, color: string) => Promise<void>
@@ -32,7 +34,8 @@ const defaultState = {
 	projectLabels: [],
 	columns: [],
 	cardSummaries: {},
-	projectShares: []
+	projectShares: [],
+	labelFilter: new Set<number>()
 }
 
 const useBoardStore = create<ProjectState>()((set, get) => {
@@ -66,6 +69,10 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 
 		setLoading: (isLoading: boolean) => {
 			set({ isLoading });
+		},
+
+		setLabelFilter: (labelFilter: number[]) => {
+			set({ labelFilter: new Set(labelFilter) });
 		},
 
 		setColumns: (newColumns: ColumnDTO[]) => {

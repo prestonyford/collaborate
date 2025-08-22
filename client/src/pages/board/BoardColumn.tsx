@@ -4,7 +4,7 @@ import CardSummary from './CardSummary'
 import { Draggable, Droppable } from '@hello-pangea/dnd'
 import clsx from 'clsx'
 import Popup from '../../components/base/Popup'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import CreateCardPopup from './CreateCardPopup'
 import { useNavigate } from 'react-router-dom'
 import TaskCreator from './TaskCreator'
@@ -22,10 +22,18 @@ type Popups = 'CreateCard'
 function BoardColumn(props: Props) {
 	const navigate = useNavigate();
 	const cardSummaries = useBoardStore((state) => state.cardSummaries[props.columnId]);
+	const labelFilter = useBoardStore((state) => state.labelFilter);
 	const createTask = useBoardStore((state) => state.createTask);
 	const [isCreatingTask, setIsCreatingTask] = useState<boolean>(false);
 
 	const [popupOpen, setPopupOpen] = useState<Popups | null>(null);
+
+	const filteredCardSummaries = useMemo(
+		() => labelFilter.size
+			? cardSummaries.filter(c => c.labels.some(l => labelFilter.has(l)))
+			: cardSummaries,
+		[cardSummaries, labelFilter]
+	)
 
 	async function handleCreateTask(createData: CreateTaskRequest) {
 		setIsCreatingTask(true);
@@ -72,7 +80,7 @@ function BoardColumn(props: Props) {
 											ref={provided.innerRef}
 											{...provided.droppableProps}
 										>
-											{cardSummaries?.map((card, i) =>
+											{filteredCardSummaries?.map((card, i) =>
 												<CardSummary
 													key={card.id}
 													index={i}
@@ -83,7 +91,7 @@ function BoardColumn(props: Props) {
 													onClick={() => navigate(`tasks/${card.id}`)}
 												/>
 											)}
-											{cardSummaries?.length === 0 &&
+											{filteredCardSummaries?.length === 0 &&
 												<p className={clsx('m-auto w-full select-none text-text-muted text-sm text-center absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-opacity', snapshot.isDraggingOver ? 'opacity-0' : 'opacity-100')}>
 													Drag a card here or create one with the + button
 												</p>
