@@ -73,4 +73,10 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 			body: JSON.stringify(shareData)
 		});
 	}
+	async updateProject(projectId: number, diff: Partial<ProjectDTO>): Promise<ProjectDTO> {
+		return await this.makeRequest<ProjectDTO>(`/projects/${projectId}`, {
+			method: 'PATCH',
+			body: JSON.stringify(diff)
+		});
+	}
 }

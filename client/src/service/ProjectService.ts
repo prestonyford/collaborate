@@ -78,4 +78,7 @@ export default class ProjectService {
 	public async shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]> {
 		return await this.communicator.shareProject(shareData);
 	}
+	public async updateProjectName(projectId: number, name: string): Promise<ProjectDTO> {
+		return await this.communicator.updateProject(projectId, { name });
+	}
 }

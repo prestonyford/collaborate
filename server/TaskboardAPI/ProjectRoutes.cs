@@ -1,4 +1,5 @@
 ﻿using System.Security.Cryptography;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskboardAPI.Models;
@@ -16,6 +17,7 @@ public static class ProjectRoutes
         projectRoutes.AddEndpointFilter<ProjectAccessFilter>();
 
         projectRoutes.MapGet("", GetProjectById);
+        projectRoutes.MapPatch("", UpdateProject);
         projectRoutes.MapGet("/labels", GetProjectLabels);
         projectRoutes.MapGet("/labelCounts", GetProjectLabelCounts);
         projectRoutes.MapPost("/columns", CreateColumn);
@@ -43,6 +45,22 @@ public static class ProjectRoutes
         {
             return Results.NotFound();
         }
+        return Results.Ok(project);
+    }
+    private static async Task<IResult> UpdateProject(int pid, [FromBody] UpdateProjectRequest request, AppDbContext db)
+    {
+        var project = await db.Projects.FindAsync(pid);
+        if (project == null)
+        {
+            return Results.NotFound();
+        }
+
+        if (request.Name != null)
+        {
+            project.Name = request.Name;
+        }
+
+        await db.SaveChangesAsync();
         return Results.Ok(project);
     }
 

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TextInput from "../../components/base/TextInput";
 import clsx from "clsx";
 import Button from "../../components/base/Button";
@@ -15,6 +15,10 @@ const loadingClasses = "opacity-50 pointer-events-none";
 export default function EditableTitle(props: Props) {
 	const [isEditingTitle, setIsEditingTitle] = useState<boolean>(false);
 	const [newTitle, setNewTitle] = useState<string>(props.title);
+
+	useEffect(() => {
+		setNewTitle(props.title);
+	}, [props.title]);
 
 	async function handleInput(event: React.MouseEvent) {
 		event.stopPropagation();

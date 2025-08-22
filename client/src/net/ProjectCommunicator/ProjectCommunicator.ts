@@ -18,6 +18,7 @@ export default interface ProjectCommunicator {
 	createColumn(projectId: number, name: string, color: string): Promise<ColumnDTO>
 	createTask(projectId: number, columnId: number, createData: CreateTaskRequest): Promise<TaskDTO>
 	shareProject(shareData: ShareProjectRequest): Promise<ProjectShare[]>
+	updateProject(projectId: number, diff: Partial<ProjectDTO>): Promise<ProjectDTO>
 
 	// Cards
 	getCardSummaries( projectId: number, columnId: number, pageSize: number, lastcardID: number | null ): Promise<[CardSummaryDTO[], boolean]>

@@ -5,24 +5,40 @@ import { useServiceStore } from './serviceStore';
 interface ProjectsState {
 	allProjects: ProjectDTO[]
 	isLoadingAllProjects: boolean
+	hasInitialized: boolean
 	refreshAllProjects: () => Promise<void>
+	getProject: (projectId: number) => ProjectDTO | undefined
+	updateProjectName: (projectId: number, newName: string) => Promise<ProjectDTO>
 }
 
-const useProjectsStore = create<ProjectsState>()(set => {
+const useProjectsStore = create<ProjectsState>()((set, get) => {
 	const { projectService } = useServiceStore.getState();
-	
+
 	return {
 		allProjects: [],
 		isLoadingAllProjects: false,
+		hasInitialized: false,
 		refreshAllProjects: async function () {
 			set({ isLoadingAllProjects: true });
 			try {
 				const allProjects = await projectService.getOwnedAndSharedProjects();
 				set({ allProjects });
+				set({ hasInitialized: true });
 			} finally {
 				set({ isLoadingAllProjects: false });
 			}
-		}
+		},
+		getProject: function (projectId: number) {
+			return get().allProjects.find(p => p.id === projectId);
+		},
+		updateProjectName: async function (projectId: number, newName: string) {
+			const newProject = await projectService.updateProjectName(projectId, newName);
+			const newAllProjects = [...get().allProjects];
+			const projectIdx = newAllProjects.findIndex(p => p.id === projectId);
+			newAllProjects[projectIdx] = newProject;
+			set({ allProjects: newAllProjects });
+			return newProject;
+		} 
 	}
 });
 

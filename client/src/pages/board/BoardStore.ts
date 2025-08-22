@@ -7,6 +7,7 @@ import type ProjectDTO from '../../model/dto/ProjectDTO';
 import type CreateTaskRequest from '../../net/request/CreateTaskRequest';
 import type ProjectShare from '../../model/dto/ProjectShare';
 import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
+import { useProjectsStore } from '../../projectsStore';
 
 
 interface ProjectState {
@@ -26,6 +27,7 @@ interface ProjectState {
 	createColumn: (name: string, color: string) => Promise<void>
 	createTask: (columnId: number, createData: CreateTaskRequest) => Promise<void>
 	shareProject: (shareData: ShareProjectRequest) => Promise<void>
+	renameProject: (name: string) => Promise<void>
 }
 
 const defaultState = {
@@ -40,13 +42,14 @@ const defaultState = {
 
 const useBoardStore = create<ProjectState>()((set, get) => {
 	const { projectService } = useServiceStore.getState();
+	const { getProject, updateProjectName } = useProjectsStore.getState();
 
 	return {
 		...defaultState,
 
 		initialize: async (projectId: number) => {
-			const [project, projectLabels, columns, projectShares] = await Promise.all([
-				projectService.getProject(projectId),
+			const project = getProject(projectId);
+			const [projectLabels, columns, projectShares] = await Promise.all([
 				projectService.getProjectLabels(projectId),
 				projectService.getColumnsByProject(projectId),
 				projectService.getProjectShares(projectId)
@@ -120,6 +123,15 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 		shareProject: async (shareData: ShareProjectRequest) => {
 			const newShares = await projectService.shareProject(shareData);
 			set({ projectShares: newShares });
+		},
+
+		renameProject: async(newName: string) => {
+			const pid = get().project?.id;
+			if (!pid) {
+				throw new Error("Cannot create a column outside of a project");
+			}
+			const newProject = await updateProjectName(pid, newName);
+			set({ project: newProject });
 		}
 	}
 });

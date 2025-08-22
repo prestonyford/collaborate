@@ -37,8 +37,10 @@ function App() {
 	}, [authService]);
 
 	useEffect(() => {
-		refreshAllProjects();
-	}, [refreshAllProjects]);
+		if (authChecked && me) {
+			refreshAllProjects();
+		}
+	}, [authChecked, me, refreshAllProjects]);
 
 	if (!authChecked) {
 		return <div className="w-screen h-screen flex">

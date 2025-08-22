@@ -12,6 +12,9 @@ import NotFound from '../NotFound';
 import ColumnEditorPopup from './ColumnEditorPopup';
 import ShareProjectPopup from './ShareProjectPopup';
 import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
+import TextInput from '../../components/base/TextInput';
+import EditableTitle from '../task/EditableTitle';
+import { useProjectsStore } from '../../projectsStore';
 
 interface Props {
 
@@ -26,10 +29,13 @@ function Project(props: Props) {
 	const shareProject = useBoardStore((state) => state.shareProject);
 	const labelFilter = useBoardStore((state) => state.labelFilter);
 	const setLabelFilter = useBoardStore((state) => state.setLabelFilter);
+	const renameProject = useBoardStore((state) => state.renameProject);
+	const projectsStoreHasInitialized = useProjectsStore((state) => state.hasInitialized);
 
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
 	const [sharePopupOpen, setSharePopupOpen] = useState<boolean>(false);
 	const [isSavingShare, setIsSavingShare] = useState<boolean>(false);
+	const [isRenamingProjectName, setIsRenamingProjectName] = useState<boolean>(false);
 
 	const params = useParams();
 	const projectId = params.pid;
@@ -37,7 +43,11 @@ function Project(props: Props) {
 		return <NotFound />;
 	}
 
-	const { error, loading } = useAsyncWithError(async () => initialize(+projectId), [initialize, reset, projectId]);
+	const { error, loading } = useAsyncWithError(async () => {
+		if (projectsStoreHasInitialized) {
+			initialize(+projectId);
+		}
+	}, [initialize, reset, projectId, projectsStoreHasInitialized]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
@@ -64,10 +74,21 @@ function Project(props: Props) {
 		}
 	}
 
+	async function handleSaveProjectName(newName: string) {
+		setIsRenamingProjectName(true);
+		try {
+			await renameProject(newName);
+		} catch (error) {
+			alert("An error occured while renaming the project. Please try again.");
+		} finally {
+			setIsRenamingProjectName(false);
+		}
+	}
+
 	return (
 		<>
 			<Page title={<>
-				<h1 className="basis-0 grow truncate pr-2">{project?.name}</h1>
+				<EditableTitle title={project?.name || ""} onInput={handleSaveProjectName} loading={isRenamingProjectName} />
 				<div className='flex gap-3 text-sm'>
 					<LabelChecklistDropdown labels={projectLabels} onInput={setLabelFilter} selectedIds={[...labelFilter]} defaultText="Filter labels" />
 					<Button content="Share" variant="secondary" onClick={() => setSharePopupOpen(true)} />
