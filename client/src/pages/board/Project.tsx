@@ -14,6 +14,7 @@ import ShareProjectPopup from './ShareProjectPopup';
 import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
 import EditableTitle from '../task/EditableTitle';
 import { useProjectsStore } from '../../projectsStore';
+import { useProject } from '../../hooks/useProject';
 
 interface Props {
 
@@ -32,9 +33,7 @@ function Project(props: Props) {
 
 	const {
 		updateProjectName,
-		hasInitialized: projectsStoreHasInitialized,
-		getProject,
-		isLoadingAllProjects
+		isLoadingAllProjects,
 	} = useProjectsStore();
 
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
@@ -46,17 +45,13 @@ function Project(props: Props) {
 	const projectId = pid ? +pid : undefined;
 	if (projectId === undefined) return <NotFound />;
 
-	const project = useMemo(() => {
-		if (projectsStoreHasInitialized) {
-			return getProject(projectId);
-		}
-	}, [getProject, projectId, projectsStoreHasInitialized]);
+	const project = useProject(projectId);
 
 	const { error, loading } = useAsyncWithError(async () => {
-		if (projectsStoreHasInitialized) {
-			await initialize(projectId);
+		if (project) {
+			await initialize(project.id);
 		}
-	}, [initialize, reset, projectsStoreHasInitialized]);
+	}, [initialize, reset, project]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
@@ -86,7 +81,7 @@ function Project(props: Props) {
 	async function handleSaveProjectName(newName: string) {
 		setIsRenamingProjectName(true);
 		try {
-			await updateProjectName(+projectId!, newName);
+			await updateProjectName(projectId!, newName);
 		} catch (error) {
 			alert("An error occured while renaming the project. Please try again.");
 		} finally {
