@@ -8,7 +8,7 @@ function Page(props: Props) {
 	return (
 		<>
 			<div className="grow min-w-0 h-full overflow-auto">
-				{props.title && <div className="py-4 px-6 flex justify-between items-center">
+				{props.title && <div className="py-4 px-6">
 					{props.title}
 				</div>}
 				<div className='w-full h-[calc(100%-72px)]'>

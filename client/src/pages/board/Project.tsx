@@ -51,7 +51,7 @@ function Project(props: Props) {
 		if (project) {
 			await initialize(project.id);
 		}
-	}, [initialize, reset, project]);
+	}, [initialize, reset, project?.id]);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
@@ -91,14 +91,14 @@ function Project(props: Props) {
 
 	return (
 		<>
-			<Page title={<>
+			<Page title={<div className='flex justify-between items-center flex-wrap gap-2'>
 				<EditableTitle title={project?.name || ""} onInput={handleSaveProjectName} loading={isRenamingProjectName} />
 				<div className='flex gap-3 text-sm'>
 					<LabelChecklistDropdown labels={projectLabels} onInput={setLabelFilter} selectedIds={[...labelFilter]} defaultText="Filter labels" />
 					<Button content="Share" variant="secondary" onClick={() => setSharePopupOpen(true)} />
 					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
 				</div>
-			</>}>
+			</div>}>
 				{loading || isLoadingAllProjects
 					? <LoadingIcon />
 					: <Board />
