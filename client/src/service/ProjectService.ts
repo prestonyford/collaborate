@@ -7,6 +7,7 @@ import type ProjectShare from "../model/dto/ProjectShare";
 import type TaskDTO from "../model/dto/TaskDTO";
 import { HttpError, NotFoundError } from "../net/Errors";
 import type ProjectCommunicator from "../net/ProjectCommunicator/ProjectCommunicator";
+import type CreateProjectRequest from "../net/request/CreateProjectRequest";
 import type CreateTaskRequest from "../net/request/CreateTaskRequest";
 import type ShareProjectRequest from "../net/request/ShareProjectRequest";
 
@@ -18,7 +19,10 @@ export default class ProjectService {
 	}
 
 	public async getOwnedAndSharedProjects(): Promise<ProjectDTO[]> {
-		return this.communicator.getOwnedAndSharedProjects();
+		return await this.communicator.getOwnedAndSharedProjects();
+	}
+	public async createProject(data: CreateProjectRequest): Promise<ProjectDTO> {
+		return await this.communicator.createProject(data);
 	}
 	public async getProject(projectId: number): Promise<ProjectDTO> {
 		try {
@@ -31,25 +35,25 @@ export default class ProjectService {
 		}
 	}
 	public async getProjectLabels(projectId: number): Promise<LabelDTO[]> {
-		return this.communicator.getProjectLabels(projectId);
+		return await this.communicator.getProjectLabels(projectId);
 	}
 	public async getProjectLabelCounts(projectId: number): Promise<Record<number, number>> {
-		return this.communicator.getProjectLabelCounts(projectId);
+		return await this.communicator.getProjectLabelCounts(projectId);
 	}
 	public async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
-		return this.communicator.getColumnsByProject(projectId);
+		return await this.communicator.getColumnsByProject(projectId);
 	}
 	public async getProjectShares(projectId: number): Promise<ProjectShare[]> {
-		return this.communicator.getProjectShares(projectId);
+		return await this.communicator.getProjectShares(projectId);
 	}
 	public async createColumn(projectId: number, name: string, color: string): Promise<ColumnDTO> {
-		return this.communicator.createColumn(projectId, name, color);
+		return await this.communicator.createColumn(projectId, name, color);
 	}
 	public async createTask(projectId: number, columnId: number, createData: CreateTaskRequest): Promise<TaskDTO> {
-		return this.communicator.createTask(projectId, columnId, createData);
+		return await this.communicator.createTask(projectId, columnId, createData);
 	}
 	public async getCardSummaries(projectId: number, columnId: number, pageSize: number, lastCardID: number | null): Promise<[CardSummaryDTO[], boolean]> {
-		return this.communicator.getCardSummaries(projectId, columnId, pageSize, lastCardID);
+		return await this.communicator.getCardSummaries(projectId, columnId, pageSize, lastCardID);
 	}
 	public async getCardInfo(projectId: number, taskID: number): Promise<TaskDTO> {
 		try {
@@ -70,7 +74,7 @@ export default class ProjectService {
 		return newTask.title ?? title;
 	}
 	public async getCardDiscussion(projectId: number, cardID: number, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
-		return this.communicator.getCardDiscussion(projectId, cardID, pageSize, lastItemID);
+		return await this.communicator.getCardDiscussion(projectId, cardID, pageSize, lastItemID);
 	}
 	public async updateCardLabels(projectId: number, cardID: number, labels: number[]): Promise<void> {
 		await this.communicator.updateCard(projectId, cardID, { labels });

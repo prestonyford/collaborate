@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import ProjectItemList from "./ProjectItemList";
 import { useProjectsStore } from "../../projectsStore";
 import CreateProjectPopup from "./CreateProjectPopup";
+import type CreateProjectRequest from "../../net/request/CreateProjectRequest";
 
 interface Props {
 
@@ -18,11 +19,13 @@ function ProjectLandingPage(props: Props) {
 	const navigate = useNavigate();
 	const projectService = useServiceStore(state => state.projectService);
 	const allProjects = useProjectsStore(state => state.allProjects);
+	const createProject = useProjectsStore(state => state.createProject);
 	const isLoadingAllProjects = useProjectsStore(state => state.isLoadingAllProjects);
 	const me = useUserStore(state => state.me);
 	const [projectLabels, setProjectLabels] = useState<Record<number, LabelDTO[]>>({});
 	const [projectLabelCounts, setProjectLabelCounts] = useState<Record<number, Record<number, number>>>({});
 	const [isCreateProjectPopupOpen, setIsCreateProjectPopupOpen] = useState(false);
+	const [isCreatingProject, setIsCreatingProject] = useState(false);
 
 	useEffect(() => {
 		const loadProjectsAndLabels = async () => {
@@ -70,6 +73,21 @@ function ProjectLandingPage(props: Props) {
 		setIsCreateProjectPopupOpen(true);
 	}
 
+	async function handleCreateProject(data: CreateProjectRequest) {
+		setIsCreatingProject(true);
+		try {
+			await createProject(data);
+			setIsCreateProjectPopupOpen(false);
+		} catch (error) {
+			console.error(error);
+			if (error instanceof Error) {
+				alert(error.message);
+			}
+		} finally {
+			setIsCreatingProject(false);
+		}
+	}
+
 	return (
 		<>
 			<Page>
@@ -102,7 +120,7 @@ function ProjectLandingPage(props: Props) {
 				</div>
 			</Page>
 
-			{isCreateProjectPopupOpen && <CreateProjectPopup onCancel={() => setIsCreateProjectPopupOpen(false)} />}
+			{isCreateProjectPopupOpen && <CreateProjectPopup isLoading={isCreatingProject} onCancel={() => setIsCreateProjectPopupOpen(false)} onCreate={handleCreateProject} />}
 		</>
 	)
 }

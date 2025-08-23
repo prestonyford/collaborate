@@ -14,8 +14,8 @@
             if (!db.Projects.Any())
             {
                 db.Projects.AddRange(
-                    new() { Id = 1, Name = "Project 1", Owner = "Preston Ford", NumColumns = 2, NumTasks = 3 },
-                    new() { Id = 2, Name = "Project 2", Owner = "Preston Ford", NumColumns = 7, NumTasks = 8 }
+                    new() { Id = 1, Name = "Project 1", Owner = "Preston Ford" },
+                    new() { Id = 2, Name = "Project 2", Owner = "Preston Ford" }
                 );
             }
 

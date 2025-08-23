@@ -1,12 +1,14 @@
 import { create } from 'zustand'
 import type ProjectDTO from './model/dto/ProjectDTO';
 import { useServiceStore } from './serviceStore';
+import type CreateProjectRequest from './net/request/CreateProjectRequest';
 
 interface ProjectsState {
 	allProjects: ProjectDTO[]
 	isLoadingAllProjects: boolean
 	hasInitialized: boolean
 	refreshAllProjects: () => Promise<void>
+	createProject: (data: CreateProjectRequest) => Promise<ProjectDTO>
 	getProject: (projectId: number) => ProjectDTO | undefined
 	updateProjectName: (projectId: number, newName: string) => Promise<ProjectDTO>
 }
@@ -27,6 +29,13 @@ const useProjectsStore = create<ProjectsState>()((set, get) => {
 			} finally {
 				set({ isLoadingAllProjects: false });
 			}
+		},
+		createProject: async function(data: CreateProjectRequest) {
+			const project = await projectService.createProject(data);
+			set({
+				allProjects: [...get().allProjects, project]
+			});
+			return project;
 		},
 		getProject: function (projectId: number) {
 			return get().allProjects.find(p => p.id === projectId);

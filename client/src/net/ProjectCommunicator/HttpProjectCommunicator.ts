@@ -6,6 +6,7 @@ import type ProjectDTO from "../../model/dto/ProjectDTO";
 import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import HttpCommunicator from "../HttpCommunicator";
+import type CreateProjectRequest from "../request/CreateProjectRequest";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
 import type ShareProjectRequest from "../request/ShareProjectRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
@@ -20,6 +21,12 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	}
 	async getProject(projectId: number): Promise<ProjectDTO> {
 		return this.makeRequest<ProjectDTO>(`/projects/${projectId}`);
+	}
+	async createProject(data: CreateProjectRequest): Promise<ProjectDTO> {
+		return this.makeRequest<ProjectDTO>(`/projects`, {
+			method: 'POST',
+			body: JSON.stringify(data)
+		});
 	}
 	async getProjectLabels(projectId: number): Promise<LabelDTO[]> {
 		return this.makeRequest<LabelDTO[]>(`/projects/${projectId}/labels`);

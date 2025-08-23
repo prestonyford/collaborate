@@ -12,6 +12,7 @@ public static class ProjectRoutes
     public static IEndpointRouteBuilder MapProjectRoutes(this IEndpointRouteBuilder routeGroupBuilder)
     {
         routeGroupBuilder.MapGet("/projects", GetAllProjects);
+        routeGroupBuilder.MapPost("/projects", CreateProject);
 
         var projectRoutes = routeGroupBuilder.MapGroup("/projects/{pid}");
         projectRoutes.AddEndpointFilter<ProjectAccessFilter>();
@@ -31,11 +32,20 @@ public static class ProjectRoutes
 
         return routeGroupBuilder;
     }
-
     private static async Task<IResult> GetAllProjects(AppDbContext db, HttpContext ctx)
     {
-        var projects = await db.Projects.ToListAsync();
-        return Results.Ok(projects);
+        var response = await db.Projects
+            .Select(p => new ProjectResponse
+            {
+                Id = p.Id!.Value,
+                Name = p.Name,
+                Owner = p.Owner,
+                NumColumns = db.Columns.Count(c => c.ProjectId == p.Id),
+                NumTasks = db.Tasks.Count(t => t.ProjectId == p.Id)
+            })
+            .ToArrayAsync();
+
+        return Results.Ok(response);
     }
 
     private static async Task<IResult> GetProjectById(int pid, AppDbContext db)
@@ -45,7 +55,39 @@ public static class ProjectRoutes
         {
             return Results.NotFound();
         }
-        return Results.Ok(project);
+
+        var numColumns = await db.Columns.Where(c => c.ProjectId == pid).CountAsync();
+        var numTasks = await db.Tasks.Where(c => c.ProjectId == pid).CountAsync();
+        ProjectResponse response = new() { Id = pid, Name = project.Name, Owner = project.Owner, NumColumns = numColumns, NumTasks = numTasks };
+        return Results.Ok(response);
+    }
+
+    private static async Task<IResult> CreateProject([FromBody] CreateProjectRequest request, AppDbContext db, HttpContext ctx)
+    {
+        string? name = ctx.User?.Identity?.Name;
+        if (name == null)
+        {
+            return Results.Unauthorized();
+        }
+        if (request.Name == null || request.Name == "")
+        {
+            return Results.BadRequest("Project name cannot be empty.");
+        }
+        Project project = new()
+        {
+            Name = request.Name,
+            Owner = name
+        };
+        await db.Projects.AddAsync(project);
+        await db.SaveChangesAsync();
+        if (project.Id == null)
+        {
+            return Results.StatusCode(500);
+        }
+        await ShareProject(project.Id.Value, new ShareProjectRequest { ProjectId = project.Id.Value, Usernames = request.Usernames }, db, ctx);
+        ProjectResponse response = new() { Id = project.Id.Value, Name = project.Name, Owner = project.Owner, NumColumns = 0, NumTasks = 0 };
+
+        return Results.Created($"/api/projects/{project.Id}", response);
     }
 
     private static async Task<IResult> UpdateProject(int pid, [FromBody] UpdateProjectRequest request, AppDbContext db)
@@ -62,7 +104,10 @@ public static class ProjectRoutes
         }
 
         await db.SaveChangesAsync();
-        return Results.Ok(project);
+        var numColumns = await db.Columns.Where(c => c.ProjectId == pid).CountAsync();
+        var numTasks = await db.Tasks.Where(c => c.ProjectId == pid).CountAsync();
+        ProjectResponse response = new() { Id = pid, Name = project.Name, Owner = project.Owner, NumColumns = numColumns, NumTasks = numTasks };
+        return Results.Ok(response);
     }
 
     private static async Task<IResult> GetProjectLabels(int pid, AppDbContext db)
@@ -106,7 +151,7 @@ public static class ProjectRoutes
 
     private static async Task<IResult> CreateTask(int pid, int cid, [FromBody] CreateTaskRequest request, AppDbContext db, HttpContext ctx)
     {
-        string? name = ctx?.User?.Identity?.Name;
+        string? name = ctx.User?.Identity?.Name;
         if (name == null)
         {
             return Results.Unauthorized();

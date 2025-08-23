@@ -7,6 +7,7 @@ import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import type Project from "../../pages/board/Project";
 import { HttpError } from "../Errors";
+import type CreateProjectRequest from "../request/CreateProjectRequest";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
 import type ShareProjectRequest from "../request/ShareProjectRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
@@ -128,6 +129,16 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 				owner: 'user3'
 			},
 		]
+	}
+	
+	async createProject(data: CreateProjectRequest): Promise<ProjectDTO> {
+		return {
+			id: 999,
+			name: data.name,
+			numColumns: 3,
+			numTasks: 2,
+			owner: 'pyford'
+		}
 	}
 
 	async getProject(projectId: number): Promise<ProjectDTO> {
