@@ -8,6 +8,7 @@ import LoadingIcon from "../../components/base/LoadingIcon";
 import { useNavigate } from "react-router-dom";
 import ProjectItemList from "./ProjectItemList";
 import { useProjectsStore } from "../../projectsStore";
+import CreateProjectPopup from "./CreateProjectPopup";
 
 interface Props {
 
@@ -21,6 +22,7 @@ function ProjectLandingPage(props: Props) {
 	const me = useUserStore(state => state.me);
 	const [projectLabels, setProjectLabels] = useState<Record<number, LabelDTO[]>>({});
 	const [projectLabelCounts, setProjectLabelCounts] = useState<Record<number, Record<number, number>>>({});
+	const [isCreateProjectPopupOpen, setIsCreateProjectPopupOpen] = useState(false);
 
 	useEffect(() => {
 		const loadProjectsAndLabels = async () => {
@@ -60,8 +62,12 @@ function ProjectLandingPage(props: Props) {
 		[allProjects]
 	);
 
-	function handleProjectClick(projectId: number) {
+	function onProjectSelect(projectId: number) {
 		navigate(`/projects/${projectId}`)
+	}
+
+	function onCreateProjectClicked() {
+		setIsCreateProjectPopupOpen(true);
 	}
 
 	return (
@@ -77,8 +83,9 @@ function ProjectLandingPage(props: Props) {
 							projects={ownedProjects}
 							projectLabels={projectLabels}
 							projectLabelCounts={projectLabelCounts}
-							handleProjectClick={handleProjectClick}
+							onProjectSelect={onProjectSelect}
 							showCreateButton
+							onCreateProjectClicked={onCreateProjectClicked}
 						/>
 					}
 
@@ -89,11 +96,13 @@ function ProjectLandingPage(props: Props) {
 							projects={sharedProjects}
 							projectLabels={projectLabels}
 							projectLabelCounts={projectLabelCounts}
-							handleProjectClick={handleProjectClick}
+							onProjectSelect={onProjectSelect}
 						/>
 					}
 				</div>
 			</Page>
+
+			{isCreateProjectPopupOpen && <CreateProjectPopup onCancel={() => setIsCreateProjectPopupOpen(false)} />}
 		</>
 	)
 }

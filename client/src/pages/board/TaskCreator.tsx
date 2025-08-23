@@ -34,7 +34,7 @@ export default function TaskCreator(props: Props) {
 			onClick: props.onCancel
 		},
 		{
-			text: "Create",
+			text: "Create Task",
 			variant: "primary",
 			disabled: props.loading,
 			onClick: handleCreate
@@ -56,15 +56,15 @@ export default function TaskCreator(props: Props) {
 	}
 
 	return (
-		<Popup size="large" title={<h4>Create Task - {props.owningColumnName}</h4>} buttons={buttons} loading={props.loading}>
+		<Popup size="large" title={`Create Task - ${props.owningColumnName}`} buttons={buttons} loading={props.loading}>
 			<div className={clsx("p-6 pt-4 overflow-y-auto", { 'opacity-50 pointer-events-none': props.loading })}>
-				<h4 className="">Name</h4>
-				<TextInput value={name} onChange={setName} />
-				<h4 className="pt-3">Description</h4>
+				<label htmlFor="name" className="block"><strong>Name</strong></label>
+				<TextInput id="name" value={name} onChange={setName} />
+				<label htmlFor="description" className="block pt-3"><strong>Description</strong></label>
 				<MyCKEditor initialData={description} onChange={setDescription} />
-				<h4 className="pt-3">Labels</h4>
+				<label htmlFor="labels" className="block pt-3"><strong>Labels</strong></label>
 				<div className="flex flex-col gap-2">
-					<div className="flex gap-2 pt-1">
+					<div className="flex gap-2">
 						{sortedLabels.map(lid => (
 							<div key={lid} className="flex items-center">
 								<Label title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable onRemove={() => handleRemoveLabel(lid)} />
@@ -80,9 +80,6 @@ export default function TaskCreator(props: Props) {
 						/>
 					</div>
 				</div>
-
-				{/* <h4 className="pt-3">Sharing</h4> */}
-
 			</div>
 		</Popup>
 	)

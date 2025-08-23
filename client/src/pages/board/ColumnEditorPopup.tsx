@@ -53,7 +53,7 @@ function ColumnEditorPopup(props: Props) {
 			variant: 'secondary',
 			onClick: props.onCancel
 		}, {
-			text: 'Confirm',
+			text: 'Create Column',
 			variant: 'primary',
 			onClick: handleConfirm
 		}]}>

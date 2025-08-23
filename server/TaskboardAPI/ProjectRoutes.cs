@@ -47,6 +47,7 @@ public static class ProjectRoutes
         }
         return Results.Ok(project);
     }
+
     private static async Task<IResult> UpdateProject(int pid, [FromBody] UpdateProjectRequest request, AppDbContext db)
     {
         var project = await db.Projects.FindAsync(pid);
