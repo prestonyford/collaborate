@@ -69,7 +69,7 @@ function CreateProjectPopup(props: Props) {
 					<ProjectSharingEditor username={me!.username} shares={shares} onRemoveShare={removeShare} onAddShare={addShare} />
 				</div>
 				<div className="mt-4">
-					<p><i className="text-text-muted text-sm">Labels, columns, and tasks can be managed once the project is created.</i></p>
+					<p><i className="text-text-muted text-sm">Labels, columns, and tasks can be managed after the project is created.</i></p>
 					<p className="mb-1 text-red-400 text-sm">
 						{nameValidationMessage}
 					</p>

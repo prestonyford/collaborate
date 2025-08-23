@@ -7,6 +7,7 @@ import type ProjectDTO from '../../model/dto/ProjectDTO';
 import type CreateTaskRequest from '../../net/request/CreateTaskRequest';
 import type ProjectShare from '../../model/dto/ProjectShare';
 import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
+import { useProjectsStore } from '../../projectsStore';
 
 interface ProjectState {
 	isLoading: boolean
@@ -39,6 +40,7 @@ const defaultState = {
 
 const useBoardStore = create<ProjectState>()((set, get) => {
 	const { projectService } = useServiceStore.getState();
+	const { getProject, updateProject } = useProjectsStore.getState();
 
 	return {
 		...defaultState,
@@ -92,13 +94,21 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 				throw new Error("Cannot create a column outside of a project");
 			}
 			const newColumn = await projectService.createColumn(pid, name, color);
+			const newColumns = [...get().columns, newColumn];
 			set(state => ({
-				columns: [...state.columns, newColumn],
+				columns: newColumns,
 				cardSummaries: {
 					...state.cardSummaries,
 					[newColumn.id]: []
 				}
 			}));
+			const project = getProject(pid);
+			if (project) {
+				updateProject(pid, {
+					...project,
+					numColumns: newColumns.length
+				});
+			}
 		},
 
 		createTask: async (columnId: number, createData: CreateTaskRequest) => {
@@ -113,6 +123,13 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 					[newTask.columnId]: [...state.cardSummaries[newTask.columnId], newTask]
 				}
 			}));
+			const project = getProject(pid);
+			if (project) {
+				updateProject(pid, {
+					...project,
+					numTasks: project.numTasks + 1
+				});
+			}
 		},
 
 		shareProject: async (shareData: ShareProjectRequest) => {

@@ -10,7 +10,7 @@ interface ProjectsState {
 	refreshAllProjects: () => Promise<void>
 	createProject: (data: CreateProjectRequest) => Promise<ProjectDTO>
 	getProject: (projectId: number) => ProjectDTO | undefined
-	updateProjectName: (projectId: number, newName: string) => Promise<ProjectDTO>
+	updateProject: (projectId: number, newProjectData: ProjectDTO) => void
 }
 
 const useProjectsStore = create<ProjectsState>()((set, get) => {
@@ -40,13 +40,11 @@ const useProjectsStore = create<ProjectsState>()((set, get) => {
 		getProject: function (projectId: number) {
 			return get().allProjects.find(p => p.id === projectId);
 		},
-		updateProjectName: async function (projectId: number, newName: string) {
-			const newProject = await projectService.updateProjectName(projectId, newName);
+		updateProject: function (projectId: number, newProjectData: ProjectDTO) {
 			const newAllProjects = [...get().allProjects];
 			const projectIdx = newAllProjects.findIndex(p => p.id === projectId);
-			newAllProjects[projectIdx] = newProject;
+			newAllProjects[projectIdx] = newProjectData;
 			set({ allProjects: newAllProjects });
-			return newProject;
 		} 
 	}
 });

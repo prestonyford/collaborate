@@ -15,12 +15,17 @@ import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
 import EditableTitle from '../task/EditableTitle';
 import { useProjectsStore } from '../../projectsStore';
 import { useProject } from '../../hooks/useProject';
+import { useServiceStore } from '../../serviceStore';
 
 interface Props {
 
 }
 
 function Project(props: Props) {
+	const {
+		projectService
+	} = useServiceStore();
+
 	const {
 		initialize,
 		reset,
@@ -32,7 +37,7 @@ function Project(props: Props) {
 	} = useBoardStore();
 
 	const {
-		updateProjectName,
+		updateProject,
 		isLoadingAllProjects,
 	} = useProjectsStore();
 
@@ -81,7 +86,8 @@ function Project(props: Props) {
 	async function handleSaveProjectName(newName: string) {
 		setIsRenamingProjectName(true);
 		try {
-			await updateProjectName(projectId!, newName);
+			const newProject = await projectService.updateProjectName(projectId!, newName);
+			updateProject(projectId!, newProject);
 		} catch (error) {
 			alert("An error occured while renaming the project. Please try again.");
 		} finally {
