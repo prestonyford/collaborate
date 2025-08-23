@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import { useState, type MouseEventHandler, type ReactNode } from 'react'
+import { type FormEvent, type FormEventHandler, type ReactNode } from 'react'
 
 export type ButtonVariant = "primary" | "secondary";
 
@@ -7,17 +7,17 @@ interface Props {
 	content: string | ReactNode
 	variant: ButtonVariant
 	disabled?: boolean
-	onClick?: MouseEventHandler
+	onClick?: FormEventHandler
 }
 
 function Button({ content, variant, disabled = false, onClick }: Props) {
-	function handleClick(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+	function handleClick(e: FormEvent<HTMLButtonElement>) {
 		if (disabled) return;
 		onClick?.(e);
 	}
 	return (
 		<>
-			<div className="flex text-sm" onClick={handleClick}>
+			<button className="flex text-sm" disabled={disabled} onClick={handleClick}>
 				<div className={clsx(
 					'border border-accent cursor-pointer rounded-md px-2 transition-opacity',
 					'transition-colors flex items-center justify-center shadow-sm py-1',
@@ -27,7 +27,7 @@ function Button({ content, variant, disabled = false, onClick }: Props) {
 				)}>
 					{content}
 				</div>
-			</div>
+			</button>
 		</>
 	)
 }

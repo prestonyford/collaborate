@@ -18,8 +18,8 @@ export default function ProjectItemList({ projects, projectLabels, projectLabelC
 			projects.length === 0 && !showCreateButton
 				? <p className="text-text-muted">No projects</p>
 				: <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4">
-					{projects.map((p, i) => <>
-						<div className="appear cursor-pointer" style={{ animationDelay: `${30 * i}ms` }} onClick={() => onProjectSelect(p.id)}>
+					{projects.map((p, i) =>
+						<div key={p.id} className="appear cursor-pointer" style={{ animationDelay: `${30 * i}ms` }} onClick={() => onProjectSelect(p.id)}>
 							<ProjectItem
 								key={p.id}
 								project={p}
@@ -27,7 +27,7 @@ export default function ProjectItemList({ projects, projectLabels, projectLabelC
 								labelCount={projectLabelCounts[p.id]}
 							/>
 						</div>
-					</>)}
+					)}
 
 					{showCreateButton && <>
 						<div

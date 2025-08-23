@@ -36,7 +36,7 @@ function ProjectItem(props: Props) {
 					{props.project.numColumns} Columns, {props.project.numTasks} Tasks
 				</span>
 			</div>
-			{props.labels && (
+			{!!props.labels?.length && (
 				<div className="relative mt-1">
 					<div
 						ref={labelsRef}
