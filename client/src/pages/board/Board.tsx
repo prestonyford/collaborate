@@ -43,7 +43,7 @@ function Board(props: Props) {
 	}
 
 	return (
-		<>
+		<div className='basis-0 grow min-h-0'>
 			<DragDropContext onDragEnd={onDragEnd}>
 				<Droppable droppableId='board' direction='horizontal' type='column'>
 					{(provided: DroppableProvided) => (
@@ -74,7 +74,7 @@ function Board(props: Props) {
 					)}
 				</Droppable>
 			</DragDropContext>
-		</>
+		</div>
 	)
 }
 

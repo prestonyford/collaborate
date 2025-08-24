@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import LightDarkToggle from '../base/LightDarkToggle'
 import { useNavigate } from 'react-router-dom'
 import ProfileIcon from './ProfileIcon'

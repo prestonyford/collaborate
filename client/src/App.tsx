@@ -12,6 +12,7 @@ import { useUserStore } from './userStore'
 import LoadingIcon from './components/base/LoadingIcon'
 import ProjectLandingPage from './pages/projectLanding/ProjectLandingPage'
 import { useProjectsStore } from './projectsStore'
+import BottomNav from './components/navigation/BottomNav'
 
 function App() {
 	const authService = useServiceStore(state => state.authService);
@@ -57,36 +58,36 @@ function App() {
 			<BrowserRouter>
 				<div className='h-screen bg-base flex flex-col'>
 					<Navbar />
-					<Routes>
-						<Route
-							index
-							element={<Navigate to={indexPath} replace />}
-						/>
-
-						<Route
-							path="login"
-							element={<LoginPage />}
-						/>
-
-						<Route
-							path="projects"
-							element={<Layout />}
-						>
-							<Route index element={<ProjectLandingPage />} />
-						</Route>
+					<div className='basis-0 grow min-h-0'>
+						<Routes>
+							<Route
+								index
+								element={<Navigate to={indexPath} replace />}
+							/>
+							<Route
+								path="login"
+								element={<LoginPage />}
+							/>
+							<Route
+								path="projects"
+								element={<Layout />}
+							>
+								<Route index element={<ProjectLandingPage />} />
+							</Route>
 						
-						<Route path="projects/:pid" element={<Layout />}>
-							<Route index element={<Project />} />
-							<Route path="tasks" element={<TaskPage />} />
-							<Route path="tasks/:tid" element={<TaskPage />} />
-							<Route path="tasks/:tid/view" element={<TaskPage />} />
-							<Route path="tasks/:tid/edit" element={<TaskPage />} />
-						</Route>
-
-						<Route path="*" element={<Layout />}>
-							<Route path="*" element={<NotFound />} />
-						</Route>
-					</Routes>
+							<Route path="projects/:pid" element={<Layout />}>
+								<Route index element={<Project />} />
+								<Route path="tasks" element={<TaskPage />} />
+								<Route path="tasks/:tid" element={<TaskPage />} />
+								<Route path="tasks/:tid/view" element={<TaskPage />} />
+								<Route path="tasks/:tid/edit" element={<TaskPage />} />
+							</Route>
+							<Route path="*" element={<Layout />}>
+								<Route path="*" element={<NotFound />} />
+							</Route>
+						</Routes>
+					</div>
+					<BottomNav />
 				</div>
 			</BrowserRouter>
 		</>
