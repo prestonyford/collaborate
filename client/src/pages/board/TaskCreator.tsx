@@ -64,11 +64,9 @@ export default function TaskCreator(props: Props) {
 				<MyCKEditor initialData={description} onChange={setDescription} />
 				<label htmlFor="labels" className="block pt-3"><strong>Labels</strong></label>
 				<div className="flex flex-col gap-2">
-					<div className="flex gap-2">
+					<div className="flex flex-wrap gap-2">
 						{sortedLabels.map(lid => (
-							<div key={lid} className="flex items-center">
-								<Label title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable onRemove={() => handleRemoveLabel(lid)} />
-							</div>
+							<Label key={lid} title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable onRemove={() => handleRemoveLabel(lid)} />
 						))}
 					</div>
 					<div>

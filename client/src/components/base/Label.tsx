@@ -25,6 +25,7 @@ function Label({ className, title, color, removable = false, onRemove, count, tr
 					backgroundColor: color,
 					borderColor
 				}}
+				title={title}
 			>
 				<div className={clsx("flex", { "pr-1.5": !hasSide })}>
 					<div className={clsx("py-[1px]", {"mr-1": hasSide}, {'truncate': truncate})}>{title}</div>
