@@ -73,6 +73,10 @@ export default class ProjectService {
 		const newTask = await this.communicator.updateCard(projectId, taskID, { title });
 		return newTask.title ?? title;
 	}
+	public async updateCardColumn(projectId: number, taskID: number, newColumnId: number): Promise<number> {
+		const newTask = await this.communicator.updateCard(projectId, taskID, { columnId: newColumnId });
+		return newTask.columnId ?? newColumnId;
+	}
 	public async getCardDiscussion(projectId: number, cardID: number, pageSize: number, lastItemID: string | null): Promise<[boolean, CardDiscussionItemDTO[]]> {
 		return await this.communicator.getCardDiscussion(projectId, cardID, pageSize, lastItemID);
 	}

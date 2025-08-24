@@ -22,7 +22,7 @@ interface ProjectState {
 	setLoading: (isLoading: boolean) => void
 	setLabelFilter: (newLabelFilter: number[]) => void
 	setColumns: (newColumns: ColumnDTO[]) => void
-	setColumnCardSummaries: (columnId: number, newCardSummaries: CardSummaryDTO[]) => void
+	moveCard: (srcColumnId: number, targetColumnId: number, oldIndex: number, newIndex: number) => void
 	createColumn: (name: string, color: string) => Promise<void>
 	createTask: (columnId: number, createData: CreateTaskRequest) => Promise<void>
 	shareProject: (shareData: ShareProjectRequest) => Promise<void>
@@ -79,14 +79,28 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 			set({ columns: newColumns });
 		},
 
-		setColumnCardSummaries: (columnId: number, newCardSummaries: CardSummaryDTO[]) => {
-			set(state => ({
-				cardSummaries: {
-					...state.cardSummaries,
-					[columnId]: newCardSummaries
+		moveCard: (srcColumnId: number, destColumnId: number, oldIndex: number, newIndex: number) => {
+			set(state => {
+				const cardSummaries = { ...state.cardSummaries };
+
+				const srcCards = [...cardSummaries[srcColumnId]];
+				const [card] = srcCards.splice(oldIndex, 1);
+				cardSummaries[srcColumnId] = srcCards;
+
+				if (srcColumnId === destColumnId) {
+					srcCards.splice(newIndex, 0, card);
+					cardSummaries[srcColumnId] = srcCards;
+				} else {
+					const destCards = [...cardSummaries[destColumnId]];
+					destCards.splice(newIndex, 0, card);
+					cardSummaries[destColumnId] = destCards;
+					projectService.updateCardColumn(state.projectId, card.id, destColumnId);
 				}
-			}));
+
+				return { cardSummaries };
+			});
 		},
+
 
 		createColumn: async (name: string, color: string) => {
 			const pid = get().projectId;

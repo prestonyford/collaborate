@@ -11,8 +11,7 @@ interface Props {
 function Board(props: Props) {
 	const columns = useBoardStore((state) => state.columns);
 	const setColumns = useBoardStore((state) => state.setColumns);
-	const cardSummaries = useBoardStore((state) => state.cardSummaries);
-	const setCardSummary = useBoardStore((state) => state.setColumnCardSummaries);
+	const moveCard = useBoardStore((state) => state.moveCard);
 	const [hasAnimated, setHasAnimated] = useState(false);
 
 	function onDragEnd(result: DropResult) {
@@ -27,20 +26,7 @@ function Board(props: Props) {
 		} else if (type === 'card') {
 			const sourceColumn = +source.droppableId;
 			const destinationColumn = +destination.droppableId;
-
-			const sourceCards = [...cardSummaries[sourceColumn]];
-			const [moved] = sourceCards.splice(source.index, 1);
-
-			const droppedInSameColumn = sourceColumn === destinationColumn;
-			if (droppedInSameColumn) {
-				sourceCards.splice(destination.index, 0, moved);
-				setCardSummary(sourceColumn, sourceCards);
-			} else {
-				const destCards = [...cardSummaries[destinationColumn]];
-				destCards.splice(destination.index, 0, moved);
-				setCardSummary(sourceColumn, sourceCards);
-				setCardSummary(destinationColumn, destCards);
-			}
+			moveCard(sourceColumn, destinationColumn, source.index, destination.index);
 		}
 	}
 

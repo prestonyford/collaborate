@@ -218,6 +218,11 @@ public static class ProjectRoutes
             task.Labels = request.Labels;
         }
 
+        if (request.ColumnId != null)
+        {
+            task.ColumnId = request.ColumnId.Value;
+        }
+
         await db.SaveChangesAsync();
         return Results.Ok(task);
     }
