@@ -58,7 +58,7 @@ export default function Labels() {
 		<div className="flex flex-col gap-2">
 			<div className="flex gap-2 pt-1">
 				{sortedLabels.map(lid => (
-					<div key={lid} className="flex items-center">
+					<div key={lid} className="flex items-center max-w-full">
 						<Label title={projectLabelsMap[lid].title} color={projectLabelsMap[lid].color} removable onRemove={() => handleRemoveLabel(lid)} />
 					</div>
 				))}

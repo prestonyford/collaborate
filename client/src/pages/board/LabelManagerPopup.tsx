@@ -45,7 +45,7 @@ function LabelManagerPopup(props: Props) {
 			alert("Please enter a name for the label.");
 			return;
 		}
-		if ([...projectLabels, ...newLabels].some(l => l.title === labelName)) {
+		if ([...visibleExistingLabels, ...newLabels].some(l => l.title === labelName)) {
 			alert("A label with that name already exists.");
 			return;
 		}
@@ -89,16 +89,16 @@ function LabelManagerPopup(props: Props) {
 			<div className="px-10 py-4 flex flex-col gap-4">
 				<div>
 					<strong>Labels</strong>
-					<div className="flex flex-wrap gap-2 max-h-[160px] overflow-auto">
+					<div className="flex flex-wrap gap-2 max-h-[160px] overflow-y-auto">
 						{visibleExistingLabels.length + newLabels.length === 0
 							? <p className="m-auto text-text-muted">None</p>
 							: <>
-								{visibleExistingLabels.map(l => <div key={l.id}>
-									<Label title={l.title} color={l.color} count={projectLabelCounts[l.id] ?? 0} removable onRemove={() => removeExistingLabel(l.id)} />
-								</div>)}
-								{newLabels.map(l => <div key={l.title}>
-									<Label title={l.title} color={l.color} removable onRemove={() => removePendingLabel(l.title)} />
-								</div>)}
+								{visibleExistingLabels.map(l =>
+									<Label key={l.id} title={l.title} color={l.color} count={projectLabelCounts[l.id] ?? 0} removable onRemove={() => removeExistingLabel(l.id)} />
+								)}
+								{newLabels.map(l => 
+									<Label key={l.title} title={l.title} color={l.color} removable onRemove={() => removePendingLabel(l.title)} />
+								)}
 							</>
 						}
 					</div>

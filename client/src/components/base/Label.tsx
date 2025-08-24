@@ -2,6 +2,7 @@ import clsx from "clsx"
 import { darken, shouldUseBlackText } from "../../utils/colors"
 
 interface Props {
+	className?: string
 	title: string,
 	color: string
 	removable?: boolean
@@ -10,7 +11,7 @@ interface Props {
 	truncate?: boolean
 }
 
-function Label({ title, color, removable = false, onRemove, count, truncate = true }: Props) {
+function Label({ className, title, color, removable = false, onRemove, count, truncate = true }: Props) {
 	const borderColor = darken(0.1, color);
 	const hasSide = removable || count !== undefined
 
@@ -19,7 +20,7 @@ function Label({ title, color, removable = false, onRemove, count, truncate = tr
 			<div
 				className={clsx(
 					'text-sm bg-red-700 w-max pl-1.5 rounded-lg border overflow-hidden',
-					shouldUseBlackText(color) ? 'text-gray-800' : 'text-gray-50')}
+					shouldUseBlackText(color) ? 'text-gray-800' : 'text-gray-50', className)}
 				style={{
 					backgroundColor: color,
 					borderColor
