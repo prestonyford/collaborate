@@ -20,6 +20,8 @@ public static class ProjectRoutes
         projectRoutes.MapGet("", GetProjectById);
         projectRoutes.MapPatch("", UpdateProject);
         projectRoutes.MapGet("/labels", GetProjectLabels);
+        projectRoutes.MapPost("/labels", CreateProjectLabels);
+        projectRoutes.MapDelete("/labels", DeleteProjectLabels);
         projectRoutes.MapGet("/labelCounts", GetProjectLabelCounts);
         projectRoutes.MapPost("/columns", CreateColumn);
         projectRoutes.MapGet("/columns", GetColumns);
@@ -114,6 +116,18 @@ public static class ProjectRoutes
     {
         var labels = await db.Labels.Where(l => l.ProjectId == pid).ToListAsync();
         return Results.Ok(labels);
+    }
+    private static async Task<IResult> CreateProjectLabels(int pid, CreateLabelsRequest request, AppDbContext db)
+    {
+        Label[] newLabels = request.Labels.Select(l => new Label() { ProjectId = pid, Title = l.Title, Color = l.Color }).ToArray();
+        await db.Labels.AddRangeAsync(newLabels);
+        await db.SaveChangesAsync();
+        return Results.Ok(newLabels);
+    }
+    private static async Task<IResult> DeleteProjectLabels(int pid, AppDbContext db)
+    {
+        await db.SaveChangesAsync();
+        return Results.Ok();
     }
     private static async Task<IResult> GetProjectLabelCounts(int pid, AppDbContext db)
     {

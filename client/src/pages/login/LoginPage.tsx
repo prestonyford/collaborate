@@ -9,7 +9,7 @@ export default function LoginPage() {
 	const [isRegister, setIsRegister] = useState<boolean>(false);
 
 	return (
-		<div className="grow flex">
+		<div className="h-full flex">
 			<div className="m-auto">
 				{ isRegister
 				? <Register />

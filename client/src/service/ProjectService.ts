@@ -7,8 +7,10 @@ import type ProjectShare from "../model/dto/ProjectShare";
 import type TaskDTO from "../model/dto/TaskDTO";
 import { HttpError, NotFoundError } from "../net/Errors";
 import type ProjectCommunicator from "../net/ProjectCommunicator/ProjectCommunicator";
+import type CreateLabelsRequest from "../net/request/CreateLabelsRequest";
 import type CreateProjectRequest from "../net/request/CreateProjectRequest";
 import type CreateTaskRequest from "../net/request/CreateTaskRequest";
+import type DeleteLabelsRequest from "../net/request/DeleteLabelsRequest";
 import type ShareProjectRequest from "../net/request/ShareProjectRequest";
 
 export default class ProjectService {
@@ -39,6 +41,12 @@ export default class ProjectService {
 	}
 	public async getProjectLabelCounts(projectId: number): Promise<Record<number, number>> {
 		return await this.communicator.getProjectLabelCounts(projectId);
+	}
+	public async createProjectLabels(projectId: number, data: CreateLabelsRequest): Promise<LabelDTO[]> {
+		return await this.communicator.createLabels(projectId, data);
+	}
+	public async deleteProjectLabels(projectId: number, data: DeleteLabelsRequest): Promise<void> {
+		return await this.communicator.deleteLabels(projectId, data);
 	}
 	public async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
 		return await this.communicator.getColumnsByProject(projectId);

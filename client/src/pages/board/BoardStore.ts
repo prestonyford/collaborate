@@ -8,13 +8,15 @@ import type CreateTaskRequest from '../../net/request/CreateTaskRequest';
 import type ProjectShare from '../../model/dto/ProjectShare';
 import type ShareProjectRequest from '../../net/request/ShareProjectRequest';
 import { useProjectsStore } from '../../projectsStore';
+import type CreateLabelsRequest from '../../net/request/CreateLabelsRequest';
+import type DeleteLabelsRequest from '../../net/request/DeleteLabelsRequest';
 
 interface ProjectState {
 	isLoading: boolean
 	projectId: number
 	projectLabels: LabelDTO[]
 	columns: ColumnDTO[]
-	cardSummaries: Record<string, CardSummaryDTO[]>
+	cardSummaries: Record<number, CardSummaryDTO[]>
 	projectShares: ProjectShare[]
 	labelFilter: Set<number>
 	initialize: (projectId: number) => Promise<void>
@@ -26,6 +28,8 @@ interface ProjectState {
 	createColumn: (name: string, color: string) => Promise<void>
 	createTask: (columnId: number, createData: CreateTaskRequest) => Promise<void>
 	shareProject: (shareData: ShareProjectRequest) => Promise<void>
+	createLabels: (data: CreateLabelsRequest) => Promise<void>
+	deleteLabels: (data: DeleteLabelsRequest) => Promise<void>
 }
 
 const defaultState = {
@@ -149,6 +153,29 @@ const useBoardStore = create<ProjectState>()((set, get) => {
 		shareProject: async (shareData: ShareProjectRequest) => {
 			const newShares = await projectService.shareProject(shareData);
 			set({ projectShares: newShares });
+		},
+
+		createLabels: async (data: CreateLabelsRequest) => {
+			const pid = get().projectId;
+			if (!pid) {
+				throw new Error("Cannot create a column outside of a project");
+			}
+			const newLabels = await projectService.createProjectLabels(pid, data);
+			set(state => ({
+				projectLabels: [...state.projectLabels, ...newLabels]
+			}));
+		},
+
+		deleteLabels: async (data: DeleteLabelsRequest) => {
+			const pid = get().projectId;
+			if (!pid) {
+				throw new Error("Cannot create a column outside of a project");
+			}
+			await projectService.deleteProjectLabels(pid, data);
+			const ids = new Set(data.labels)
+			set(state => ({
+				projectLabels: state.projectLabels.filter(l => !ids.has(l.id))
+			}));
 		}
 	}
 });

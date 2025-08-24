@@ -6,8 +6,10 @@ import type ProjectDTO from "../../model/dto/ProjectDTO";
 import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import HttpCommunicator from "../HttpCommunicator";
+import type CreateLabelsRequest from "../request/CreateLabelsRequest";
 import type CreateProjectRequest from "../request/CreateProjectRequest";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
+import type DeleteLabelsRequest from "../request/DeleteLabelsRequest";
 import type ShareProjectRequest from "../request/ShareProjectRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
 
@@ -34,6 +36,18 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 	async getProjectLabelCounts(projectId: number): Promise<Record<number, number>> {
 		return this.makeRequest<Record<number, number>>(`/projects/${projectId}/labelCounts`);
 	}
+	async createLabels(projectId: number, data: CreateLabelsRequest): Promise<LabelDTO[]> {
+		return this.makeRequest<LabelDTO[]>(`/projects/${projectId}/labels`, {
+			method: 'POST',
+			body: JSON.stringify(data)
+		});
+	}
+	async deleteLabels(projectId: number, data: DeleteLabelsRequest): Promise<void> {
+		return this.makeRequest(`/projects/${projectId}/labels`, {
+			method: 'DELETE',
+			body: JSON.stringify(data)
+		});
+	}
 	async getColumnsByProject(projectId: number): Promise<ColumnDTO[]> {
 		return this.makeRequest<ColumnDTO[]>(`/projects/${projectId}/columns`);
 	}
@@ -56,7 +70,7 @@ export default class HttpProjectCommunicator extends HttpCommunicator implements
 		if (lastCardID) {
 			params.set("last", lastCardID.toString());
 		}
-		const response = await this.makeRequest<{tasks: CardSummaryDTO[], hasMore: boolean}>(`/projects/${projectId}/columns/${columnId}/taskSummaries?${params}`);
+		const response = await this.makeRequest<{ tasks: CardSummaryDTO[], hasMore: boolean }>(`/projects/${projectId}/columns/${columnId}/taskSummaries?${params}`);
 		return [response.tasks, response.hasMore];
 	}
 	async getCardInfo(projectId: number, taskID: number): Promise<TaskDTO> {

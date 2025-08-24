@@ -7,8 +7,10 @@ import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
 import type Project from "../../pages/board/Project";
 import { HttpError } from "../Errors";
+import type CreateLabelsRequest from "../request/CreateLabelsRequest";
 import type CreateProjectRequest from "../request/CreateProjectRequest";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
+import type DeleteLabelsRequest from "../request/DeleteLabelsRequest";
 import type ShareProjectRequest from "../request/ShareProjectRequest";
 import type ProjectCommunicator from "./ProjectCommunicator";
 
@@ -394,5 +396,11 @@ export default class FakeProjectCommunicator implements ProjectCommunicator {
 			...diff
 		}
 		return ret;
+	}
+	async createLabels(projectId: number, data: CreateLabelsRequest): Promise<LabelDTO[]> {
+		return [];
+	}
+	async deleteLabels(projectId: number, data: DeleteLabelsRequest): Promise<void> {
+		return;
 	}
 }

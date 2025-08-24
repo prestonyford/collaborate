@@ -16,6 +16,9 @@ import EditableTitle from '../task/EditableTitle';
 import { useProjectsStore } from '../../projectsStore';
 import { useProject } from '../../hooks/useProject';
 import { useServiceStore } from '../../serviceStore';
+import LabelManagerPopup from './LabelManagerPopup';
+import type CreateLabelsRequest from '../../net/request/CreateLabelsRequest';
+import type DeleteLabelsRequest from '../../net/request/DeleteLabelsRequest';
 
 interface Props {
 
@@ -33,7 +36,9 @@ function Project(props: Props) {
 		projectLabels,
 		shareProject,
 		labelFilter,
-		setLabelFilter
+		setLabelFilter,
+		createLabels,
+		deleteLabels
 	} = useBoardStore();
 
 	const {
@@ -43,6 +48,8 @@ function Project(props: Props) {
 
 	const [createColumnPopupOpen, setCreateColumnPopupOpen] = useState<boolean>(false);
 	const [sharePopupOpen, setSharePopupOpen] = useState<boolean>(false);
+	const [labelPopupOpen, setLabelPopupOpen] = useState<boolean>(false);
+	const [isSavingLabels, setIsSavingLabels] = useState<boolean>(false);
 	const [isSavingShare, setIsSavingShare] = useState<boolean>(false);
 	const [isRenamingProjectName, setIsRenamingProjectName] = useState<boolean>(false);
 
@@ -60,6 +67,23 @@ function Project(props: Props) {
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />
+	}
+
+	async function handleManageLabels(createData: CreateLabelsRequest, deleteData: DeleteLabelsRequest) {
+		setIsSavingLabels(true);
+		if (createData.labels.length) {
+			try {
+				const createRequest: CreateLabelsRequest = {
+					labels: createData.labels
+				}
+				await createLabels(createRequest);
+			} catch (error) {
+				console.error(error);
+				alert("An error occured while creating the labels.");
+			}
+		}
+		setIsSavingLabels(false);
+		setLabelPopupOpen(false);
 	}
 
 	async function handleCreateColumn(name: string, color: string) {
@@ -101,6 +125,7 @@ function Project(props: Props) {
 				<EditableTitle title={project?.name || ""} onInput={handleSaveProjectName} loading={isRenamingProjectName} />
 				<div className='flex gap-3 text-sm'>
 					<LabelChecklistDropdown labels={projectLabels} onInput={setLabelFilter} selectedIds={[...labelFilter]} defaultText="Filter labels" />
+					<Button content="Manage labels" variant="secondary" onClick={() => setLabelPopupOpen(true)} />
 					<Button content="Share" variant="secondary" onClick={() => setSharePopupOpen(true)} />
 					<Button content="Add column" variant="primary" onClick={() => setCreateColumnPopupOpen(true)} />
 				</div>
@@ -111,6 +136,11 @@ function Project(props: Props) {
 				}
 			</Page>
 
+			{labelPopupOpen && <LabelManagerPopup
+				loading={isSavingLabels}
+				onCancel={() => setLabelPopupOpen(false)}
+				onSubmit={handleManageLabels}
+			/>}
 			{createColumnPopupOpen && <ColumnEditorPopup
 				onCancel={() => setCreateColumnPopupOpen(false)}
 				onSubmit={handleCreateColumn}

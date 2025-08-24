@@ -5,8 +5,10 @@ import type LabelDTO from "../../model/dto/LabelDTO";
 import type ProjectDTO from "../../model/dto/ProjectDTO";
 import type ProjectShare from "../../model/dto/ProjectShare";
 import type TaskDTO from "../../model/dto/TaskDTO";
+import type CreateLabelsRequest from "../request/CreateLabelsRequest";
 import type CreateProjectRequest from "../request/CreateProjectRequest";
 import type CreateTaskRequest from "../request/CreateTaskRequest";
+import type DeleteLabelsRequest from "../request/DeleteLabelsRequest";
 import type ShareProjectRequest from "../request/ShareProjectRequest";
 
 export default interface ProjectCommunicator {
@@ -15,6 +17,8 @@ export default interface ProjectCommunicator {
 	getProject(projectId: number): Promise<ProjectDTO>
 	getProjectLabels(projectId: number): Promise<LabelDTO[]>
 	getProjectLabelCounts(projectId: number): Promise<Record<number, number>>
+	createLabels(projectId: number, data: CreateLabelsRequest): Promise<LabelDTO[]>
+	deleteLabels(projectId: number, data: DeleteLabelsRequest): Promise<void>
 	getColumnsByProject(projectId: number): Promise<ColumnDTO[]>
 	getProjectShares(projectId: number): Promise<ProjectShare[]>
 	createColumn(projectId: number, name: string, color: string): Promise<ColumnDTO>
