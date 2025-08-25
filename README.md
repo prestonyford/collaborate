@@ -1,6 +1,11 @@
 # Collaborate
 Collaborate is a collaborative teamwork and project management application designed to help teams organize work efficiently. It offers an intuitive interface for managing projects, columns, and tasks with powerful features like labels, rich text editing, image upload, and project sharing.
 
+# Screenshots
+![preview](ss2.png)
+![preview](ss3.png)
+![preview](ss4.png)
+
 # Features
 ## User Authentication
 - Secure login and registration system.
