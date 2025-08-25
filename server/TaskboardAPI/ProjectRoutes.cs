@@ -264,6 +264,7 @@ public static class ProjectRoutes
         var alreadySharedUsers = existingShares.Select(s => s.SharedWith).ToHashSet();
 
         ProjectShare[] addedShares = request.Usernames
+            .Distinct()
             .Where(username => !alreadySharedUsers.Contains(username))
             .Select(username => new ProjectShare() {
                 ProjectId = pid,

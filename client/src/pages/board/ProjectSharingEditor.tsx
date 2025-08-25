@@ -1,14 +1,9 @@
-import Popup from "../../components/base/Popup"
-import { useBoardStore } from "./boardStore"
-import type ProjectShare from "../../model/dto/ProjectShare"
 import clsx from "clsx"
 import TextInput from "../../components/base/TextInput"
 import Button from "../../components/base/Button"
 import { useState } from "react"
 import LoadingIcon from "../../components/base/LoadingIcon"
 import { useServiceStore } from "../../serviceStore"
-import type ShareProjectRequest from "../../net/request/ShareProjectRequest"
-import { useUserStore } from "../../userStore"
 import type PendingShare from "../../model/dto/PendingShare"
 
 interface Props {
@@ -32,6 +27,10 @@ function ProjectSharingEditor({ shares, username, onRemoveShare, onAddShare }: P
 		}
 		if (username === addUserUsername) {
 			alert("You cannot share a project that you own with yourself.");
+			return;
+		}
+		if (shares.some(s => s.sharedWith === addUserUsername)) {
+			alert("This project is already shared with that user.");
 			return;
 		}
 
