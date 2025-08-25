@@ -72,13 +72,13 @@ function TaskPage(props: Props) {
 						<div className="page-item">
 							<h3 className="mt-4">Activity</h3>
 							<div className="text-text-muted flex gap-2 pt-1">
-								Names of participants here
+								No activity yet
 							</div>
 						</div>
 
-						<div className="page-item">
+						{/* <div className="page-item">
 							<Discussion />
-						</div>
+						</div> */}
 					</div>
 				</Page>
 			}

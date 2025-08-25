@@ -41,7 +41,7 @@ app.UseAuthorization();
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    FakeDataSeeder.Seed(db);
+    //FakeDataSeeder.Seed(db);
 }
 
 app.MapAuthRoutes();
