@@ -57,13 +57,11 @@ function Project(props: Props) {
 	const projectId = pid ? +pid : undefined;
 	if (projectId === undefined) return <NotFound />;
 
-	const project = useProject(projectId);
-
 	const { error, loading } = useAsyncWithError(async () => {
-		if (project) {
-			await initialize(project.id);
-		}
-	}, [initialize, reset, project?.id]);
+		await initialize(projectId);
+	}, [initialize, reset, projectId]);
+
+	const project = useProject(projectId);
 
 	if (error) {
 		return <ErrorView allowRetry onRetry={() => window.location.reload()} message={error.message} />

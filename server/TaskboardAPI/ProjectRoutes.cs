@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TaskboardAPI.Models;
 using TaskboardAPI.Request;
@@ -36,7 +34,14 @@ public static class ProjectRoutes
     }
     private static async Task<IResult> GetAllProjects(AppDbContext db, HttpContext ctx)
     {
+        string? name = ctx.User?.Identity?.Name;
+        if (name == null)
+        {
+            return Results.Unauthorized();
+        }
+        var sharedProjects = await db.ProjectShares.Where(s => s.SharedWith == name).Select(s => s.ProjectId).ToHashSetAsync();
         var response = await db.Projects
+            .Where(p => p.Owner == name || (p.Id.HasValue && sharedProjects.Contains(p.Id.Value)))
             .Select(p => new ProjectResponse
             {
                 Id = p.Id!.Value,

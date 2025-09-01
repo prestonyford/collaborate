@@ -12,7 +12,7 @@ namespace TaskboardAPI
         }
         public async ValueTask<object?> InvokeAsync(EndpointFilterInvocationContext context, EndpointFilterDelegate next)
         {
-            return await next(context);
+            //return await next(context);
             string? username = context.HttpContext.User?.Identity?.Name;
             if (string.IsNullOrEmpty(username))
             {

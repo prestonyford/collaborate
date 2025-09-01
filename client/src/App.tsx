@@ -13,6 +13,7 @@ import LoadingIcon from './components/base/LoadingIcon'
 import ProjectLandingPage from './pages/projectLanding/ProjectLandingPage'
 import { useProjectsStore } from './projectsStore'
 import BottomNav from './components/navigation/BottomNav'
+import Unauthorized from './pages/Unauthorized'
 
 function App() {
 	const authService = useServiceStore(state => state.authService);
@@ -84,6 +85,7 @@ function App() {
 							</Route>
 							<Route path="*" element={<Layout />}>
 								<Route path="*" element={<NotFound />} />
+							<Route path="no-access" element={<Unauthorized />} />
 							</Route>
 						</Routes>
 					</div>

@@ -27,6 +27,12 @@ export default abstract class HttpCommunicator {
 				} else {
 					window.location.href = "/login";
 				}
+			} else if (response.status === 403) {
+				if (ignoreUnauthorized) {
+					throw new HttpError(await response.text(), 403);
+				} else {
+					window.location.href = "/no-access";
+				}
 			} else if (response.status >= 500) {
 				throw new ServerError();
 			}
