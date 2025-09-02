@@ -54,9 +54,9 @@ export default function ProfileIcon() {
 				>
 					<h4 className="p-3 pb-1">{me?.username}</h4>
 					<div className="text-text-muted cursor-pointer">
-						<div className="border-t border-accent hover:bg-surface-active transition-colors py-1.5 px-3">
+						{/* <div className="border-t border-accent hover:bg-surface-active transition-colors py-1.5 px-3">
 							View profile
-						</div>
+						</div> */}
 						<div onClick={handleLogout} className="border-t border-accent hover:bg-surface-active transition-colors py-1.5 px-3">
 							<i className="fa-solid fa-arrow-right-from-bracket"></i> Log out
 						</div>

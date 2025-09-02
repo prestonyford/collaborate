@@ -3,7 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using TaskboardAPI;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<AppDbContext>(opt => opt.UseInMemoryDatabase("taskboard"));
+builder.Services.AddDbContext<AppDbContext>(opt =>
+{
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection'" + " not found.");
+    opt.UseNpgsql(connectionString);
+});
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options =>
 {
     options.Cookie.Name = "auth";
