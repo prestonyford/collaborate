@@ -12,3 +12,4 @@ obj/
 publish/
 *.Publish.xml
 .vs/
+appsettings.json
