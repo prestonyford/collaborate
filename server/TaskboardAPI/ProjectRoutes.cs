@@ -258,7 +258,6 @@ public static class ProjectRoutes
     }
     private static async Task<IResult> ShareProject(int pid, [FromBody] ShareProjectRequest request, AppDbContext db, HttpContext ctx)
     {
-        TimeSpan t = DateTime.UtcNow - new DateTime(1970, 1, 1);
         string? creator = ctx.User?.Identity?.Name;
         if (creator == null)
         {

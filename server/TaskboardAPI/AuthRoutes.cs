@@ -32,7 +32,6 @@ public static class AuthRoutes
         var hasher = new PasswordHasher<object>();
         string hashedPassword = hasher.HashPassword(null, request.Password);
         var newUser = db.Users.Add(new User { Username = request.Username, Email = request.Email, HashedPassword = hashedPassword });
-        await db.SaveChangesAsync();
 
         var claims = new List<Claim>
         {
@@ -45,6 +44,19 @@ public static class AuthRoutes
         await ctx.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity));
+
+        // Share the global project with the new user
+        var globalSharedProjectID = 1;
+        var share = new ProjectShare()
+        {
+            ProjectId = globalSharedProjectID,
+            SharedWith = newUser.Entity.Username,
+            SharedBy = newUser.Entity.Username,
+            SharedTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+        };
+
+        await db.ProjectShares.AddAsync(share);
+        await db.SaveChangesAsync();
 
         return Results.Created($"/auth/register", new StatusResponse { Username = newUser.Entity.Username, Email = newUser.Entity.Email });
     }
